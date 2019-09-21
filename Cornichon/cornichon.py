@@ -53,17 +53,17 @@ def Arguments(args, type):
 def PrintScenario(scenario, arguments, feature, steps, documentation):
     buffer = ""
     buffer += """
-        static void %s(%s)
-        {
+    static void %s(%s)
+    {
 """[1:] % (scenario, arguments)
     buffer += documentation
     buffer += """
-            %s instance;
+      %s instance;
 """ % feature
     for step in steps:
         buffer += step + "\n"
     buffer += """
-        }
+    }
 """[1:]
     return buffer
 
@@ -86,7 +86,7 @@ def Description(section, lines, params, indent):
         line = line.replace(' << ""', '')
         line = line.replace(' "" << ', ' ')
         des += """
-            std::clog << %s << std::endl;""" % line
+      std::clog << %s << std::endl;""" % line
     return des[1:]
 
 
@@ -110,10 +110,10 @@ def Steps(scenarios):
 
             arguments = Arguments(args, 'std::string ')
             buffer += """
-        void %s(%s)
-        {
+    void %s(%s)
+    {
 %s
-        }
+    }
 
 """[1:] % (camelCase, arguments, Description(s[0], lines, params, '      '))
     return buffer
@@ -138,7 +138,7 @@ def Scenarios(scenarios, featureName, feature):
             for i in range(len(params)):
                 args[i] = params[i]
             arguments = Arguments(args, '').replace('<', '').replace('>', '')
-            steps.append('            instance.%s(%s);' % (camelCase, arguments))
+            steps.append('      instance.%s(%s);' % (camelCase, arguments))
             continue
         lines = s.lines.split('\n')
         scenarioName, args, params = CamelCase('Scenario:', lines[0])
@@ -162,11 +162,11 @@ def ScenarioInsts(scenarios):
                     continue
                 arguments = Arguments(args.split(), '')
                 buffer += """
-        %sInst(%s);
+    %sInst(%s);
 """ % (scenario, arguments)
         else:
             buffer += """
-        %sInst();
+    %sInst();
 """ % (scenario)
     return buffer
 
@@ -189,19 +189,19 @@ def TestMethods(scenarios):
             stringify = arguments.replace('_', '#_')
             buffer += """
 #define %sInst(%s) \\
-    TEST_METHOD(%s ## %s) \\
-    { \\
-        %s(%s); \\
-    }
+  TEST_METHOD(%s ## %s) \\
+  { \\
+    %s(%s); \\
+  }
 
 """[1:] % (scenario, arguments, scenario, concat, scenario, stringify)
         else:
             buffer += """
 #define %sInst() \\
-    TEST_METHOD(%s ## Impl) \\
-    { \\
-        %s(); \\
-    }
+  TEST_METHOD(%s ## Impl) \\
+  { \\
+    %s(); \\
+  }
 
 """[1:] % (scenario, scenario, scenario)
     return buffer
@@ -240,7 +240,8 @@ def GetScenarios(sections):
     return scenarios, feature
 
 
-def GetSections(filename):
+def GetSections(settings):
+    filename = settings["inFileName"]
     section = ''
     sections = []
     for line in open(filename):
@@ -261,22 +262,14 @@ def GetSections(filename):
             sections[-1][1] += line
     return sections
 
-
-def Tabify(lines):
-    lines = lines.replace('\n            ', '\n\t\t\t')
-    lines = lines.replace('\n        ', '\n\t\t')
-    lines = lines.replace('\n    ', '\n\t')
+def Generate(settings):
+    sections = GetSections(settings)
+    scenarios, feature = GetScenarios(sections)
+    lines = GenerateCpp(scenarios, feature, settings)
     return lines
 
 
-def Generate(filename):
-    sections = GetSections(filename)
-    scenarios, feature = GetScenarios(sections)
-    lines = GenerateCpp(scenarios, feature, filename)
-    return Tabify(lines)
-
-
-def GenerateCpp(scenarios, feature, filename):
+def GenerateCpp(scenarios, feature, settings):
     buffer = """
 #include "stdafx.h"
 #include "CppUnitTest.h"
@@ -295,8 +288,9 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
     buffer += "\n"
 
     # start the namespace
-    namespace = filename.split('.')[0]
+    namespace = settings["stub"]
     namespace, args, params = CamelCase('', namespace)
+    namespace = settings["rootnamespace"] + namespace
     buffer += """
 namespace %s
 {
@@ -305,44 +299,40 @@ namespace %s
     # Print the class
     featureName, featureDesc = Feature(feature)
     buffer += """
-    TEST_CLASS(%s)
-    {
-        static std::streambuf* oldBuffer;
-        static std::shared_ptr<std::streambuf> newBuffer;
+  TEST_CLASS(%s)
+  {
+    static std::streambuf* oldBuffer;
+    static std::shared_ptr<std::streambuf> newBuffer;
 
 """[1:] % featureName
     buffer += Steps(scenarios)
     buffer += Scenarios(scenarios, featureName, featureDesc)
     buffer += """
 
-        TEST_CLASS_INITIALIZE(ClassInitialize)
-        {
-            newBuffer = std::make_shared<TestUtils::LogStream>();
-            oldBuffer = std::clog.rdbuf(newBuffer.get());
-            std::clog << "Entering %s" << std::endl;
-        }
+    TEST_CLASS_INITIALIZE(ClassInitialize)
+    {
+      newBuffer = std::make_shared<TestUtils::LogStream>();
+      oldBuffer = std::clog.rdbuf(newBuffer.get());
+      std::clog << "Entering %s" << std::endl;
+    }
 
-        TEST_CLASS_CLEANUP(ClassCleanup)
-        {
-            std::clog << "Exiting %s" << std::endl;
-            std::clog.rdbuf(oldBuffer);
-            newBuffer = nullptr;
-        }
+    TEST_CLASS_CLEANUP(ClassCleanup)
+    {
+      std::clog << "Exiting %s" << std::endl;
+      std::clog.rdbuf(oldBuffer);
+      newBuffer = nullptr;
+    }
 
-    public:
-"""[1:] % (namespace, namespace)
+  public:
+"""[1:] % (settings["stub"], settings["stub"])
     buffer += ScenarioInsts(scenarios)
     buffer += """
-    };
+  };
 
-    std::streambuf* %s::oldBuffer = nullptr;
-    std::shared_ptr<std::streambuf> %s::newBuffer = nullptr;
+  std::streambuf* %s::oldBuffer = nullptr;
+  std::shared_ptr<std::streambuf> %s::newBuffer = nullptr;
 }
 
 """[1:] % (featureName, featureName)
 
     return buffer
-
-if __name__ == '__main__':
-    if len(sys.argv) > 1:
-        print(Generate(sys.argv[1]))
