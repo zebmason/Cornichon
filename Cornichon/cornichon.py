@@ -1,4 +1,4 @@
-import cppunittest
+import cppunittest, googletest, cpphelpers
 
 class Scenario:
     def __init__(self, lines, background):
@@ -58,5 +58,11 @@ def Generate(settings, output):
     
     if output == "cppunittest":
         return cppunittest.Generate(scenarios, feature, settings)
+    
+    if output == "googletest":
+        return googletest.Generate(scenarios, feature, settings)
+    
+    if output == "cpphelpers":
+        return cpphelpers.Generate(scenarios, feature, settings)
     
     return ""

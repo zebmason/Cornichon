@@ -7,8 +7,10 @@ sys.path.insert(0, subdir)
 import cornichon
 
 settings = {}
-settings["header"] = "// Copyright (c) 2019 ...\n\n"
 settings["rootnamespace"] = "Cornichon::"
+settings["helpers"] = "../helpers/"
+
+header = "// Copyright (c) 2019 ...\n\n"
 
 for filename in os.listdir('Examples/tests'):
     inFileName = os.path.join('Examples/tests', filename)
@@ -28,16 +30,16 @@ for filename in os.listdir('Examples/tests'):
         fp.write(cornichon.Generate(settings, "cppunittest"))
         fp.close()
         
-        ofilename = 'Examples/helpers/' + stub + ".h"
+        ofilename = 'Examples/cpphelpers/' + stub + ".h"
         if os.path.exists(ofilename):
             os.remove(ofilename)
         fp = open(ofilename, "w")
-        fp.write(cornichon.Generate(settings, "helpers"))
+        fp.write(header + cornichon.Generate(settings, "cpphelpers"))
         fp.close()
         
         ofilename = 'Examples/googletest/' + stub + ".cpp"
         if os.path.exists(ofilename):
             os.remove(ofilename)
         fp = open(ofilename, "w")
-        fp.write(cornichon.Generate(settings, "googletest"))
+        fp.write(header + cornichon.Generate(settings, "googletest"))
         fp.close()

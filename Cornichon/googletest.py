@@ -1,20 +1,24 @@
 from common import *
 
-def PrintScenario(scenario, arguments, feature, steps, documentation):
-    buffer = ""
-    buffer += """
-    static void %s(%s)
-    {
-"""[1:] % (scenario, arguments)
-    buffer += documentation
-    buffer += """
-      %s instance;
-""" % feature
-    for step in steps:
-        buffer += step + "\n"
-    buffer += """
-    }
+def PrintScenario(scenario, arguments, steps, documentation, settings):
+    buffer = """
+  static void [[scenario]]([[arguments]])
+  {
+[[documentation]]
+    [[rootnamespace]]Helpers::[[feature]] instance;
+[[steps]]
+  }
 """[1:]
+    buffer = buffer.replace("[[scenario]]", scenario)
+    buffer = buffer.replace("[[arguments]]", arguments)
+    buffer = buffer.replace("[[documentation]]", documentation)
+    buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
+    buffer = buffer.replace("[[feature]]", settings["feature"])
+    
+    concat = ""
+    for step in steps:
+        concat += step + "\n"
+    buffer = buffer.replace("[[steps]]", concat.rstrip())
     return buffer
 
 def Description(section, lines, params, indent):
@@ -35,7 +39,7 @@ def Description(section, lines, params, indent):
         line = line.replace(' << ""', '')
         line = line.replace(' "" << ', ' ')
         des += """
-      std::clog << %s << std::endl;""" % line
+    std::clog << %s << std::endl;""" % line
     return des[1:]
 
 def Feature(feature):
@@ -44,7 +48,7 @@ def Feature(feature):
     return camelCase, Description('Feature:', lines, [], '  ')
 
 def Steps(scenarios):
-    buffer = ""
+    concat = ""
     steps = []
     # parse the sections
     for scenario in scenarios:
@@ -56,16 +60,20 @@ def Steps(scenarios):
             steps.append(camelCase)
 
             arguments = Arguments(args, 'std::string ')
-            buffer += """
-    void %s(%s)
+            buffer = """
+    void [[camelCase]]([[arguments]])
     {
-%s
+[[Description]]
     }
 
-"""[1:] % (camelCase, arguments, Description(s[0], lines, params, '      '))
-    return buffer
+"""[1:]
+            buffer = buffer.replace("[[camelCase]]", camelCase)
+            buffer = buffer.replace("[[arguments]]", arguments)
+            buffer = buffer.replace("[[Description]]", Description(s[0], lines, params, '      '))
+            concat += buffer
+    return concat
 
-def Scenarios(scenarios, featureName, feature):
+def Scenarios(scenarios, feature, settings):
     buffer = ""
     # parse the scenarios
     for s in scenarios:
@@ -84,17 +92,17 @@ def Scenarios(scenarios, featureName, feature):
             for i in range(len(params)):
                 args[i] = params[i]
             arguments = Arguments(args, '').replace('<', '').replace('>', '')
-            steps.append('      instance.%s(%s);' % (camelCase, arguments))
+            steps.append('    instance.%s(%s);' % (camelCase, arguments))
             continue
         lines = s.lines.split('\n')
         scenarioName, args, params = CamelCase('Scenario:', lines[0])
         scenario = feature + "\n" + Description('Scenario:', lines, [], '    ')
-        buffer += PrintScenario(scenarioName, fullArgs, featureName, steps, scenario)
+        buffer += PrintScenario(scenarioName, fullArgs, steps, scenario, settings)
         buffer += "\n"
-    return buffer
+    return buffer.rstrip()
 
 def ScenarioInsts(scenarios):
-    buffer = ""
+    concat = ""
     # parse the sections
     for s in scenarios:
         lines = s.lines.split('\n')
@@ -106,17 +114,17 @@ def ScenarioInsts(scenarios):
                 if '' == args:
                     continue
                 arguments = Arguments(args.split(), '')
-                buffer += """
-    %sInst(%s);
+                concat += """
+  %sInst(%s);
 """ % (scenario, arguments)
         else:
-            buffer += """
-    %sInst();
+            concat += """
+  %sInst();
 """ % (scenario)
-    return buffer
+    return concat.rstrip()
 
-def TestMethods(scenarios):
-    buffer = ""
+def TestMethods(scenarios, namespace):
+    concat = ""
     # parse the sections
     for s in scenarios:
         lines = s.lines.split('\n')
@@ -129,91 +137,63 @@ def TestMethods(scenarios):
                 args = line.strip()[1:-2].replace('|', ' ').upper()
                 break
             arguments = Arguments(args.split(), '_')
-            concat = arguments.replace(', _', ' ## _')
+            concat2 = arguments.replace(', _', ' ## _')
             stringify = arguments.replace('_', '#_')
-            buffer += """
-#define %sInst(%s) \\
-  TEST_METHOD(%s ## %s) \\
+            buffer = """
+#define [[scenario]]Inst([[arguments]]) \\
+  TEST([[namespace]], [[scenario]] ## [[concat2]]) \\
   { \\
-    %s(%s); \\
+    [[scenario]]([[stringify]]); \\
   }
-
-"""[1:] % (scenario, arguments, scenario, concat, scenario, stringify)
-        else:
-            buffer += """
-#define %sInst() \\
-  TEST_METHOD(%s ## Impl) \\
-  { \\
-    %s(); \\
-  }
-
-"""[1:] % (scenario, scenario, scenario)
-    return buffer
-
-def Generate(scenarios, feature, settings):
-    buffer = """
-#include "stdafx.h"
-#include "CppUnitTest.h"
-
-#include "TestUtils/LogStream.h"
-
-#include <iostream>
-#include <memory>
-
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 """[1:]
+            buffer = buffer.replace("[[scenario]]", scenario)
+            buffer = buffer.replace("[[arguments]]", arguments)
+            buffer = buffer.replace("[[namespace]]", namespace)
+            buffer = buffer.replace("[[concat2]]", concat2)
+            buffer = buffer.replace("[[stringify]]", stringify)
+            concat += buffer
+        else:
+            buffer = """
+#define [[scenario]]Inst() \\
+  TEST([[namespace]], [[scenario]] ## Impl) \\
+  { \\
+    [[scenario]](); \\
+  }
 
-    # Print the macros
-    buffer += TestMethods(scenarios)
-    buffer += "\n"
+"""[1:]
+            buffer = buffer.replace("[[scenario]]", scenario)
+            buffer = buffer.replace("[[namespace]]", namespace)
+            concat += buffer
+    return concat
 
-    # start the namespace
+def Generate(scenarios, feature, settings):
     namespace = settings["stub"]
     namespace, args, params = CamelCase('', namespace)
-    namespace = settings["rootnamespace"] + namespace
-    buffer += """
-namespace %s
-{
-"""[1:] % namespace
-
-    # Print the class
+    
     featureName, featureDesc = Feature(feature)
-    buffer += """
-  TEST_CLASS(%s)
-  {
-    static std::streambuf* oldBuffer;
-    static std::shared_ptr<std::streambuf> newBuffer;
+    settings["feature"] = featureName
 
-"""[1:] % featureName
-    buffer += Steps(scenarios)
-    buffer += Scenarios(scenarios, featureName, featureDesc)
-    buffer += """
+    buffer = """
+// Other bespoke headers
+#include "[[helpers]][[stub]].h"
 
-    TEST_CLASS_INITIALIZE(ClassInitialize)
-    {
-      newBuffer = std::make_shared<TestUtils::LogStream>();
-      oldBuffer = std::clog.rdbuf(newBuffer.get());
-      std::clog << "Entering %s" << std::endl;
-    }
+// Third party headers
+#include "gtest/gtest.h"
 
-    TEST_CLASS_CLEANUP(ClassCleanup)
-    {
-      std::clog << "Exiting %s" << std::endl;
-      std::clog.rdbuf(oldBuffer);
-      newBuffer = nullptr;
-    }
-
-  public:
-"""[1:] % (settings["stub"], settings["stub"])
-    buffer += ScenarioInsts(scenarios)
-    buffer += """
-  };
-
-  std::streambuf* %s::oldBuffer = nullptr;
-  std::shared_ptr<std::streambuf> %s::newBuffer = nullptr;
+[[TestMethods]]namespace [[rootnamespace]][[namespace]]
+{
+[[Scenarios]]
+[[ScenarioInsts]]
 }
+"""[1:]
 
-"""[1:] % (featureName, featureName)
+    buffer = buffer.replace("[[stub]]", settings["stub"])
+    buffer = buffer.replace("[[helpers]]", settings["helpers"])
+    buffer = buffer.replace("[[TestMethods]]", TestMethods(scenarios, namespace))
+    buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
+    buffer = buffer.replace("[[namespace]]", namespace)
+    buffer = buffer.replace("[[Scenarios]]", Scenarios(scenarios, featureDesc, settings))
+    buffer = buffer.replace("[[ScenarioInsts]]", ScenarioInsts(scenarios))
 
     return buffer
