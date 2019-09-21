@@ -243,7 +243,7 @@ def GetScenarios(sections):
 def GetSections(filename):
     section = ''
     sections = []
-    for line in file(filename):
+    for line in open(filename):
         if line.lstrip()[:1] == '#':
             continue
         bits = line.split()
@@ -345,4 +345,4 @@ namespace %s
 
 if __name__ == '__main__':
     if len(sys.argv) > 1:
-        print Generate(sys.argv[1])
+        print(Generate(sys.argv[1]))
