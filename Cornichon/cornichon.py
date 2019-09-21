@@ -241,10 +241,9 @@ def GetScenarios(sections):
 
 
 def GetSections(settings):
-    filename = settings["inFileName"]
     section = ''
     sections = []
-    for line in open(filename):
+    for line in settings["gherkin"]:
         if line.lstrip()[:1] == '#':
             continue
         bits = line.split()
@@ -262,11 +261,14 @@ def GetSections(settings):
             sections[-1][1] += line
     return sections
 
-def Generate(settings):
+def Generate(settings, output):
     sections = GetSections(settings)
     scenarios, feature = GetScenarios(sections)
-    lines = GenerateCpp(scenarios, feature, settings)
-    return lines
+    
+    if output == "cppunittest":
+        return GenerateCpp(scenarios, feature, settings)
+    
+    return ""
 
 
 def GenerateCpp(scenarios, feature, settings):

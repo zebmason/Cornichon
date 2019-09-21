@@ -15,12 +15,29 @@ for filename in os.listdir('Examples/tests'):
     stub, ext = os.path.splitext(filename)
     if ext == '.feature':
         print(filename)
+        settings["stub"] = stub
+        f = open(inFileName, "r")
+        settings["gherkin"] = f.readlines()
+        f.close()
+        
         ofilename = 'Examples/cppunittest/' + stub + ".cpp"
         if os.path.exists(ofilename):
             #ofilename = stub + ".fpp"
             os.remove(ofilename)
         fp = open(ofilename, "w")
-        settings["stub"] = stub
-        settings["inFileName"] = inFileName
-        fp.write(cornichon.Generate(settings))
+        fp.write(cornichon.Generate(settings, "cppunittest"))
+        fp.close()
+        
+        ofilename = 'Examples/helpers/' + stub + ".h"
+        if os.path.exists(ofilename):
+            os.remove(ofilename)
+        fp = open(ofilename, "w")
+        fp.write(cornichon.Generate(settings, "helpers"))
+        fp.close()
+        
+        ofilename = 'Examples/googletest/' + stub + ".cpp"
+        if os.path.exists(ofilename):
+            os.remove(ofilename)
+        fp = open(ofilename, "w")
+        fp.write(cornichon.Generate(settings, "googletest"))
         fp.close()
