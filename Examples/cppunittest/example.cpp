@@ -1,8 +1,13 @@
 #include "stdafx.h"
+
+// Other bespoke headers
+#include "../helpers/example.h"
+#include "../helpers/LogStream.h"
+
+// Third party headers
 #include "CppUnitTest.h"
 
-#include "TestUtils/LogStream.h"
-
+// Standard library headers
 #include <iostream>
 #include <memory>
 
@@ -28,26 +33,11 @@ namespace Cornichon::Example
     static std::streambuf* oldBuffer;
     static std::shared_ptr<std::streambuf> newBuffer;
 
-    void GivenAnInitial(std::string value)
-    {
-      std::clog << "      Given an initial " << value << std::endl;
-    }
-
-    void WhenYouAddA(std::string second)
-    {
-      std::clog << "      When you add a " << second << std::endl;
-    }
-
-    void ThenTheResultIs(std::string sum)
-    {
-      std::clog << "      Then the result is " << sum << std::endl;
-    }
-
     static void AddOneOther(std::string value, std::string second, std::string sum)
     {
       std::clog << "  Feature: Accumulator" << std::endl;
       std::clog << "    Scenario: Add one other" << std::endl;
-      Accumulator instance;
+      Cornichon::Helpers::Accumulator instance;
       instance.GivenAnInitial(value);
       instance.WhenYouAddA(second);
       instance.ThenTheResultIs(sum);
@@ -57,7 +47,7 @@ namespace Cornichon::Example
     {
       std::clog << "  Feature: Accumulator" << std::endl;
       std::clog << "    Scenario: Add two others" << std::endl;
-      Accumulator instance;
+      Cornichon::Helpers::Accumulator instance;
       instance.GivenAnInitial(value);
       instance.WhenYouAddA(second);
       instance.WhenYouAddA(third);
