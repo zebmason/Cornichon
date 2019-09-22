@@ -43,3 +43,115 @@ def Arguments(args, type):
     if len(arguments) > 0:
         arguments = arguments[:-2]
     return arguments
+
+def PrintScenario(scenario, arguments, steps, documentation, settings, indent):
+    buffer = """
+[[indent]]static void [[scenario]]([[arguments]])
+[[indent]]{
+[[documentation]]
+[[indent]]  [[rootnamespace]]Helpers::[[feature]] instance;
+[[steps]]
+[[indent]]}
+"""[1:]
+    buffer = buffer.replace("[[indent]]", indent)
+    buffer = buffer.replace("[[scenario]]", scenario)
+    buffer = buffer.replace("[[arguments]]", arguments)
+    buffer = buffer.replace("[[documentation]]", documentation)
+    buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
+    buffer = buffer.replace("[[feature]]", settings["feature"])
+    
+    concat = ""
+    for step in steps:
+        concat += step + "\n"
+    buffer = buffer.replace("[[steps]]", concat.rstrip())
+    return buffer
+
+def Description(section, lines, params, indent, lindent):
+    des = ''
+    first = True
+    for line in lines:
+        if line.strip() == '':
+            continue
+        if first:
+            first = False
+            line = "%s%s %s" % (indent, section, line)
+        line = '"%s"' % line
+        for i in range(len(params)):
+            if params[i][0] == '<':
+                line = line.replace(params[i], '" << %s << "' % params[i][1:-1])
+                continue
+            line = line.replace(params[i], '" << arg%d << "' % (i+1))
+        line = line.replace(' << ""', '')
+        line = line.replace(' "" << ', ' ')
+        buffer = """
+[[indent]]  std::clog << [[line]] << std::endl;"""
+        buffer = buffer.replace("[[indent]]", lindent)
+        buffer = buffer.replace("[[line]]", line)
+        des += buffer
+    return des[1:]
+
+def Feature(feature, indent):
+    lines = feature.split('\n')
+    camelCase, args, params = CamelCase('Feature:', lines[0])
+    return camelCase, Description('Feature:', lines, [], '  ', indent)
+
+def Scenarios(scenarios, feature, settings, indent):
+    concat = ""
+    # parse the scenarios
+    for s in scenarios:
+        fullArgs = ''
+        if s.examples != '':
+            args = ''
+            lines = s.examples.split('\n')
+            for line in lines[1:]:
+                args = line.strip()[1:-2].replace('|', ' ')
+                break
+            fullArgs = Arguments(args.split(), 'std::string ')
+        steps = []
+        for step in s.Steps():
+            lines = step[1].split('\n')
+            camelCase, args, params = CamelCase(step[0], lines[0])
+            for i in range(len(params)):
+                args[i] = params[i]
+            arguments = Arguments(args, '').replace('<', '').replace('>', '')
+            buffer = '[[indent]]  instance.[[camelCase]]([[arguments]]);'
+            buffer = buffer.replace("[[indent]]", indent)
+            buffer = buffer.replace("[[camelCase]]", camelCase)
+            buffer = buffer.replace("[[arguments]]", arguments)
+            steps.append(buffer)
+            continue
+        lines = s.lines.split('\n')
+        scenarioName, args, params = CamelCase('Scenario:', lines[0])
+        scenario = feature + "\n" + Description('Scenario:', lines, [], '    ', indent)
+        concat += PrintScenario(scenarioName, fullArgs, steps, scenario, settings, indent)
+        concat += "\n"
+    return concat.rstrip()
+
+def ScenarioInsts(scenarios, indent):
+    concat = ""
+    # parse the sections
+    for s in scenarios:
+        lines = s.lines.split('\n')
+        scenario, args, params = CamelCase('Scenario:', lines[0])
+        if s.examples != '':
+            lines = s.examples.split('\n')
+            for line in lines[2:]:
+                args = line.strip()[1:-2].replace('|', ' ')
+                if '' == args:
+                    continue
+                arguments = Arguments(args.split(), '')
+                buffer = """
+[[indent]][[scenario]]Inst([[arguments]]);
+"""
+                buffer = buffer.replace("[[indent]]", indent)
+                buffer = buffer.replace("[[scenario]]", scenario)
+                buffer = buffer.replace("[[arguments]]", arguments)
+                concat += buffer
+        else:
+            buffer = """
+[[indent]][[scenario]]Inst();
+"""
+            buffer = buffer.replace("[[indent]]", indent)
+            buffer = buffer.replace("[[scenario]]", scenario)
+            concat += buffer
+    return concat.rstrip()
