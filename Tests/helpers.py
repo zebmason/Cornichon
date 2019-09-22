@@ -16,6 +16,15 @@ class Helpers(unittest.TestCase):
         self.settings["rootnamespace"] = "Cornichon::"
         self.settings["helpers"] = "../helpers/"
 
+    def ThenTheGeneratedTestIsTheSameAsTheSaved(self):
+        self.settings["stub"] = self.name
+        inFileName = os.path.join('../Examples/tests', self.name + '.feature')
+        f = open(inFileName, "r")
+        self.settings["gherkin"] = f.readlines()
+        f.close()
+        contents = self.header + cornichon.Generate(self.settings, self.output)
+        self.DiffHelper(contents, '../Examples/%s/%s%s' % (self.output, self.name, self.ext))
+
     def WhenTheGeneratorIsCpphelpers(self):
         self.output = "cpphelpers"
         self.ext = ".h"
@@ -44,12 +53,3 @@ class Helpers(unittest.TestCase):
             num = num2
         for i in range(num):
             self.assertEqual(oldlines[i].rstrip(), newlines[i])
-            
-    def ThenTheGeneratedTestIsTheSameAsTheSaved(self):
-        self.settings["stub"] = self.name
-        inFileName = os.path.join('../Examples/tests', self.name + '.feature')
-        f = open(inFileName, "r")
-        self.settings["gherkin"] = f.readlines()
-        f.close()
-        contents = self.header + cornichon.Generate(self.settings, self.output)
-        self.DiffHelper(contents, '../Examples/%s/%s%s' % (self.output, self.name, self.ext))

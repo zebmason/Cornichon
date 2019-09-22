@@ -4,18 +4,24 @@ from helpers import Helpers
 class Cornichon(unittest.TestCase):
 
     def Cppunittest(self, name):
+        print("  Feature: Cornichon")
+        print("    Scenario: cppunittest")
         helpers = Helpers()
         helpers.GivenAFeatureFileCalled(name);
         helpers.WhenTheGeneratorIsCppunittest();
         helpers.ThenTheGeneratedTestIsTheSameAsTheSaved();
 
     def Cpphelpers(self, name):
+        print("  Feature: Cornichon")
+        print("    Scenario: cpphelpers")
         helpers = Helpers()
         helpers.GivenAFeatureFileCalled(name);
         helpers.WhenTheGeneratorIsCpphelpers();
         helpers.ThenTheGeneratedTestIsTheSameAsTheSaved();
 
     def Googletest(self, name):
+        print("  Feature: Cornichon")
+        print("    Scenario: googletest")
         helpers = Helpers()
         helpers.GivenAFeatureFileCalled(name);
         helpers.WhenTheGeneratorIsGoogletest();
