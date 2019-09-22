@@ -1,4 +1,4 @@
-import cppunittest, googletest, cpphelpers
+import importlib
 
 class Scenario:
     def __init__(self, lines, background):
@@ -56,13 +56,5 @@ def Generate(settings, output):
     sections = GetSections(settings)
     scenarios, feature = GetScenarios(sections)
     
-    if output == "cppunittest":
-        return cppunittest.Generate(scenarios, feature, settings)
-    
-    if output == "googletest":
-        return googletest.Generate(scenarios, feature, settings)
-    
-    if output == "cpphelpers":
-        return cpphelpers.Generate(scenarios, feature, settings)
-    
-    return ""
+    mod = importlib.import_module(output)
+    return mod.Generate(scenarios, feature, settings)
