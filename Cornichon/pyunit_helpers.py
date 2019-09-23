@@ -52,15 +52,12 @@ def Description(section, lines, params, indent, lindent):
             continue
         if first:
             first = False
-            line = "%s%s %s" % (indent, section, line)
-        line = '"%s"' % line
+            line = '"%s%s %s' % (indent, section, line)
         for i in range(len(params)):
             if params[i][0] == '<':
-                line = line.replace(params[i], '", %s"' % params[i][1:-1])
+                line = line.replace(params[i], '", %s' % params[i][1:-1])
                 continue
-            line = line.replace(params[i], '", arg%d"' % (i+1))
-        line = line.replace(', ""', '')
-        line = line.replace(' "", ', ' ')
+            line = line.replace(params[i], ', arg%d' % (i+1))
         buffer = """
         print([[line]])"""
         buffer = buffer.replace("[[line]]", line)
@@ -97,8 +94,6 @@ def Steps(scenarios):
     return concat.rstrip()
 
 def Generate(scenarios, feature, settings):
-    featureName, featureDesc = Feature(feature, '  ')
-
     buffer = """
 import unittest
 
@@ -106,7 +101,5 @@ class Helpers(unittest.TestCase):
 [[steps]]
 """[1:]
 
-    buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
-    buffer = buffer.replace("[[featureName]]", featureName)
     buffer = buffer.replace("[[steps]]", Steps(scenarios))
     return buffer

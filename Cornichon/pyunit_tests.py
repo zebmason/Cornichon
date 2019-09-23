@@ -36,12 +36,12 @@ def CamelCase(section, line):
         cased += bit[0].upper() + bit[1:]
     return cased, args, params
 
-def Arguments(args, type):
+def Arguments(args, type, joiner):
     arguments = ''
     for arg in args:
-        arguments = "%s%s%s, " % (arguments, type, arg)
+        arguments = "%s%s%s%s" % (arguments, type, arg, joiner)
     if len(arguments) > 0:
-        arguments = arguments[:-2]
+        arguments = arguments[:-len(joiner)]
     return arguments
 
 def PrintScenario(scenario, arguments, steps, documentation, settings, indent):
@@ -100,14 +100,14 @@ def Scenarios(scenarios, feature, settings, indent):
             for line in lines[1:]:
                 args = line.strip()[1:-2].replace('|', ' ')
                 break
-            fullArgs = Arguments(args.split(), ' ')
+            fullArgs = Arguments(args.split(), ' ', ', ')
         steps = []
         for step in s.Steps():
             lines = step[1].split('\n')
             camelCase, args, params = CamelCase(step[0], lines[0])
             for i in range(len(params)):
                 args[i] = params[i]
-            arguments = Arguments(args, '').replace('<', '').replace('>', '')
+            arguments = Arguments(args, '', ', ').replace('<', '').replace('>', '')
             buffer = '        helpers.[[camelCase]]([[arguments]]);'
             buffer = buffer.replace("[[camelCase]]", camelCase)
             buffer = buffer.replace("[[arguments]]", arguments)
@@ -132,14 +132,16 @@ def ScenarioInsts(scenarios, indent):
                 args = line.strip()[1:-2].replace('|', ' ')
                 if '' == args:
                     continue
-                arguments = Arguments(args.split(), '')
+                arguments1 = Arguments(args.split(), '', '_')
+                arguments2 = Arguments(args.split(), '', ', ')
                 buffer = """
-    def test_[[scenario]]_[[arguments]](self):
-        self.[[Scenario]]("[[arguments]]")
+    def test_[[scenario]]_[[arguments1]](self):
+        self.[[Scenario]]([[arguments2]])
 """
                 buffer = buffer.replace("[[scenario]]", scenario[0].lower() + scenario[1:])
                 buffer = buffer.replace("[[Scenario]]", scenario)
-                buffer = buffer.replace("[[arguments]]", arguments)
+                buffer = buffer.replace("[[arguments1]]", arguments1)
+                buffer = buffer.replace("[[arguments2]]", arguments2)
                 concat += buffer
         else:
             buffer = """
@@ -158,7 +160,7 @@ def Generate(scenarios, feature, settings):
 
     buffer = """
 import unittest
-from [[helpers]] import Helpers
+from [[stub]]_helpers import Helpers
 
 class [[namespace]](unittest.TestCase):
 
@@ -169,7 +171,7 @@ if __name__ == '__main__':
     unittest.main()
 """[1:]
 
-    buffer = buffer.replace("[[helpers]]", settings["helpers"])
+    buffer = buffer.replace("[[stub]]", settings["stub"])
     buffer = buffer.replace("[[namespace]]", namespace)
     buffer = buffer.replace("[[Scenarios]]", Scenarios(scenarios, featureDesc, settings, "  "))
     buffer = buffer.replace("[[ScenarioInsts]]", ScenarioInsts(scenarios, "  "))

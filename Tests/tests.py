@@ -27,6 +27,22 @@ class Cornichon(unittest.TestCase):
         helpers.WhenTheGeneratorIsGoogletest();
         helpers.ThenTheGeneratedTestIsTheSameAsTheSaved();
 
+    def Pyunit_tests(self, name):
+        print("  Feature: Cornichon")
+        print("    Scenario: pyunit_tests")
+        helpers = Helpers()
+        helpers.GivenAFeatureFileCalled(name);
+        helpers.WhenTheGeneratorIsPyunit_tests();
+        helpers.ThenTheGeneratedTestIsTheSameAsTheSaved();
+
+    def Pyunit_helpers(self, name):
+        print("  Feature: Cornichon")
+        print("    Scenario: pyunit_helpers")
+        helpers = Helpers()
+        helpers.GivenAFeatureFileCalled(name);
+        helpers.WhenTheGeneratorIsPyunit_helpers();
+        helpers.ThenTheGeneratedTestIsTheSameAsTheSaved();
+
     def test_cppunittest_example(self):
         self.Cppunittest("example")
 
@@ -35,6 +51,12 @@ class Cornichon(unittest.TestCase):
 
     def test_googletest_example(self):
         self.Googletest("example")
+
+    def test_pyunit_tests_example(self):
+        self.Pyunit_tests("example")
+
+    def test_pyunit_helpers_example(self):
+        self.Pyunit_helpers("example")
 
 if __name__ == '__main__':
     unittest.main()

@@ -23,3 +23,17 @@ Scenario Outline: googletest
   Examples:
     | name |
     | example |
+
+Scenario Outline: pyunit_tests
+  When the generator is pyunit_tests
+  Then the generated test is the same as the saved
+  Examples:
+    | name |
+    | example |
+
+Scenario Outline: pyunit_helpers
+  When the generator is pyunit_helpers
+  Then the generated test is the same as the saved
+  Examples:
+    | name |
+    | example |
