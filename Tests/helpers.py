@@ -51,8 +51,8 @@ class Helpers(unittest.TestCase):
         self.header = ""
         self.settings = {}
 
-    def WhenTheGeneratorIsPyunit_helpers(self):
-        self.output = "pyunit_helpers"
+    def WhenTheGeneratorIsPyhelpers(self):
+        self.output = "pyhelpers"
         self.folder = "pyunit_tests"
         self.ext = "_helpers.py"
         self.header = ""

@@ -95,8 +95,6 @@ def Steps(scenarios):
 
 def Generate(scenarios, feature, settings):
     buffer = """
-import unittest
-
 class Helpers(unittest.TestCase):
 [[steps]]
 """[1:]

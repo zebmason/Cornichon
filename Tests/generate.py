@@ -18,5 +18,5 @@ fp.write(cornichon.Generate(settings, "pyunit_tests"))
 fp.close()
 
 fp = open('helpers.py', "w")
-fp.write(cornichon.Generate(settings, "pyunit_helpers"))
+fp.write(cornichon.Generate(settings, "pyhelpers"))
 fp.close()

@@ -1,5 +1,3 @@
-import unittest
-
 class Helpers(unittest.TestCase):
     def GivenAnInitial(self, value):
         print("      Given an initial ", value)

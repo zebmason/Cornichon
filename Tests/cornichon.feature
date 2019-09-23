@@ -31,8 +31,8 @@ Scenario Outline: pyunit_tests
     | name |
     | example |
 
-Scenario Outline: pyunit_helpers
-  When the generator is pyunit_helpers
+Scenario Outline: pyhelpers
+  When the generator is pyhelpers
   Then the generated test is the same as the saved
   Examples:
     | name |

@@ -24,22 +24,14 @@ for filename in os.listdir('Examples/tests'):
         
         ofilename = 'Examples/cppunittest/' + stub + ".cpp"
         if os.path.exists(ofilename):
-            #ofilename = stub + ".fpp"
-            os.remove(ofilename)
+            ofilename = 'Examples/cppunittest/' + stub + ".fpp"
         fp = open(ofilename, "w")
         fp.write(cornichon.Generate(settings, "cppunittest"))
         fp.close()
         
         ofilename = 'Examples/cpphelpers/' + stub + ".h"
         if os.path.exists(ofilename):
-            os.remove(ofilename)
+            ofilename = 'Examples/cpphelpers/' + stub + ".f"
         fp = open(ofilename, "w")
         fp.write(header + cornichon.Generate(settings, "cpphelpers"))
-        fp.close()
-        
-        ofilename = 'Examples/googletest/' + stub + ".cpp"
-        if os.path.exists(ofilename):
-            os.remove(ofilename)
-        fp = open(ofilename, "w")
-        fp.write(header + cornichon.Generate(settings, "googletest"))
         fp.close()
