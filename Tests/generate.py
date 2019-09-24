@@ -6,17 +6,23 @@ import cornichon
 
 settings = {}
 settings["stub"] = 'cornichon'
-settings["rootnamespace"] = "Cornichon::"
 settings["helpers"] = "helpers"
 
-f = open('cornichon.feature', "r")
-settings["gherkin"] = f.readlines()
-f.close()
+def Process(stub, bit):
+    f = open(stub + '.feature', "r")
+    settings["gherkin"] = f.readlines()
+    f.close()
 
-fp = open('tests.py', "w")
-fp.write(cornichon.Generate(settings, "pyunit_tests"))
-fp.close()
+    fp = open('tests' + bit + '.py', "w")
+    fp.write(cornichon.Generate(settings, "pyunit_tests"))
+    fp.close()
 
-fp = open('helpers.py', "w")
-fp.write(cornichon.Generate(settings, "pyhelpers"))
-fp.close()
+    fp = open('helpers' + bit + '.py', "w")
+    fp.write(cornichon.Generate(settings, "pyhelpers"))
+    fp.close()
+
+features = {}
+features['cornichon'] = ''
+features['units'] = '_units'
+for stub in features:
+    Process(stub, features[stub])

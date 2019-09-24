@@ -155,3 +155,49 @@ def ScenarioInsts(scenarios, indent):
             buffer = buffer.replace("[[scenario]]", scenario)
             concat += buffer
     return concat.rstrip()
+
+def Type(value):
+    if value == "true" or value == "True" or value == "false" or value == "False":
+        return "bool"
+    try:
+        i = int(value)
+        if i < 0:
+            return "int"
+        elif value == "0" or i > 0:
+            return "uint"
+    except:
+        pass
+    try:
+        f = float(value)
+        return "float"
+    except:
+        pass
+    if value.isalnum():
+        return "symbol"
+    return "string"
+
+def WorseComb(type, other, types, first):
+    if type == types[0]:
+        if other in types[1:]:
+            return type
+    if first:
+        return WorseComb(other, type, types, False)
+    return "none"
+
+def Worst(other, type):
+    if type == "none" or type == other:
+        return other
+    if other == "none":
+        return type
+    if type == "string" or other == "string":
+        return "string"
+    comb = WorseComb(type, other, ["int", "uint"], True)
+    if comb != "none":
+        return comb
+    comb = WorseComb(type, other, ["symbol", "uint"], True)
+    if comb != "none":
+        return comb
+    comb = WorseComb(type, other, ["float", "int", "uint"], True)
+    if comb != "none":
+        return comb
+    return "string"
