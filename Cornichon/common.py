@@ -206,3 +206,6 @@ def Argument(arg, type, templates):
     if type == "symbol":
         return Argument(arg, "string", templates)
     return templates[type].format(arg)
+
+def Tokenise(arg):
+    return ''.join([i for i in arg if i.isalnum()])

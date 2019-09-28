@@ -21,6 +21,11 @@ class Cornichon(unittest.TestCase):
         helpers.GivenATemplate(template);
         helpers.ThenItHasCorresponding(output);
 
+    def Tokenized(self, arg,  output):
+        helpers = TokenizedHelper()
+        helpers.GivenAnArgument(arg);
+        helpers.ThenItHasCorresponding(output);
+
     def test_types_symbol_sym(self):
         self.Types("symbol", "sym")
 
@@ -89,6 +94,12 @@ class Cornichon(unittest.TestCase):
 
     def test_templated_two_string_two(self):
         self.Templated("two", "string", "\"{}\"", "\"two\"")
+
+    def test_tokenized_int_int(self):
+        self.Tokenized("int {}", "int")
+
+    def test_tokenized_19_19(self):
+        self.Tokenized("1.9", "19")
 
 if __name__ == '__main__':
     unittest.main()

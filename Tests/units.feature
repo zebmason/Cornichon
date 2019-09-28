@@ -43,3 +43,11 @@ Scenario Outline: templated
     | arg | type   | template | output  |
     | one | int    | int {}   | int one |
     | two | string | "{}"     | "two"   |
+
+Scenario Outline: tokenized
+  Given an argument <arg>
+  Then it has corresponding <output>
+  Examples:
+    | arg    | output |
+    | int {} | int    |
+    | 1.9    | 19     |
