@@ -26,3 +26,21 @@ class WorstHelper(unittest.TestCase):
         if worst != type:
             print("\n{} isn't {}".format(worst, type))
         self.assertEqual(worst, type)
+
+class TemplatedHelper(unittest.TestCase):
+    def GivenAnArgument(self, arg):
+        self.arg = arg
+
+    def GivenAType(self, type):
+        self.type = type
+
+    def GivenATemplate(self, template):
+        self.templates = {}
+        self.templates[self.type] = template
+
+    def ThenItHasCorresponding(self, output):
+        out = common.Argument(self.arg, self.type, self.templates)
+        if out != output:
+            print("\n{} isn't {}".format(out, output))
+        self.assertEqual(out, output)
+

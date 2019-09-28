@@ -201,3 +201,8 @@ def Worst(other, type):
     if comb != "none":
         return comb
     return "string"
+
+def Argument(arg, type, templates):
+    if type == "symbol":
+        return Argument(arg, "string", templates)
+    return templates[type].format(arg)

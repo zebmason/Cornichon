@@ -33,3 +33,13 @@ Scenario Outline: worst
     | string | string | symbol |
     | symbol | symbol | none   |
     | symbol | none   | symbol |
+
+Scenario Outline: templated
+  Given an argument <arg>
+  Given a type <type>
+  Given a template <template>
+  Then it has corresponding <output>
+  Examples:
+    | arg | type   | template | output  |
+    | one | int    | int {}   | int one |
+    | two | string | "{}"     | "two"   |

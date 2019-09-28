@@ -1,5 +1,5 @@
 import unittest
-from helpers_units import TypesHelper, WorstHelper
+from helpers_units import *
 
 class Cornichon(unittest.TestCase):
 
@@ -13,6 +13,13 @@ class Cornichon(unittest.TestCase):
         helpers.GivenAFirstType(first);
         helpers.GivenASecondType(second);
         helpers.ThenItHasCorresponding(type);
+
+    def Templated(self, arg,  type,  template,  output):
+        helpers = TemplatedHelper()
+        helpers.GivenAnArgument(arg);
+        helpers.GivenAType(type);
+        helpers.GivenATemplate(template);
+        helpers.ThenItHasCorresponding(output);
 
     def test_types_symbol_sym(self):
         self.Types("symbol", "sym")
@@ -76,6 +83,12 @@ class Cornichon(unittest.TestCase):
 
     def test_worst_symbol_none_symbol(self):
         self.Worst("symbol", "none", "symbol")
+
+    def test_templated_one_int_int_int_one(self):
+        self.Templated("one", "int", "int {}", "int one")
+
+    def test_templated_two_string_two(self):
+        self.Templated("two", "string", "\"{}\"", "\"two\"")
 
 if __name__ == '__main__':
     unittest.main()
