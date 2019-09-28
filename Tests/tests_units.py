@@ -26,6 +26,11 @@ class Cornichon(unittest.TestCase):
         helpers.GivenAnArgument(arg);
         helpers.ThenItHasCorresponding(output);
 
+    def Snaked(self, arg,  output):
+        helpers = SnakedHelper()
+        helpers.GivenAnArgument(arg);
+        helpers.ThenItHasCorresponding(output);
+
     def test_types_symbol_sym(self):
         self.Types("symbol", "sym")
 
@@ -100,6 +105,15 @@ class Cornichon(unittest.TestCase):
 
     def test_tokenized_19_19(self):
         self.Tokenized("1.9", "19")
+
+    def test_snaked_int_int(self):
+        self.Snaked("int {}", "int")
+
+    def test_snaked_19_19(self):
+        self.Snaked("1.9", "19")
+
+    def test_snaked_1_9_1_9(self):
+        self.Snaked("1 9", "1_9")
 
 if __name__ == '__main__':
     unittest.main()

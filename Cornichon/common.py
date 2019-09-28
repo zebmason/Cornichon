@@ -209,3 +209,12 @@ def Argument(arg, type, templates):
 
 def Tokenise(arg):
     return ''.join([i for i in arg if i.isalnum()])
+    
+def SnakeCase(line):
+    line = line.replace(" ", "_")
+    line = ''.join([i for i in line if (i.isalnum() or i == "_")])
+    while line.find("__") != -1:
+        line = line.replace("__", "_")
+    while line[-1] == "_":
+        line = line[:-1]
+    return line

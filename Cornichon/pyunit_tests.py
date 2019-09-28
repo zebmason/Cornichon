@@ -1,3 +1,5 @@
+import common
+
 def ExtractParams(line, delim1, delim2):
     params = []
     while True:
@@ -132,15 +134,16 @@ def ScenarioInsts(scenarios, indent):
                 args = line.strip()[1:-2].replace('|', ' ')
                 if '' == args:
                     continue
-                arguments1 = Arguments(args.split(), '', '_')
+                testName = " ".join(["test", scenario[0].lower() + scenario[1:], args])
+                testName = common.SnakeCase(testName)
                 arguments2 = Arguments(args.split(), '', ', ')
                 buffer = """
-    def test_[[scenario]]_[[arguments1]](self):
+    def [[testName]](self):
         self.[[Scenario]]([[arguments2]])
 """
                 buffer = buffer.replace("[[scenario]]", scenario[0].lower() + scenario[1:])
                 buffer = buffer.replace("[[Scenario]]", scenario)
-                buffer = buffer.replace("[[arguments1]]", arguments1)
+                buffer = buffer.replace("[[testName]]", testName)
                 buffer = buffer.replace("[[arguments2]]", arguments2)
                 concat += buffer
         else:

@@ -54,3 +54,14 @@ class TokenizedHelper(unittest.TestCase):
             print("\n{} isn't {}".format(out, output))
         self.assertEqual(out, output)
 
+
+class SnakedHelper(unittest.TestCase):
+    def GivenAnArgument(self, arg):
+        self.arg = arg
+
+    def ThenItHasCorresponding(self, output):
+        out = common.SnakeCase(self.arg)
+        if out != output:
+            print("\n{} isn't {}".format(out, output))
+        self.assertEqual(out, output)
+

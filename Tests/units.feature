@@ -51,3 +51,12 @@ Scenario Outline: tokenized
     | arg    | output |
     | int {} | int    |
     | 1.9    | 19     |
+
+Scenario Outline: snaked
+  Given an argument <arg>
+  Then it has corresponding <output>
+  Examples:
+    | arg    | output |
+    | int {} | int    |
+    | 1.9    | 19     |
+    | 1 9    | 1_9    |
