@@ -1,5 +1,5 @@
 import unittest
-from helpers import Helpers
+from helpers import *
 
 class Cornichon(unittest.TestCase):
 

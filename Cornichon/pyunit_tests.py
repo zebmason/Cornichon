@@ -163,7 +163,7 @@ def Generate(scenarios, feature, settings):
 
     buffer = """
 import unittest
-from [[stub]]_helpers import Helpers
+from [[helpers]] import *
 
 class [[namespace]](unittest.TestCase):
 
@@ -174,7 +174,7 @@ if __name__ == '__main__':
     unittest.main()
 """[1:]
 
-    buffer = buffer.replace("[[stub]]", settings["stub"])
+    buffer = buffer.replace("[[helpers]]", settings["helpers"])
     buffer = buffer.replace("[[namespace]]", namespace)
     buffer = buffer.replace("[[Scenarios]]", Scenarios(scenarios, featureDesc, settings, "  "))
     buffer = buffer.replace("[[ScenarioInsts]]", ScenarioInsts(scenarios, "  "))

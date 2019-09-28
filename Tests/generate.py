@@ -4,11 +4,11 @@ subdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../Cornichon
 sys.path.insert(0, subdir)
 import cornichon
 
-settings = {}
-settings["stub"] = 'cornichon'
-settings["helpers"] = "helpers"
-
 def Process(stub, bit):
+    settings = {}
+    settings["stub"] = stub
+    settings["helpers"] = "helpers" + bit
+
     f = open(stub + '.feature', "r")
     settings["gherkin"] = f.readlines()
     f.close()
