@@ -222,14 +222,58 @@ def SnakeCase(line):
 def Upper(word):
     return word[0].upper() + word[1:]
 
+def Lower(word):
+    return word[0].lower() + word[1:]
+
 def Camel(line):
     return ''.join([Upper(i) for i in line.split()])
 
 def Settings(language):
     settings = {}
     settings["gherkin"] = ""
+    settings["types"] = {}
+    settings["values"] = {}
+    for type in ["bool", "int", "uint", "float", "string"]:
+        settings["types"][type] = "{}"
+        settings["values"][type] = "{}"
+    
+    settings["values"]["string"] = "\"{}\""
     if language == "cpp":
         settings["rootnamespace"] = "Cornichon::"
+        settings["types"]["bool"] = "bool {}"
+        settings["types"]["int"] = "int {}"
+        settings["types"]["uint"] = "unsigned int {}"
+        settings["types"]["float"] = "double {}"
+        settings["types"]["string"] = "const std::string& {}"
     elif language == "python":
         pass
     return settings
+
+def SymbolToString(type):
+    if type == "symbol":
+        return "string"
+    return type
+
+def BoolAsUpper(val, type):
+    if type == "bool":
+        return Upper(val)
+    return val
+
+def BoolAsLower(val, type):
+    if type == "bool":
+        return Lower(val)
+    return val
+
+def BoolAsIs(val, type):
+    return val
+
+def ArgumentList(args, types, formats, boolModifier):
+    if len(args) == 0:
+        return ""
+    
+    line = ""
+    for i in range(len(args)):
+        type = SymbolToString(types[i])
+        line = "{}, {}".format(line, formats[type].format(boolModifier(args[i], type)))
+    
+    return line[2:]

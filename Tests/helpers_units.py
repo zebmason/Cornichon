@@ -55,7 +55,6 @@ class TokenizedHelper(unittest.TestCase):
             print("\n{} isn't {}".format(out, output))
         self.assertEqual(out, output)
 
-
 class SnakedHelper(unittest.TestCase):
     def GivenAnArgument(self, arg):
         self.arg = arg
@@ -66,3 +65,33 @@ class SnakedHelper(unittest.TestCase):
             print("\n{} isn't {}".format(out, output))
         self.assertEqual(out, output)
 
+class ArgumentalHelper(unittest.TestCase):
+    def GivenArguments(self, args):
+        self.args = args.split(",")
+
+    def GivenTypes(self, types):
+        self.types = types.split(",")
+
+    def GivenALanguage(self, language):
+        self.language = language
+
+    def GivenItIsADeclaration(self, declaration):
+        self.declaration = declaration
+
+    def ThenItHasCorresponding(self, output):
+        settings = common.Settings(self.language)
+        formats = {}
+        boolModifier = common.BoolAsIs
+        if self.declaration:
+            formats = settings["types"]
+        else:
+            formats = settings["values"]
+            if self.language == "cpp":
+                boolModifier = common.BoolAsLower
+            elif self.language == "python":
+                boolModifier = common.BoolAsUpper
+        
+        out = common.ArgumentList(self.args, self.types, formats, boolModifier)
+        if out != output:
+            print("\n{} isn't {}".format(out, output))
+        self.assertEqual(out, output)
