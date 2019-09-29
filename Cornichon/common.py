@@ -218,3 +218,9 @@ def SnakeCase(line):
     while line[-1] == "_":
         line = line[:-1]
     return line
+
+def Upper(word):
+    return word[0].upper() + word[1:]
+
+def Camel(line):
+    return ''.join([Upper(i) for i in line.split()])

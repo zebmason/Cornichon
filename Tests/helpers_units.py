@@ -1,5 +1,6 @@
-import unittest, os, os.path, sys
+import unittest
 
+import os, os.path, sys
 subdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../Cornichon')
 sys.path.insert(0, subdir)
 import common

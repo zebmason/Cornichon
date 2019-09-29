@@ -50,7 +50,7 @@ def PrintScenario(scenario, arguments, steps, documentation, settings, indent):
     buffer = """
     def [[scenario]](self,[[arguments]]):
 [[documentation]]
-        helpers = Helpers()
+        helpers = [[scenario]]Helper()
 [[steps]]
 """[1:]
     buffer = buffer.replace("[[scenario]]", scenario)

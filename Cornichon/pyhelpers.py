@@ -1,3 +1,5 @@
+import common
+
 def ExtractParams(line, delim1, delim2):
     params = []
     while True:
@@ -69,35 +71,42 @@ def Feature(feature, indent):
     camelCase, args, params = CamelCase('Feature:', lines[0])
     return camelCase, Description('Feature:', lines, [], '  ', indent)
 
-def Steps(scenarios):
+def Steps(scenario):
     concat = ""
     steps = []
     # parse the sections
-    for scenario in scenarios:
-        for s in scenario.Steps():
-            lines = s[1].split('\n')
-            camelCase, args, params = CamelCase(s[0], lines[0])
-            if 0 != steps.count(camelCase):
-                continue
-            steps.append(camelCase)
+    for s in scenario.Steps():
+        lines = s[1].split('\n')
+        camelCase, args, params = CamelCase(s[0], lines[0])
+        if 0 != steps.count(camelCase):
+            continue
+        steps.append(camelCase)
 
-            arguments = Arguments(args, ', ')
-            buffer = """
+        arguments = Arguments(args, ', ')
+        buffer = """
     def [[camelCase]](self[[arguments]]):
 [[Description]]
 
 """[1:]
-            buffer = buffer.replace("[[camelCase]]", camelCase)
-            buffer = buffer.replace("[[arguments]]", arguments)
-            buffer = buffer.replace("[[Description]]", Description(s[0], lines, params, '      ', '    '))
-            concat += buffer
+        buffer = buffer.replace("[[camelCase]]", camelCase)
+        buffer = buffer.replace("[[arguments]]", arguments)
+        buffer = buffer.replace("[[Description]]", Description(s[0], lines, params, '      ', '    '))
+        concat += buffer
     return concat.rstrip()
 
 def Generate(scenarios, feature, settings):
-    buffer = """
-class Helpers(unittest.TestCase):
-[[steps]]
+    concat = """
+import unittest
 """[1:]
 
-    buffer = buffer.replace("[[steps]]", Steps(scenarios))
-    return buffer
+    for scenario in scenarios:
+        buffer = """
+class [[Helper]](unittest.TestCase):
+[[steps]]
+"""
+
+        buffer = buffer.replace("[[steps]]", Steps(scenario))
+        buffer = buffer.replace("[[Helper]]", common.Camel(scenario.lines + " Helper"))
+        concat += buffer
+
+    return concat

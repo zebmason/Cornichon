@@ -6,7 +6,7 @@ class Cornichon(unittest.TestCase):
     def Cppunittest(self, name):
         print("  Feature: Cornichon")
         print("    Scenario: cppunittest")
-        helpers = Helpers()
+        helpers = CppunittestHelper()
         helpers.GivenAFeatureFileCalled(name);
         helpers.WhenTheGeneratorIsCppunittest();
         helpers.ThenTheGeneratedTestIsTheSameAsTheSaved();
@@ -14,7 +14,7 @@ class Cornichon(unittest.TestCase):
     def Cpphelpers(self, name):
         print("  Feature: Cornichon")
         print("    Scenario: cpphelpers")
-        helpers = Helpers()
+        helpers = CpphelpersHelper()
         helpers.GivenAFeatureFileCalled(name);
         helpers.WhenTheGeneratorIsCpphelpers();
         helpers.ThenTheGeneratedTestIsTheSameAsTheSaved();
@@ -22,7 +22,7 @@ class Cornichon(unittest.TestCase):
     def Googletest(self, name):
         print("  Feature: Cornichon")
         print("    Scenario: googletest")
-        helpers = Helpers()
+        helpers = GoogletestHelper()
         helpers.GivenAFeatureFileCalled(name);
         helpers.WhenTheGeneratorIsGoogletest();
         helpers.ThenTheGeneratedTestIsTheSameAsTheSaved();
@@ -30,7 +30,7 @@ class Cornichon(unittest.TestCase):
     def Pyunit_tests(self, name):
         print("  Feature: Cornichon")
         print("    Scenario: pyunit_tests")
-        helpers = Helpers()
+        helpers = Pyunit_testsHelper()
         helpers.GivenAFeatureFileCalled(name);
         helpers.WhenTheGeneratorIsPyunit_tests();
         helpers.ThenTheGeneratedTestIsTheSameAsTheSaved();
@@ -38,7 +38,7 @@ class Cornichon(unittest.TestCase):
     def Pyhelpers(self, name):
         print("  Feature: Cornichon")
         print("    Scenario: pyhelpers")
-        helpers = Helpers()
+        helpers = PyhelpersHelper()
         helpers.GivenAFeatureFileCalled(name);
         helpers.WhenTheGeneratorIsPyhelpers();
         helpers.ThenTheGeneratedTestIsTheSameAsTheSaved();

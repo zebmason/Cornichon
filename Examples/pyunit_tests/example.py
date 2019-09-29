@@ -1,12 +1,12 @@
 import unittest
-from example_helpers import Helpers
+from example_helpers import *
 
 class Example(unittest.TestCase):
 
     def AddOneOther(self, value,  second,  sum):
         print("  Feature: Accumulator")
         print("    Scenario: Add one other")
-        helpers = Helpers()
+        helpers = AddOneOtherHelper()
         helpers.GivenAnInitial(value);
         helpers.WhenYouAddA(second);
         helpers.ThenTheResultIs(sum);
@@ -14,7 +14,7 @@ class Example(unittest.TestCase):
     def AddTwoOthers(self, value,  second,  third,  sum):
         print("  Feature: Accumulator")
         print("    Scenario: Add two others")
-        helpers = Helpers()
+        helpers = AddTwoOthersHelper()
         helpers.GivenAnInitial(value);
         helpers.WhenYouAddA(second);
         helpers.WhenYouAddA(third);
