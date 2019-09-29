@@ -94,6 +94,10 @@ def Steps(scenario):
         concat += buffer
     return concat.rstrip()
 
+def Settings():
+    settings = common.Settings("python")
+    return settings
+
 def Generate(scenarios, feature, settings):
     concat = """
 import unittest

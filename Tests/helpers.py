@@ -53,9 +53,7 @@ class CppunittestHelper(Helpers):
         self.folder = "cppunittest"
         self.ext = ".cpp"
         self.header = ""
-        self.settings = {}
-        self.settings["rootnamespace"] = "Cornichon::"
-        self.settings["helpers"] = "../helpers/"
+        self.settings = cornichon.Settings("cppunittest")
 
 class CpphelpersHelper(Helpers):
     def WhenTheGeneratorIsCpphelpers(self):
@@ -63,9 +61,7 @@ class CpphelpersHelper(Helpers):
         self.folder = "cpphelpers"
         self.ext = ".h"
         self.header = "// Copyright (c) 2019 ...\n\n"
-        self.settings = {}
-        self.settings["rootnamespace"] = "Cornichon::"
-        self.settings["helpers"] = "../helpers/"
+        self.settings = cornichon.Settings("cpphelpers")
 
 class GoogletestHelper(Helpers):
     def WhenTheGeneratorIsGoogletest(self):
@@ -73,9 +69,7 @@ class GoogletestHelper(Helpers):
         self.folder = "googletest"
         self.ext = ".cpp"
         self.header = "// Copyright (c) 2019 ...\n\n"
-        self.settings = {}
-        self.settings["rootnamespace"] = "Cornichon::"
-        self.settings["helpers"] = "../helpers/"
+        self.settings = cornichon.Settings("googletest")
 
 class Pyunit_testsHelper(Helpers):
     def WhenTheGeneratorIsPyunit_tests(self):
@@ -83,7 +77,7 @@ class Pyunit_testsHelper(Helpers):
         self.folder = "pyunit_tests"
         self.ext = ".py"
         self.header = ""
-        self.settings = {}
+        self.settings = cornichon.Settings("pyunit_tests")
         self.settings["helpers"] = "example_helpers"
 
 class PyhelpersHelper(Helpers):
@@ -92,5 +86,5 @@ class PyhelpersHelper(Helpers):
         self.folder = "pyunit_tests"
         self.ext = "_helpers.py"
         self.header = ""
-        self.settings = {}
+        self.settings = cornichon.Settings("pyhelpers")
 

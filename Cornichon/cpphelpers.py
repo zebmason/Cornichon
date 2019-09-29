@@ -1,4 +1,4 @@
-from common import *
+import common
 
 def Steps(scenarios):
     concat = ""
@@ -7,12 +7,12 @@ def Steps(scenarios):
     for scenario in scenarios:
         for s in scenario.Steps():
             lines = s[1].split('\n')
-            camelCase, args, params = CamelCase(s[0], lines[0])
+            camelCase, args, params = common.CamelCase(s[0], lines[0])
             if 0 != steps.count(camelCase):
                 continue
             steps.append(camelCase)
 
-            arguments = Arguments(args, 'std::string ')
+            arguments = common.Arguments(args, 'std::string ')
             buffer = """
     void [[camelCase]]([[arguments]])
     {
@@ -22,12 +22,16 @@ def Steps(scenarios):
 """[1:]
             buffer = buffer.replace("[[camelCase]]", camelCase)
             buffer = buffer.replace("[[arguments]]", arguments)
-            buffer = buffer.replace("[[Description]]", Description(s[0], lines, params, '      ', '    '))
+            buffer = buffer.replace("[[Description]]", common.Description(s[0], lines, params, '      ', '    '))
             concat += buffer
     return concat.rstrip()
 
+def Settings():
+    settings = common.Settings("cpp")
+    return settings
+
 def Generate(scenarios, feature, settings):
-    featureName, featureDesc = Feature(feature, '  ')
+    featureName, featureDesc = common.Feature(feature, '  ')
 
     buffer = """
 #pragma once

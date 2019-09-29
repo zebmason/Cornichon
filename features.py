@@ -6,10 +6,6 @@ subdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'Cornichon')
 sys.path.insert(0, subdir)
 import cornichon
 
-settings = {}
-settings["rootnamespace"] = "Cornichon::"
-settings["helpers"] = "../helpers/"
-
 header = "// Copyright (c) 2019 ...\n\n"
 
 for filename in os.listdir('Examples/tests'):
@@ -17,11 +13,15 @@ for filename in os.listdir('Examples/tests'):
     stub, ext = os.path.splitext(filename)
     if ext == '.feature':
         print(filename)
-        settings["stub"] = stub
         f = open(inFileName, "r")
-        settings["gherkin"] = f.readlines()
+        gherkin = f.readlines()
         f.close()
         
+        settings = cornichon.Settings("cppunittest")
+        settings["gherkin"] = gherkin
+        settings["stub"] = stub
+        settings["rootnamespace"] = "Cornichon::"
+        settings["helpers"] = "../helpers/"
         ofilename = 'Examples/cppunittest/' + stub + ".cpp"
         if os.path.exists(ofilename):
             ofilename = 'Examples/cppunittest/' + stub + ".fpp"
@@ -29,6 +29,10 @@ for filename in os.listdir('Examples/tests'):
         fp.write(cornichon.Generate(settings, "cppunittest"))
         fp.close()
         
+        settings = cornichon.Settings("cpphelpers")
+        settings["gherkin"] = gherkin
+        settings["rootnamespace"] = "Cornichon::"
+        settings["helpers"] = "../helpers/"
         ofilename = 'Examples/cpphelpers/' + stub + ".h"
         if os.path.exists(ofilename):
             ofilename = 'Examples/cpphelpers/' + stub + ".f"

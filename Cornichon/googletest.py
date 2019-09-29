@@ -1,4 +1,4 @@
-from common import *
+import common
 
 def Steps(scenarios):
     concat = ""
@@ -7,12 +7,12 @@ def Steps(scenarios):
     for scenario in scenarios:
         for s in scenario.Steps():
             lines = s[1].split('\n')
-            camelCase, args, params = CamelCase(s[0], lines[0])
+            camelCase, args, params = common.CamelCase(s[0], lines[0])
             if 0 != steps.count(camelCase):
                 continue
             steps.append(camelCase)
 
-            arguments = Arguments(args, 'std::string ')
+            arguments = common.Arguments(args, 'std::string ')
             buffer = """
     void [[camelCase]]([[arguments]])
     {
@@ -22,7 +22,7 @@ def Steps(scenarios):
 """[1:]
             buffer = buffer.replace("[[camelCase]]", camelCase)
             buffer = buffer.replace("[[arguments]]", arguments)
-            buffer = buffer.replace("[[Description]]", Description(s[0], lines, params, '      ', '      '))
+            buffer = buffer.replace("[[Description]]", common.Description(s[0], lines, params, '      ', '      '))
             concat += buffer
     return concat
 
@@ -31,7 +31,7 @@ def TestMethods(scenarios, namespace):
     # parse the sections
     for s in scenarios:
         lines = s.lines.split('\n')
-        scenario, args, params = CamelCase('Scenario', lines[0])
+        scenario, args, params = common.CamelCase('Scenario', lines[0])
 
         if s.examples != '':
             args = ''
@@ -39,7 +39,7 @@ def TestMethods(scenarios, namespace):
             for line in lines[1:]:
                 args = line.strip()[1:-2].replace('|', ' ').upper()
                 break
-            arguments = Arguments(args.split(), '_')
+            arguments = common.Arguments(args.split(), '_')
             concat2 = arguments.replace(', _', ' ## _')
             stringify = arguments.replace('_', '#_')
             buffer = """
@@ -70,11 +70,16 @@ def TestMethods(scenarios, namespace):
             concat += buffer
     return concat
 
+def Settings():
+    settings = common.Settings("cpp")
+    settings["helpers"] = "../helpers/"
+    return settings
+
 def Generate(scenarios, feature, settings):
     namespace = settings["stub"]
-    namespace, args, params = CamelCase('', namespace)
+    namespace, args, params = common.CamelCase('', namespace)
     
-    featureName, featureDesc = Feature(feature, '  ')
+    featureName, featureDesc = common.Feature(feature, '  ')
     settings["feature"] = featureName
 
     buffer = """
@@ -96,7 +101,7 @@ def Generate(scenarios, feature, settings):
     buffer = buffer.replace("[[TestMethods]]", TestMethods(scenarios, namespace))
     buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
     buffer = buffer.replace("[[namespace]]", namespace)
-    buffer = buffer.replace("[[Scenarios]]", Scenarios(scenarios, featureDesc, settings, "  "))
-    buffer = buffer.replace("[[ScenarioInsts]]", ScenarioInsts(scenarios, "  "))
+    buffer = buffer.replace("[[Scenarios]]", common.Scenarios(scenarios, featureDesc, settings, "  "))
+    buffer = buffer.replace("[[ScenarioInsts]]", common.ScenarioInsts(scenarios, "  "))
 
     return buffer

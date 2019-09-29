@@ -154,6 +154,11 @@ def ScenarioInsts(scenarios, indent):
             concat += buffer
     return concat.rstrip()
 
+def Settings():
+    settings = common.Settings("python")
+    settings["helpers"] = "helpers"
+    return settings
+
 def Generate(scenarios, feature, settings):
     namespace = settings["stub"]
     namespace, args, params = CamelCase('', namespace)

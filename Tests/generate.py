@@ -5,18 +5,21 @@ sys.path.insert(0, subdir)
 import cornichon
 
 def Process(stub, bit):
-    settings = {}
-    settings["stub"] = stub
-    settings["helpers"] = "helpers" + bit
 
     f = open(stub + '.feature', "r")
-    settings["gherkin"] = f.readlines()
+    gherkin = f.readlines()
     f.close()
 
+    settings = cornichon.Settings("pyunit_tests")
+    settings["stub"] = stub
+    settings["gherkin"] = gherkin
+    settings["helpers"] = "helpers" + bit
     fp = open('tests' + bit + '.py', "w")
     fp.write(cornichon.Generate(settings, "pyunit_tests"))
     fp.close()
 
+    settings = cornichon.Settings("pyhelpers")
+    settings["gherkin"] = gherkin
     fp = open('helpers' + bit + '.py', "w")
     fp.write(cornichon.Generate(settings, "pyhelpers"))
     fp.close()

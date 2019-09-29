@@ -224,3 +224,12 @@ def Upper(word):
 
 def Camel(line):
     return ''.join([Upper(i) for i in line.split()])
+
+def Settings(language):
+    settings = {}
+    settings["gherkin"] = ""
+    if language == "cpp":
+        settings["rootnamespace"] = "Cornichon::"
+    elif language == "python":
+        pass
+    return settings

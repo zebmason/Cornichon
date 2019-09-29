@@ -1,11 +1,11 @@
-from common import *
+import common
 
 def TestMethods(scenarios):
     concat = ""
     # parse the sections
     for s in scenarios:
         lines = s.lines.split('\n')
-        scenario, args, params = CamelCase('Scenario', lines[0])
+        scenario, args, params = common.CamelCase('Scenario', lines[0])
 
         if s.examples != '':
             args = ''
@@ -13,7 +13,7 @@ def TestMethods(scenarios):
             for line in lines[1:]:
                 args = line.strip()[1:-2].replace('|', ' ').upper()
                 break
-            arguments = Arguments(args.split(), '_')
+            arguments = common.Arguments(args.split(), '_')
             concat2 = arguments.replace(', _', ' ## _')
             stringify = arguments.replace('_', '#_')
             buffer = """
@@ -41,6 +41,11 @@ def TestMethods(scenarios):
             buffer = buffer.replace("[[scenario]]", scenario)
             concat += buffer
     return concat.rstrip()
+
+def Settings():
+    settings = common.Settings("cpp")
+    settings["helpers"] = "../helpers/"
+    return settings
 
 def Generate(scenarios, feature, settings):
     buffer = """
@@ -101,15 +106,15 @@ namespace [[rootnamespace]][[namespace]]
     buffer = buffer.replace("[[TestMethods]]", TestMethods(scenarios))
     
     namespace = settings["stub"]
-    namespace, args, params = CamelCase('', namespace)
+    namespace, args, params = common.CamelCase('', namespace)
     buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
     buffer = buffer.replace("[[namespace]]", namespace)
 
     # Print the class
-    featureName, featureDesc = Feature(feature, '    ')
+    featureName, featureDesc = common.Feature(feature, '    ')
     settings["feature"] = featureName
     buffer = buffer.replace("[[featureName]]", featureName)
-    buffer = buffer.replace("[[Scenarios]]", Scenarios(scenarios, featureDesc, settings, "    "))
-    buffer = buffer.replace("[[ScenarioInsts]]", ScenarioInsts(scenarios, "    "))
+    buffer = buffer.replace("[[Scenarios]]", common.Scenarios(scenarios, featureDesc, settings, "    "))
+    buffer = buffer.replace("[[ScenarioInsts]]", common.ScenarioInsts(scenarios, "    "))
 
     return buffer

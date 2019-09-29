@@ -52,6 +52,10 @@ def GetSections(settings):
             sections[-1][1] += line
     return sections
 
+def Settings(output):
+    mod = importlib.import_module(output)
+    return mod.Settings()
+
 def Generate(settings, output):
     sections = GetSections(settings)
     scenarios, feature = GetScenarios(sections)
