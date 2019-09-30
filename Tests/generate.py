@@ -27,5 +27,6 @@ def Process(stub, bit):
 features = {}
 features['cornichon'] = ''
 features['units'] = '_units'
+features['gherkin'] = '_gherkin'
 for stub in features:
     Process(stub, features[stub])

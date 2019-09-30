@@ -75,7 +75,9 @@ def Settings():
     settings["helpers"] = "../helpers/"
     return settings
 
-def Generate(scenarios, feature, settings):
+def Generate(parsed, settings):
+    scenarios = parsed[0]
+    feature = parsed[1]
     namespace = settings["stub"]
     namespace, args, params = common.CamelCase('', namespace)
     

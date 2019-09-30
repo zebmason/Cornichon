@@ -30,7 +30,9 @@ def Settings():
     settings = common.Settings("cpp")
     return settings
 
-def Generate(scenarios, feature, settings):
+def Generate(parsed, settings):
+    scenarios = parsed[0]
+    feature = parsed[1]
     featureName, featureDesc = common.Feature(feature, '  ')
 
     buffer = """
