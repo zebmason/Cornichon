@@ -1,4 +1,4 @@
-import importlib
+import importlib, os, os.path, sys
 
 class Scenario:
     def __init__(self, lines, background):
@@ -52,13 +52,20 @@ def GetSections(settings):
             sections[-1][1] += line
     return sections
 
+def Import(output):
+    bits = output.split("/")
+    subdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), bits[0])
+    if subdir not in sys.path:
+        sys.path.insert(0, subdir)
+    return importlib.import_module(bits[1])
+
 def Settings(output):
-    mod = importlib.import_module(output)
+    mod = Import(output)
     return mod.Settings()
 
 def Generate(settings, output):
     sections = GetSections(settings)
     scenarios, feature = GetScenarios(sections)
     
-    mod = importlib.import_module(output)
+    mod = Import(output)
     return mod.Generate(scenarios, feature, settings)

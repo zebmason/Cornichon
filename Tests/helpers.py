@@ -49,42 +49,42 @@ class Helpers(unittest.TestCase):
 
 class CppunittestHelper(Helpers):
     def WhenTheGeneratorIsCppunittest(self):
-        self.output = "cppunittest"
+        self.output = "cpp/cppunittest"
         self.folder = "cppunittest"
         self.ext = ".cpp"
         self.header = ""
-        self.settings = cornichon.Settings("cppunittest")
+        self.settings = cornichon.Settings(self.output)
 
 class CpphelpersHelper(Helpers):
     def WhenTheGeneratorIsCpphelpers(self):
-        self.output = "cpphelpers"
+        self.output = "cpp/cpphelpers"
         self.folder = "cpphelpers"
         self.ext = ".h"
         self.header = "// Copyright (c) 2019 ...\n\n"
-        self.settings = cornichon.Settings("cpphelpers")
+        self.settings = cornichon.Settings(self.output)
 
 class GoogletestHelper(Helpers):
     def WhenTheGeneratorIsGoogletest(self):
-        self.output = "googletest"
+        self.output = "cpp/googletest"
         self.folder = "googletest"
         self.ext = ".cpp"
         self.header = "// Copyright (c) 2019 ...\n\n"
-        self.settings = cornichon.Settings("googletest")
+        self.settings = cornichon.Settings(self.output)
 
 class Pyunit_testsHelper(Helpers):
     def WhenTheGeneratorIsPyunit_tests(self):
-        self.output = "pyunit_tests"
+        self.output = "py/pyunit_tests"
         self.folder = "pyunit_tests"
         self.ext = ".py"
         self.header = ""
-        self.settings = cornichon.Settings("pyunit_tests")
+        self.settings = cornichon.Settings(self.output)
         self.settings["helpers"] = "example_helpers"
 
 class PyhelpersHelper(Helpers):
     def WhenTheGeneratorIsPyhelpers(self):
-        self.output = "pyhelpers"
+        self.output = "py/pyhelpers"
         self.folder = "pyunit_tests"
         self.ext = "_helpers.py"
         self.header = ""
-        self.settings = cornichon.Settings("pyhelpers")
+        self.settings = cornichon.Settings(self.output)
 

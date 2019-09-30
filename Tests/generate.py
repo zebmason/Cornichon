@@ -10,18 +10,18 @@ def Process(stub, bit):
     gherkin = f.readlines()
     f.close()
 
-    settings = cornichon.Settings("pyunit_tests")
+    settings = cornichon.Settings("py/pyunit_tests")
     settings["stub"] = stub
     settings["gherkin"] = gherkin
     settings["helpers"] = "helpers" + bit
     fp = open('tests' + bit + '.py', "w")
-    fp.write(cornichon.Generate(settings, "pyunit_tests"))
+    fp.write(cornichon.Generate(settings, "py/pyunit_tests"))
     fp.close()
 
-    settings = cornichon.Settings("pyhelpers")
+    settings = cornichon.Settings("py/pyhelpers")
     settings["gherkin"] = gherkin
     fp = open('helpers' + bit + '.py', "w")
-    fp.write(cornichon.Generate(settings, "pyhelpers"))
+    fp.write(cornichon.Generate(settings, "py/pyhelpers"))
     fp.close()
 
 features = {}

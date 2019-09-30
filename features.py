@@ -17,7 +17,7 @@ for filename in os.listdir('Examples/tests'):
         gherkin = f.readlines()
         f.close()
         
-        settings = cornichon.Settings("cppunittest")
+        settings = cornichon.Settings("cpp/cppunittest")
         settings["gherkin"] = gherkin
         settings["stub"] = stub
         settings["rootnamespace"] = "Cornichon::"
@@ -26,10 +26,10 @@ for filename in os.listdir('Examples/tests'):
         if os.path.exists(ofilename):
             ofilename = 'Examples/cppunittest/' + stub + ".fpp"
         fp = open(ofilename, "w")
-        fp.write(cornichon.Generate(settings, "cppunittest"))
+        fp.write(cornichon.Generate(settings, "cpp/cppunittest"))
         fp.close()
         
-        settings = cornichon.Settings("cpphelpers")
+        settings = cornichon.Settings("cpp/cpphelpers")
         settings["gherkin"] = gherkin
         settings["rootnamespace"] = "Cornichon::"
         settings["helpers"] = "../helpers/"
@@ -37,5 +37,5 @@ for filename in os.listdir('Examples/tests'):
         if os.path.exists(ofilename):
             ofilename = 'Examples/cpphelpers/' + stub + ".f"
         fp = open(ofilename, "w")
-        fp.write(header + cornichon.Generate(settings, "cpphelpers"))
+        fp.write(header + cornichon.Generate(settings, "cpp/cpphelpers"))
         fp.close()
