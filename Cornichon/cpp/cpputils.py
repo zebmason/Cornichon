@@ -16,6 +16,13 @@ def Macro():
         settings[type]   = "_{}"
     return settings
 
+def ArgModifier(val, type):
+    if type == "bool":
+        return common.Lower(val)
+    if type in ["string", "symbol"]:
+        return val.replace('"', '\\"')
+    return val
+
 def Arguments(examples, header):
     settings = Macro()
     return common.ArgumentList(header, examples.types, settings, common.AsUpperSymbol)
@@ -114,7 +121,7 @@ def ScenarioInsts(scenarios, settings, indent):
         if s.examples.Exists():
             lines = s.examples.lines.split('\n')
             for line in lines[2:]:
-                arguments = s.examples.ArgumentsInstance(settings["values"], line, common.BoolAsLower)
+                arguments = s.examples.ArgumentsInstance(settings["values"], line, ArgModifier)
                 if "" == arguments:
                     continue
                 buffer = """

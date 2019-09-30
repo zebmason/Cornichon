@@ -98,9 +98,9 @@ class Examples:
 
         return common.ArgumentList(args, self.types, settings, common.AsSymbol)
 
-    def ArgumentsInstance(self, settings, line, boolModifier):
+    def ArgumentsInstance(self, settings, line, argModifier):
         args = Examples.Arguments(line)
-        return common.ArgumentList(args, self.types, settings, boolModifier)
+        return common.ArgumentList(args, self.types, settings, argModifier)
 
 class Scenario:
     def __init__(self, lines, background):

@@ -87,16 +87,6 @@ def SymbolToString(type):
         return "string"
     return type
 
-def BoolAsUpper(val, type):
-    if type == "bool":
-        return Upper(val)
-    return val
-
-def BoolAsLower(val, type):
-    if type == "bool":
-        return Lower(val)
-    return val
-
 def AsSymbol(val, type):
     return val
 

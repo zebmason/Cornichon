@@ -5,6 +5,12 @@ subdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../Cornichon
 sys.path.insert(0, subdir)
 import common, cornichon
 
+sys.path.insert(0, os.path.join(subdir, "cpp"))
+import cpputils
+
+sys.path.insert(0, os.path.join(subdir, "py"))
+import pyutils
+
 class TemplatedHelper(unittest.TestCase):
     def GivenAnArgument(self, arg):
         self.arg = arg
@@ -63,17 +69,17 @@ class ArgumentalHelper(unittest.TestCase):
             settings = cornichon.Settings("py/pyhelpers")
         
         formats = {}
-        boolModifier = common.AsSymbol
+        argModifier = common.AsSymbol
         if self.declaration:
             formats = settings["types"]
         else:
             formats = settings["values"]
             if self.language == "cpp":
-                boolModifier = common.BoolAsLower
+                argModifier = cpputils.ArgModifier
             elif self.language == "python":
-                boolModifier = common.BoolAsUpper
+                argModifier = pyutils.ArgModifier
         
-        out = common.ArgumentList(self.args, self.types, formats, boolModifier)
+        out = common.ArgumentList(self.args, self.types, formats, argModifier)
         if out != output:
             print("\n{} isn't {}".format(out, output))
         self.assertEqual(out, output)

@@ -1,4 +1,5 @@
 import common
+import pyutils
 
 def PrintScenario(scenario, arguments, steps, documentation, settings, indent):
     buffer = """
@@ -83,7 +84,7 @@ def ScenarioInsts(scenarios, settings, indent):
                     continue
                 testName = " ".join(["test", scenario[0].lower() + scenario[1:], args])
                 testName = common.SnakeCase(testName)
-                arguments2 = s.examples.ArgumentsInstance(settings["values"], line, common.BoolAsUpper)
+                arguments2 = s.examples.ArgumentsInstance(settings["values"], line, pyutils.ArgModifier)
                 buffer = """
     def [[testName]](self):
         self.[[Scenario]]([[arguments2]])
