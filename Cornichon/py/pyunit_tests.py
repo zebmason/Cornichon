@@ -1,51 +1,5 @@
 import common
 
-def ExtractParams(line, delim1, delim2):
-    params = []
-    while True:
-        i = line.find(delim1)
-        if -1 == i:
-            break
-        j = line.find(delim2, i+1)
-        if -1 == j:
-            break
-        params.append(line[i:j+1])
-        line = line[:i] + line[j+1:]
-    return line, params
-
-def CamelCase(section, line):
-    if 1 == ['Given', 'When', 'Then', 'But'].count(section):
-        line = section + ' ' + line
-    line, params = ExtractParams(line, '"', '"')
-    line, p = ExtractParams(line, '<', '>')
-    params.extend(p)
-    
-    line = line.replace('\'', ' Apostrophe ')
-    line = line.replace('?', ' QuestionMark ')
-    line = line.replace(':', ' Colon ')
-    line = line.replace(',', '')
-    line = line.replace('-', ' ')
-
-    bits = line.split()
-    cased = ''
-    args = []
-    for i in range(len(params)):
-        if params[i][0] == '<':
-            args.append(params[i][1:-1])
-            continue
-        args.append('arg%d' % (i+1))
-    for bit in bits:
-        cased += bit[0].upper() + bit[1:]
-    return cased, args, params
-
-def Arguments(args, type, joiner):
-    arguments = ''
-    for arg in args:
-        arguments = "%s%s%s%s" % (arguments, type, arg, joiner)
-    if len(arguments) > 0:
-        arguments = arguments[:-len(joiner)]
-    return arguments
-
 def PrintScenario(scenario, arguments, steps, documentation, settings, indent):
     buffer = """
     def [[scenario]](self, [[arguments]]):
@@ -88,7 +42,7 @@ def Description(section, lines, params, indent, lindent):
 
 def Feature(feature, indent):
     lines = feature.split('\n')
-    camelCase, args, params = CamelCase('Feature:', lines[0])
+    camelCase, args, params = common.CamelCase('Feature:', lines[0])
     return camelCase, Description('Feature:', lines, [], '  ', indent)
 
 def Scenarios(scenarios, feature, settings, indent):
@@ -99,17 +53,17 @@ def Scenarios(scenarios, feature, settings, indent):
         steps = []
         for step in s.Steps():
             lines = step[1].split('\n')
-            camelCase, args, params = CamelCase(step[0], lines[0])
+            camelCase, args, params = common.CamelCase(step[0], lines[0])
             for i in range(len(params)):
                 args[i] = params[i]
-            arguments = Arguments(args, '', ', ').replace('<', '').replace('>', '')
+            arguments = common.Arguments(args, '', ', ').replace('<', '').replace('>', '')
             buffer = '        helpers.[[camelCase]]([[arguments]]);'
             buffer = buffer.replace("[[camelCase]]", camelCase)
             buffer = buffer.replace("[[arguments]]", arguments)
             steps.append(buffer)
             continue
         lines = s.lines.split('\n')
-        scenarioName, args, params = CamelCase('Scenario:', lines[0])
+        scenarioName, args, params = common.CamelCase('Scenario:', lines[0])
         scenario = feature + "\n" + Description('Scenario:', lines, [], '    ', indent)
         concat += PrintScenario(scenarioName, fullArgs, steps, scenario, settings, indent)
         concat += "\n"
@@ -120,7 +74,7 @@ def ScenarioInsts(scenarios, settings, indent):
     # parse the sections
     for s in scenarios:
         lines = s.lines.split('\n')
-        scenario, args, params = CamelCase('Scenario:', lines[0])
+        scenario, args, params = common.CamelCase('Scenario:', lines[0])
         if s.examples.Exists():
             lines = s.examples.lines.split('\n')
             for line in lines[2:]:
@@ -156,7 +110,7 @@ def Generate(parsed, settings):
     scenarios = parsed[0]
     feature = parsed[1]
     namespace = settings["stub"]
-    namespace, args, params = CamelCase('', namespace)
+    namespace, args, params = common.CamelCase('', namespace)
     
     featureName, featureDesc = Feature(feature, '  ')
     settings["feature"] = featureName

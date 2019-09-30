@@ -36,12 +36,12 @@ def CamelCase(section, line):
         cased += bit[0].upper() + bit[1:]
     return cased, args, params
 
-def Arguments(args, type):
+def Arguments(args, type, joiner = ", "):
     arguments = ''
     for arg in args:
-        arguments = "%s%s%s, " % (arguments, type, arg)
+        arguments = "%s%s%s%s" % (arguments, type, arg, joiner)
     if len(arguments) > 0:
-        arguments = arguments[:-2]
+        arguments = arguments[:-len(joiner)]
     return arguments
 
 def Argument(arg, type, templates):
