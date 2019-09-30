@@ -148,7 +148,7 @@ def ScenarioInsts(scenarios, settings, indent):
     return concat.rstrip()
 
 def Settings():
-    settings = common.Settings("python")
+    settings = common.Settings()
     settings["helpers"] = "helpers"
     return settings
 

@@ -1,4 +1,5 @@
 import common
+import cpputils
 
 def Steps(scenarios, settings):
     concat = ""
@@ -22,18 +23,18 @@ def Steps(scenarios, settings):
 """[1:]
             buffer = buffer.replace("[[camelCase]]", camelCase)
             buffer = buffer.replace("[[arguments]]", arguments)
-            buffer = buffer.replace("[[Description]]", common.Description(s[0], lines, params, '      ', '    '))
+            buffer = buffer.replace("[[Description]]", cpputils.Description(s[0], lines, params, '      ', '    '))
             concat += buffer
     return concat.rstrip()
 
 def Settings():
-    settings = common.Settings("cpp")
+    settings = cpputils.Settings()
     return settings
 
 def Generate(parsed, settings):
     scenarios = parsed[0]
     feature = parsed[1]
-    featureName, featureDesc = common.Feature(feature, '  ')
+    featureName, featureDesc = cpputils.Feature(feature, '  ')
 
     buffer = """
 #pragma once

@@ -95,7 +95,7 @@ def Steps(scenario):
     return concat.rstrip()
 
 def Settings():
-    settings = common.Settings("python")
+    settings = common.Settings()
     return settings
 
 def Generate(parsed, settings):

@@ -40,7 +40,7 @@ def TestMethods(scenarios):
     return concat.rstrip()
 
 def Settings():
-    settings = common.Settings("cpp")
+    settings = cpputils.Settings()
     settings["helpers"] = "../helpers/"
     return settings
 
@@ -110,10 +110,10 @@ namespace [[rootnamespace]][[namespace]]
     buffer = buffer.replace("[[namespace]]", namespace)
 
     # Print the class
-    featureName, featureDesc = common.Feature(feature, '    ')
+    featureName, featureDesc = cpputils.Feature(feature, '    ')
     settings["feature"] = featureName
     buffer = buffer.replace("[[featureName]]", featureName)
-    buffer = buffer.replace("[[Scenarios]]", common.Scenarios(scenarios, featureDesc, settings, "    "))
-    buffer = buffer.replace("[[ScenarioInsts]]", common.ScenarioInsts(scenarios, settings, "    "))
+    buffer = buffer.replace("[[Scenarios]]", cpputils.Scenarios(scenarios, featureDesc, settings, "    "))
+    buffer = buffer.replace("[[ScenarioInsts]]", cpputils.ScenarioInsts(scenarios, settings, "    "))
 
     return buffer

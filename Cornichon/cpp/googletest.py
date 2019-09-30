@@ -43,7 +43,7 @@ def TestMethods(scenarios, namespace):
     return concat
 
 def Settings():
-    settings = common.Settings("cpp")
+    settings = cpputils.Settings()
     settings["helpers"] = "../helpers/"
     return settings
 
@@ -53,7 +53,7 @@ def Generate(parsed, settings):
     namespace = settings["stub"]
     namespace, args, params = common.CamelCase('', namespace)
     
-    featureName, featureDesc = common.Feature(feature, '  ')
+    featureName, featureDesc = cpputils.Feature(feature, '  ')
     settings["feature"] = featureName
 
     buffer = """
@@ -75,7 +75,7 @@ def Generate(parsed, settings):
     buffer = buffer.replace("[[TestMethods]]", TestMethods(scenarios, namespace))
     buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
     buffer = buffer.replace("[[namespace]]", namespace)
-    buffer = buffer.replace("[[Scenarios]]", common.Scenarios(scenarios, featureDesc, settings, "  "))
-    buffer = buffer.replace("[[ScenarioInsts]]", common.ScenarioInsts(scenarios, settings, "  "))
+    buffer = buffer.replace("[[Scenarios]]", cpputils.Scenarios(scenarios, featureDesc, settings, "  "))
+    buffer = buffer.replace("[[ScenarioInsts]]", cpputils.ScenarioInsts(scenarios, settings, "  "))
 
     return buffer

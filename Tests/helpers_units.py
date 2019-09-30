@@ -3,7 +3,7 @@ import unittest
 import os, os.path, sys
 subdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../Cornichon')
 sys.path.insert(0, subdir)
-import common
+import common, cornichon
 
 class TemplatedHelper(unittest.TestCase):
     def GivenAnArgument(self, arg):
@@ -56,7 +56,12 @@ class ArgumentalHelper(unittest.TestCase):
         self.declaration = declaration
 
     def ThenItHasCorresponding(self, output):
-        settings = common.Settings(self.language)
+        settings = {}
+        if self.language == "cpp":
+            settings = cornichon.Settings("cpp/cpphelpers")
+        elif self.language == "python":
+            settings = cornichon.Settings("py/pyhelpers")
+        
         formats = {}
         boolModifier = common.AsSymbol
         if self.declaration:
