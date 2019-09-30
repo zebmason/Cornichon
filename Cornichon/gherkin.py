@@ -1,3 +1,5 @@
+import common
+
 def Type(value):
     if value == "true" or value == "True" or value == "false" or value == "False":
         return "bool"
@@ -44,12 +46,68 @@ def Worst(other, type):
         return comb
     return "string"
 
+class Examples:
+    def __init__(self, lines):
+        self.lines = lines
+        self.types = []
+
+    def Exists(self):
+        return self.lines != ''
+
+    def Types(self):
+        if self.lines == '':
+            return
+        
+        lines = self.lines.split('\n')
+        number = lines[1].count("|") - 1
+        self.types = ["none" for i in range(number)]
+        for line in lines[2:]:
+            vals = line.split("|")
+            if len(vals) < number + 1:
+                continue
+            
+            for i in range(number):
+                self.types[i] = Worst(self.types[i], Type(vals[i+1].strip()))
+
+    @staticmethod
+    def Arguments(line):
+        args = []
+        args = line.strip()[1:-2].split("|")
+        for i in range(len(args)):
+            args[i] = args[i].strip()
+        return args
+
+    def Header(self):
+        if self.lines == "":
+            return []
+            
+        lines = self.lines.split('\n')
+        for line in lines[1:]:
+            args = Examples.Arguments(line)
+            return args
+        
+        return []
+
+    def ArgumentsList(self, settings):
+        if self.lines == "":
+            return ""
+        
+        args = self.Header()
+        if args == []:
+            return ""
+
+        return common.ArgumentList(args, self.types, settings, common.AsSymbol)
+
+    def ArgumentsInstance(self, settings, line, boolModifier):
+        args = Examples.Arguments(line)
+        return common.ArgumentList(args, self.types, settings, boolModifier)
+
 class Scenario:
     def __init__(self, lines, background):
         self.lines = lines
         self.background = background
         self.steps = []
-        self.examples = ''
+        self.examples = Examples("")
 
     def Steps(self):
         steps = []
@@ -70,9 +128,13 @@ def GetScenarios(sections):
         elif 'Feature:' == section[0]:
             feature = section[1]
         elif 'Examples:' == section[0]:
-            scenarios[-1].examples = section[1]
+            scenarios[-1].examples = Examples(section[1])
         elif 'Scenario:' == section[0]:
             scenarios.append(Scenario(section[1], background))
+    
+    for scenario in scenarios:
+        scenario.examples.Types()
+    
     return [scenarios, feature]
 
 def GetSections(settings):

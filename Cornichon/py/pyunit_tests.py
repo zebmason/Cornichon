@@ -48,7 +48,7 @@ def Arguments(args, type, joiner):
 
 def PrintScenario(scenario, arguments, steps, documentation, settings, indent):
     buffer = """
-    def [[scenario]](self,[[arguments]]):
+    def [[scenario]](self, [[arguments]]):
 [[documentation]]
         helpers = [[scenario]]Helper()
 [[steps]]
@@ -95,14 +95,7 @@ def Scenarios(scenarios, feature, settings, indent):
     concat = ""
     # parse the scenarios
     for s in scenarios:
-        fullArgs = ''
-        if s.examples != '':
-            args = ''
-            lines = s.examples.split('\n')
-            for line in lines[1:]:
-                args = line.strip()[1:-2].replace('|', ' ')
-                break
-            fullArgs = Arguments(args.split(), ' ', ', ')
+        fullArgs = s.examples.ArgumentsList(settings["types"])
         steps = []
         for step in s.Steps():
             lines = step[1].split('\n')
@@ -122,21 +115,21 @@ def Scenarios(scenarios, feature, settings, indent):
         concat += "\n"
     return concat.rstrip()
 
-def ScenarioInsts(scenarios, indent):
+def ScenarioInsts(scenarios, settings, indent):
     concat = ""
     # parse the sections
     for s in scenarios:
         lines = s.lines.split('\n')
         scenario, args, params = CamelCase('Scenario:', lines[0])
-        if s.examples != '':
-            lines = s.examples.split('\n')
+        if s.examples.Exists():
+            lines = s.examples.lines.split('\n')
             for line in lines[2:]:
                 args = line.strip()[1:-2].replace('|', ' ')
                 if '' == args:
                     continue
                 testName = " ".join(["test", scenario[0].lower() + scenario[1:], args])
                 testName = common.SnakeCase(testName)
-                arguments2 = Arguments(args.split(), '', ', ')
+                arguments2 = s.examples.ArgumentsInstance(settings["values"], line, common.BoolAsUpper)
                 buffer = """
     def [[testName]](self):
         self.[[Scenario]]([[arguments2]])
@@ -184,6 +177,6 @@ if __name__ == '__main__':
     buffer = buffer.replace("[[helpers]]", settings["helpers"])
     buffer = buffer.replace("[[namespace]]", namespace)
     buffer = buffer.replace("[[Scenarios]]", Scenarios(scenarios, featureDesc, settings, "  "))
-    buffer = buffer.replace("[[ScenarioInsts]]", ScenarioInsts(scenarios, "  "))
+    buffer = buffer.replace("[[ScenarioInsts]]", ScenarioInsts(scenarios, settings, "  "))
 
     return buffer

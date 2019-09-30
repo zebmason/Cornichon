@@ -1,30 +1,5 @@
 import common
-
-def Steps(scenarios):
-    concat = ""
-    steps = []
-    # parse the sections
-    for scenario in scenarios:
-        for s in scenario.Steps():
-            lines = s[1].split('\n')
-            camelCase, args, params = common.CamelCase(s[0], lines[0])
-            if 0 != steps.count(camelCase):
-                continue
-            steps.append(camelCase)
-
-            arguments = common.Arguments(args, 'std::string ')
-            buffer = """
-    void [[camelCase]]([[arguments]])
-    {
-[[Description]]
-    }
-
-"""[1:]
-            buffer = buffer.replace("[[camelCase]]", camelCase)
-            buffer = buffer.replace("[[arguments]]", arguments)
-            buffer = buffer.replace("[[Description]]", common.Description(s[0], lines, params, '      ', '      '))
-            concat += buffer
-    return concat
+import cpputils
 
 def TestMethods(scenarios, namespace):
     concat = ""
@@ -33,15 +8,12 @@ def TestMethods(scenarios, namespace):
         lines = s.lines.split('\n')
         scenario, args, params = common.CamelCase('Scenario', lines[0])
 
-        if s.examples != '':
-            args = ''
-            lines = s.examples.split('\n')
-            for line in lines[1:]:
-                args = line.strip()[1:-2].replace('|', ' ').upper()
-                break
-            arguments = common.Arguments(args.split(), '_')
-            concat2 = arguments.replace(', _', ' ## _')
-            stringify = arguments.replace('_', '#_')
+        if s.examples.Exists():
+            header = s.examples.Header()
+            arguments = cpputils.Arguments(s.examples, header)
+            concat2 = cpputils.Concat(s.examples, header)
+            stringify = cpputils.Stringify(s.examples, header)
+            
             buffer = """
 #define [[scenario]]Inst([[arguments]]) \\
   TEST([[namespace]], [[scenario]] ## [[concat2]]) \\
@@ -104,6 +76,6 @@ def Generate(parsed, settings):
     buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
     buffer = buffer.replace("[[namespace]]", namespace)
     buffer = buffer.replace("[[Scenarios]]", common.Scenarios(scenarios, featureDesc, settings, "  "))
-    buffer = buffer.replace("[[ScenarioInsts]]", common.ScenarioInsts(scenarios, "  "))
+    buffer = buffer.replace("[[ScenarioInsts]]", common.ScenarioInsts(scenarios, settings, "  "))
 
     return buffer

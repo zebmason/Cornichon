@@ -58,7 +58,7 @@ class ArgumentalHelper(unittest.TestCase):
     def ThenItHasCorresponding(self, output):
         settings = common.Settings(self.language)
         formats = {}
-        boolModifier = common.BoolAsIs
+        boolModifier = common.AsSymbol
         if self.declaration:
             formats = settings["types"]
         else:

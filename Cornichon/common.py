@@ -99,14 +99,7 @@ def Scenarios(scenarios, feature, settings, indent):
     concat = ""
     # parse the scenarios
     for s in scenarios:
-        fullArgs = ''
-        if s.examples != '':
-            args = ''
-            lines = s.examples.split('\n')
-            for line in lines[1:]:
-                args = line.strip()[1:-2].replace('|', ' ')
-                break
-            fullArgs = Arguments(args.split(), 'std::string ')
+        fullArgs = s.examples.ArgumentsList(settings["types"])
         steps = []
         for step in s.Steps():
             lines = step[1].split('\n')
@@ -127,19 +120,18 @@ def Scenarios(scenarios, feature, settings, indent):
         concat += "\n"
     return concat.rstrip()
 
-def ScenarioInsts(scenarios, indent):
+def ScenarioInsts(scenarios, settings, indent):
     concat = ""
     # parse the sections
     for s in scenarios:
         lines = s.lines.split('\n')
         scenario, args, params = CamelCase('Scenario:', lines[0])
-        if s.examples != '':
-            lines = s.examples.split('\n')
+        if s.examples.Exists():
+            lines = s.examples.lines.split('\n')
             for line in lines[2:]:
-                args = line.strip()[1:-2].replace('|', ' ')
-                if '' == args:
+                arguments = s.examples.ArgumentsInstance(settings["values"], line, BoolAsLower)
+                if "" == arguments:
                     continue
-                arguments = Arguments(args.split(), '')
                 buffer = """
 [[indent]][[scenario]]Inst([[arguments]]);
 """
@@ -218,16 +210,22 @@ def BoolAsLower(val, type):
         return Lower(val)
     return val
 
-def BoolAsIs(val, type):
+def AsSymbol(val, type):
     return val
 
-def ArgumentList(args, types, formats, boolModifier):
+def AsUpperSymbol(val, type):
+    return val.upper()
+
+def ArgumentList(args, types, formats, argModifier, sep = ", "):
     if len(args) == 0:
         return ""
     
     line = ""
     for i in range(len(args)):
         type = SymbolToString(types[i])
-        line = "{}, {}".format(line, formats[type].format(boolModifier(args[i], type)))
+        bit = formats[type].format(argModifier(args[i], type))
+        if len(bit.strip()) == 0:
+            continue
+        line = "{}{}{}".format(line, sep, bit)
     
-    return line[2:]
+    return line[len(sep):]

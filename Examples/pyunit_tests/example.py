@@ -3,7 +3,7 @@ from example_helpers import *
 
 class Example(unittest.TestCase):
 
-    def AddOneOther(self, value,  second,  sum):
+    def AddOneOther(self, value, second, sum):
         print("  Feature: Accumulator")
         print("    Scenario: Add one other")
         helpers = AddOneOtherHelper()
@@ -11,7 +11,7 @@ class Example(unittest.TestCase):
         helpers.WhenYouAddA(second);
         helpers.ThenTheResultIs(sum);
 
-    def AddTwoOthers(self, value,  second,  third,  sum):
+    def AddTwoOthers(self, value, second, third, sum):
         print("  Feature: Accumulator")
         print("    Scenario: Add two others")
         helpers = AddTwoOthersHelper()

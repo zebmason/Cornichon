@@ -16,17 +16,17 @@ namespace Cornichon::Helpers
   {
   public:
 
-    void GivenAnInitial(std::string value)
+    void GivenAnInitial(unsigned int value)
     {
       std::clog << "      Given an initial " << value << std::endl;
     }
 
-    void WhenYouAddA(std::string second)
+    void WhenYouAddA(unsigned int second)
     {
       std::clog << "      When you add a " << second << std::endl;
     }
 
-    void ThenTheResultIs(std::string sum)
+    void ThenTheResultIs(unsigned int sum)
     {
       std::clog << "      Then the result is " << sum << std::endl;
     }

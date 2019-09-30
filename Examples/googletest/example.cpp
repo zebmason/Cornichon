@@ -9,18 +9,18 @@
 #define AddOneOtherInst(_VALUE, _SECOND, _SUM) \
   TEST(Example, AddOneOther ## _VALUE ## _SECOND ## _SUM) \
   { \
-    AddOneOther(#_VALUE, #_SECOND, #_SUM); \
+    AddOneOther(_VALUE, _SECOND, _SUM); \
   }
 
 #define AddTwoOthersInst(_VALUE, _SECOND, _THIRD, _SUM) \
   TEST(Example, AddTwoOthers ## _VALUE ## _SECOND ## _THIRD ## _SUM) \
   { \
-    AddTwoOthers(#_VALUE, #_SECOND, #_THIRD, #_SUM); \
+    AddTwoOthers(_VALUE, _SECOND, _THIRD, _SUM); \
   }
 
 namespace Cornichon::Example
 {
-  static void AddOneOther(std::string value, std::string second, std::string sum)
+  static void AddOneOther(unsigned int value, unsigned int second, unsigned int sum)
   {
     std::clog << "  Feature: Accumulator" << std::endl;
     std::clog << "    Scenario: Add one other" << std::endl;
@@ -30,7 +30,7 @@ namespace Cornichon::Example
     instance.ThenTheResultIs(sum);
   }
 
-  static void AddTwoOthers(std::string value, std::string second, std::string third, std::string sum)
+  static void AddTwoOthers(unsigned int value, unsigned int second, unsigned int third, unsigned int sum)
   {
     std::clog << "  Feature: Accumulator" << std::endl;
     std::clog << "    Scenario: Add two others" << std::endl;

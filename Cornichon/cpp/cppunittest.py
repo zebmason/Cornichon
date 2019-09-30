@@ -1,4 +1,5 @@
 import common
+import cpputils
 
 def TestMethods(scenarios):
     concat = ""
@@ -7,15 +8,11 @@ def TestMethods(scenarios):
         lines = s.lines.split('\n')
         scenario, args, params = common.CamelCase('Scenario', lines[0])
 
-        if s.examples != '':
-            args = ''
-            lines = s.examples.split('\n')
-            for line in lines[1:]:
-                args = line.strip()[1:-2].replace('|', ' ').upper()
-                break
-            arguments = common.Arguments(args.split(), '_')
-            concat2 = arguments.replace(', _', ' ## _')
-            stringify = arguments.replace('_', '#_')
+        if s.examples.Exists():
+            header = s.examples.Header()
+            arguments = cpputils.Arguments(s.examples, header)
+            concat2 = cpputils.Concat(s.examples, header)
+            stringify = cpputils.Stringify(s.examples, header)
             buffer = """
 #define [[scenario]]Inst([[arguments]]) \\
   TEST_METHOD([[scenario]] ## [[concat2]]) \\
@@ -117,6 +114,6 @@ namespace [[rootnamespace]][[namespace]]
     settings["feature"] = featureName
     buffer = buffer.replace("[[featureName]]", featureName)
     buffer = buffer.replace("[[Scenarios]]", common.Scenarios(scenarios, featureDesc, settings, "    "))
-    buffer = buffer.replace("[[ScenarioInsts]]", common.ScenarioInsts(scenarios, "    "))
+    buffer = buffer.replace("[[ScenarioInsts]]", common.ScenarioInsts(scenarios, settings, "    "))
 
     return buffer

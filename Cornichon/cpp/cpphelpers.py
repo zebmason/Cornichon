@@ -1,6 +1,6 @@
 import common
 
-def Steps(scenarios):
+def Steps(scenarios, settings):
     concat = ""
     steps = []
     # parse the sections
@@ -12,7 +12,7 @@ def Steps(scenarios):
                 continue
             steps.append(camelCase)
 
-            arguments = common.Arguments(args, 'std::string ')
+            arguments = common.ArgumentList(args, scenario.examples.types, settings["types"], common.AsSymbol)
             buffer = """
     void [[camelCase]]([[arguments]])
     {
@@ -59,5 +59,5 @@ namespace [[rootnamespace]]Helpers
 
     buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
     buffer = buffer.replace("[[featureName]]", featureName)
-    buffer = buffer.replace("[[steps]]", Steps(scenarios))
+    buffer = buffer.replace("[[steps]]", Steps(scenarios, settings))
     return buffer
