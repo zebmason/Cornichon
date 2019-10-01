@@ -72,7 +72,7 @@ def Generate(parsed, settings):
     buffer = buffer.replace("[[TestMethods]]", TestMethods(scenarios, namespace))
     buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
     buffer = buffer.replace("[[namespace]]", namespace)
-    buffer = buffer.replace("[[Scenarios]]", cpputils.Scenarios(scenarios, settings, "  "))
+    buffer = buffer.replace("[[Scenarios]]", cpputils.Scenarios(namespace, scenarios, settings, "  "))
     buffer = buffer.replace("[[ScenarioInsts]]", cpputils.ScenarioInsts(scenarios, settings, "  "))
 
     return buffer

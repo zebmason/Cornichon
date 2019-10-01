@@ -81,10 +81,14 @@ def Generate(parsed, settings):
 #include <iostream>
 #include <string>
 
-namespace [[rootnamespace]]Helpers
+namespace [[rootnamespace]][[namespace]]::Helpers
 {
 """[1:]
+
+    namespace = settings["stub"]
+    namespace, args, params = common.CamelCase('', namespace)
     concat = concat.replace("[[rootnamespace]]", settings["rootnamespace"])
+    concat = concat.replace("[[namespace]]", namespace)
 
     for scenario in scenarios:
         buffer = """

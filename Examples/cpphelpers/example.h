@@ -10,7 +10,7 @@
 #include <iostream>
 #include <string>
 
-namespace Cornichon::Helpers
+namespace Cornichon::Example::Helpers
 {
   /// Test class helper
   class AddOneOther

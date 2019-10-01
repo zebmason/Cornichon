@@ -22,7 +22,7 @@ namespace Cornichon::Example
 {
   static void AddOneOther(unsigned int value, unsigned int second, unsigned int sum)
   {
-    Cornichon::Helpers::AddOneOther instance;
+    Cornichon::Example::Helpers::AddOneOther instance;
     instance.GivenAnInitial(value);
     instance.WhenYouAddA(second);
     instance.ThenTheResultIs(sum);
@@ -30,7 +30,7 @@ namespace Cornichon::Example
 
   static void AddTwoOthers(unsigned int value, unsigned int second, unsigned int third, unsigned int sum)
   {
-    Cornichon::Helpers::AddTwoOthers instance;
+    Cornichon::Example::Helpers::AddTwoOthers instance;
     instance.GivenAnInitial(value);
     instance.WhenYouAddA(second);
     instance.WhenYouAddA(third);
