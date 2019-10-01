@@ -48,11 +48,11 @@ def Generate(parsed, settings):
     scenarios = parsed[0]
     feature = parsed[1]
     buffer = """
+// Local headers
 #include "stdafx.h"
 
 // Other bespoke headers
 #include "[[helpers]][[stub]].h"
-#include "[[helpers]]LogStream.h"
 
 // Third party headers
 #include "CppUnitTest.h"
@@ -70,34 +70,23 @@ namespace [[rootnamespace]][[namespace]]
 {
   TEST_CLASS([[featureName]])
   {
-    static std::streambuf* oldBuffer;
-    static std::shared_ptr<std::streambuf> newBuffer;
-
 [[Scenarios]]
 
 
     TEST_CLASS_INITIALIZE(ClassInitialize)
     {
-      newBuffer = std::make_shared<TestUtils::LogStream>();
-      oldBuffer = std::clog.rdbuf(newBuffer.get());
       std::clog << "Entering [[stub]]" << std::endl;
     }
 
     TEST_CLASS_CLEANUP(ClassCleanup)
     {
       std::clog << "Exiting [[stub]]" << std::endl;
-      std::clog.rdbuf(oldBuffer);
-      newBuffer = nullptr;
     }
 
   public:
 [[ScenarioInsts]]
   };
-
-  std::streambuf* [[featureName]]::oldBuffer = nullptr;
-  std::shared_ptr<std::streambuf> [[featureName]]::newBuffer = nullptr;
 }
-
 """[1:]
 
     buffer = buffer.replace("[[stub]]", settings["stub"])

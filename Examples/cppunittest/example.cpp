@@ -1,8 +1,8 @@
+// Local headers
 #include "stdafx.h"
 
 // Other bespoke headers
 #include "../helpers/example.h"
-#include "../helpers/LogStream.h"
 
 // Third party headers
 #include "CppUnitTest.h"
@@ -30,9 +30,6 @@ namespace Cornichon::Example
 {
   TEST_CLASS(Accumulator)
   {
-    static std::streambuf* oldBuffer;
-    static std::shared_ptr<std::streambuf> newBuffer;
-
     static void AddOneOther(unsigned int value, unsigned int second, unsigned int sum)
     {
       std::clog << "  Feature: Accumulator" << std::endl;
@@ -57,16 +54,12 @@ namespace Cornichon::Example
 
     TEST_CLASS_INITIALIZE(ClassInitialize)
     {
-      newBuffer = std::make_shared<TestUtils::LogStream>();
-      oldBuffer = std::clog.rdbuf(newBuffer.get());
       std::clog << "Entering example" << std::endl;
     }
 
     TEST_CLASS_CLEANUP(ClassCleanup)
     {
       std::clog << "Exiting example" << std::endl;
-      std::clog.rdbuf(oldBuffer);
-      newBuffer = nullptr;
     }
 
   public:
@@ -79,8 +72,4 @@ namespace Cornichon::Example
 
     AddTwoOthersInst(2, 3, 4, 9);
   };
-
-  std::streambuf* Accumulator::oldBuffer = nullptr;
-  std::shared_ptr<std::streambuf> Accumulator::newBuffer = nullptr;
 }
-
