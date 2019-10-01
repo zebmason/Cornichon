@@ -45,7 +45,12 @@ class Helpers(unittest.TestCase):
         if num2 < num:
             num = num2
         for i in range(num):
-            self.assertEqual(oldlines[i].rstrip(), newlines[i])
+            old = oldlines[i].rstrip()
+            if old != newlines[i]:
+                fp = open(filename + ".fail", "w")
+                fp.write(contents)
+                fp.close()
+            self.assertEqual(old, newlines[i])
 
 class CppunittestHelper(Helpers):
     def WhenTheGeneratorIsCppunittest(self):
