@@ -8,12 +8,16 @@ def Description(section, lines, params, indent, lindent):
             continue
         if first:
             first = False
-            line = '"%s%s %s' % (indent, section, line)
+            line = "%s%s %s" % (indent, section, line)
+        line = '"%s"' % line
         for i in range(len(params)):
             if params[i][0] == '<':
-                line = line.replace(params[i], '", %s' % params[i][1:-1])
+                line = line.replace(params[i], '" << %s << "' % params[i][1:-1])
                 continue
-            line = line.replace(params[i], ', arg%d' % (i+1))
+            line = line.replace(params[i], '" << arg%d << "' % (i+1))
+        line = line.replace(' << ""', '')
+        line = line.replace(' "" << ', ' ')
+        line = line.replace(' << ', ', ')
         buffer = """
         print([[line]])"""
         buffer = buffer.replace("[[line]]", line)
@@ -55,6 +59,7 @@ def Settings():
 def Generate(parsed, settings):
     scenarios = parsed[0]
     feature = parsed[1]
+    featureName, featureDesc = Feature(feature, '  ')
     concat = """
 import unittest
 """[1:]
@@ -62,11 +67,17 @@ import unittest
     for scenario in scenarios:
         buffer = """
 class [[Helper]](unittest.TestCase):
+    def __init__(self):
+[[documentation]]
+
 [[steps]]
 """
 
         buffer = buffer.replace("[[steps]]", Steps(scenario))
         buffer = buffer.replace("[[Helper]]", common.Camel(scenario.lines + " Helper"))
+        lines = scenario.lines.split('\n')
+        documentation = featureDesc + "\n" + Description('Scenario:', lines, [], '    ', '    ')
+        buffer = buffer.replace("[[documentation]]", documentation)
         concat += buffer
 
     return concat

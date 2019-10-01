@@ -22,9 +22,7 @@ namespace Cornichon::Example
 {
   static void AddOneOther(unsigned int value, unsigned int second, unsigned int sum)
   {
-    std::clog << "  Feature: Accumulator" << std::endl;
-    std::clog << "    Scenario: Add one other" << std::endl;
-    Cornichon::Helpers::Accumulator instance;
+    Cornichon::Helpers::AddOneOther instance;
     instance.GivenAnInitial(value);
     instance.WhenYouAddA(second);
     instance.ThenTheResultIs(sum);
@@ -32,9 +30,7 @@ namespace Cornichon::Example
 
   static void AddTwoOthers(unsigned int value, unsigned int second, unsigned int third, unsigned int sum)
   {
-    std::clog << "  Feature: Accumulator" << std::endl;
-    std::clog << "    Scenario: Add two others" << std::endl;
-    Cornichon::Helpers::Accumulator instance;
+    Cornichon::Helpers::AddTwoOthers instance;
     instance.GivenAnInitial(value);
     instance.WhenYouAddA(second);
     instance.WhenYouAddA(third);

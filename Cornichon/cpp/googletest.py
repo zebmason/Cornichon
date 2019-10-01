@@ -53,9 +53,6 @@ def Generate(parsed, settings):
     namespace = settings["stub"]
     namespace, args, params = common.CamelCase('', namespace)
     
-    featureName, featureDesc = cpputils.Feature(feature, '  ')
-    settings["feature"] = featureName
-
     buffer = """
 // Other bespoke headers
 #include "[[helpers]][[stub]].h"
@@ -75,7 +72,7 @@ def Generate(parsed, settings):
     buffer = buffer.replace("[[TestMethods]]", TestMethods(scenarios, namespace))
     buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
     buffer = buffer.replace("[[namespace]]", namespace)
-    buffer = buffer.replace("[[Scenarios]]", cpputils.Scenarios(scenarios, featureDesc, settings, "  "))
+    buffer = buffer.replace("[[Scenarios]]", cpputils.Scenarios(scenarios, settings, "  "))
     buffer = buffer.replace("[[ScenarioInsts]]", cpputils.ScenarioInsts(scenarios, settings, "  "))
 
     return buffer

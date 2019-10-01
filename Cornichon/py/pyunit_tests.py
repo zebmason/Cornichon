@@ -1,16 +1,14 @@
 import common
 import pyutils
 
-def PrintScenario(scenario, arguments, steps, documentation, settings, indent):
+def PrintScenario(scenario, arguments, steps, settings, indent):
     buffer = """
     def [[scenario]](self, [[arguments]]):
-[[documentation]]
         helpers = [[scenario]]Helper()
 [[steps]]
 """[1:]
     buffer = buffer.replace("[[scenario]]", scenario)
     buffer = buffer.replace("[[arguments]]", arguments)
-    buffer = buffer.replace("[[documentation]]", documentation)
     
     concat = ""
     for step in steps:
@@ -18,35 +16,7 @@ def PrintScenario(scenario, arguments, steps, documentation, settings, indent):
     buffer = buffer.replace("[[steps]]", concat.rstrip())
     return buffer
 
-def Description(section, lines, params, indent, lindent):
-    des = ''
-    first = True
-    for line in lines:
-        if line.strip() == '':
-            continue
-        if first:
-            first = False
-            line = "%s%s %s" % (indent, section, line)
-        line = '"%s"' % line
-        for i in range(len(params)):
-            if params[i][0] == '<':
-                line = line.replace(params[i], '" << %s << "' % params[i][1:-1])
-                continue
-            line = line.replace(params[i], '" << arg%d << "' % (i+1))
-        line = line.replace(' << ""', '')
-        line = line.replace(' "" << ', ' ')
-        buffer = """
-        print([[line]])"""
-        buffer = buffer.replace("[[line]]", line)
-        des += buffer
-    return des[1:]
-
-def Feature(feature, indent):
-    lines = feature.split('\n')
-    camelCase, args, params = common.CamelCase('Feature:', lines[0])
-    return camelCase, Description('Feature:', lines, [], '  ', indent)
-
-def Scenarios(scenarios, feature, settings, indent):
+def Scenarios(scenarios, settings, indent):
     concat = ""
     # parse the scenarios
     for s in scenarios:
@@ -65,8 +35,7 @@ def Scenarios(scenarios, feature, settings, indent):
             continue
         lines = s.lines.split('\n')
         scenarioName, args, params = common.CamelCase('Scenario:', lines[0])
-        scenario = feature + "\n" + Description('Scenario:', lines, [], '    ', indent)
-        concat += PrintScenario(scenarioName, fullArgs, steps, scenario, settings, indent)
+        concat += PrintScenario(scenarioName, fullArgs, steps, settings, indent)
         concat += "\n"
     return concat.rstrip()
 
@@ -112,9 +81,6 @@ def Generate(parsed, settings):
     feature = parsed[1]
     namespace = settings["stub"]
     namespace, args, params = common.CamelCase('', namespace)
-    
-    featureName, featureDesc = Feature(feature, '  ')
-    settings["feature"] = featureName
 
     buffer = """
 import unittest
@@ -131,7 +97,7 @@ if __name__ == '__main__':
 
     buffer = buffer.replace("[[helpers]]", settings["helpers"])
     buffer = buffer.replace("[[namespace]]", namespace)
-    buffer = buffer.replace("[[Scenarios]]", Scenarios(scenarios, featureDesc, settings, "  "))
+    buffer = buffer.replace("[[Scenarios]]", Scenarios(scenarios, settings, "  "))
     buffer = buffer.replace("[[ScenarioInsts]]", ScenarioInsts(scenarios, settings, "  "))
 
     return buffer

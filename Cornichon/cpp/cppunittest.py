@@ -99,10 +99,9 @@ namespace [[rootnamespace]][[namespace]]
     buffer = buffer.replace("[[namespace]]", namespace)
 
     # Print the class
-    featureName, featureDesc = cpputils.Feature(feature, '    ')
-    settings["feature"] = featureName
+    featureName = cpputils.FeatureName(feature)
     buffer = buffer.replace("[[featureName]]", featureName)
-    buffer = buffer.replace("[[Scenarios]]", cpputils.Scenarios(scenarios, featureDesc, settings, "    "))
+    buffer = buffer.replace("[[Scenarios]]", cpputils.Scenarios(scenarios, settings, "    "))
     buffer = buffer.replace("[[ScenarioInsts]]", cpputils.ScenarioInsts(scenarios, settings, "    "))
 
     return buffer
