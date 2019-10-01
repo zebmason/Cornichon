@@ -47,6 +47,7 @@ def Steps(scenarios, settings):
 
             arguments = common.ArgumentList(args, scenario.examples.types, settings["types"], common.AsSymbol)
             buffer = """
+    /// Gherkin DSL step
     void [[camelCase]]([[arguments]])
     {
 [[Description]]
@@ -87,9 +88,11 @@ namespace [[rootnamespace]]Helpers
 
     for scenario in scenarios:
         buffer = """
+  /// Test class helper
   class [[featureName]]
   {
   public:
+    /// Constructor
     [[featureName]]()
     {
 [[documentation]]

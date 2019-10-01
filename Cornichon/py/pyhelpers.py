@@ -43,9 +43,11 @@ def Steps(scenario):
         arguments = common.Arguments(args, ', ')
         buffer = """
     def [[camelCase]](self[[arguments]]):
+        [[comment]]
 [[Description]]
 
 """[1:]
+        buffer = buffer.replace("[[comment]]", '"""Gherkin DSL step"""')
         buffer = buffer.replace("[[camelCase]]", camelCase)
         buffer = buffer.replace("[[arguments]]", arguments)
         buffer = buffer.replace("[[Description]]", Description(s[0], lines, params, '      ', '    '))
@@ -67,12 +69,16 @@ import unittest
     for scenario in scenarios:
         buffer = """
 class [[Helper]](unittest.TestCase):
+    [[comment1]]
     def __init__(self):
+        [[comment2]]
 [[documentation]]
 
 [[steps]]
 """
 
+        buffer = buffer.replace("[[comment1]]", '"""Test class helper"""')
+        buffer = buffer.replace("[[comment2]]", '"""Initialiser"""')
         buffer = buffer.replace("[[steps]]", Steps(scenario))
         buffer = buffer.replace("[[Helper]]", common.Camel(scenario.lines + " Helper"))
         lines = scenario.lines.split('\n')

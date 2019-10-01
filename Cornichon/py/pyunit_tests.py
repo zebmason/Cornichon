@@ -4,9 +4,11 @@ import pyutils
 def PrintScenario(scenario, arguments, steps, settings, indent):
     buffer = """
     def [[scenario]](self, [[arguments]]):
+        [[comment]]
         helpers = [[scenario]]Helper()
 [[steps]]
 """[1:]
+    buffer = buffer.replace("[[comment]]", '"""Gherkin DSL scenario"""')
     buffer = buffer.replace("[[scenario]]", scenario)
     buffer = buffer.replace("[[arguments]]", arguments)
     
@@ -56,8 +58,10 @@ def ScenarioInsts(scenarios, settings, indent):
                 arguments2 = s.examples.ArgumentsInstance(settings["values"], line, pyutils.ArgModifier)
                 buffer = """
     def [[testName]](self):
+        [[comment]]
         self.[[Scenario]]([[arguments2]])
 """
+                buffer = buffer.replace("[[comment]]", '"""Gherkin DSL test"""')
                 buffer = buffer.replace("[[scenario]]", scenario[0].lower() + scenario[1:])
                 buffer = buffer.replace("[[Scenario]]", scenario)
                 buffer = buffer.replace("[[testName]]", testName)
@@ -87,6 +91,7 @@ import unittest
 from [[helpers]] import *
 
 class [[namespace]](unittest.TestCase):
+    [[comment]]
 
 [[Scenarios]]
 [[ScenarioInsts]]
@@ -95,6 +100,7 @@ if __name__ == '__main__':
     unittest.main()
 """[1:]
 
+    buffer = buffer.replace("[[comment]]", '"""Gherkin DSL feature"""')
     buffer = buffer.replace("[[helpers]]", settings["helpers"])
     buffer = buffer.replace("[[namespace]]", namespace)
     buffer = buffer.replace("[[Scenarios]]", Scenarios(scenarios, settings, "  "))
