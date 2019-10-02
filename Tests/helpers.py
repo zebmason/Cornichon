@@ -10,10 +10,13 @@ import cornichon
 
 
 class Helpers(unittest.TestCase):
+    """Test class helper"""
     def GivenAFeatureFileCalled(self, name):
+        """Gherkin DSL step"""
         self.name = name
 
     def ThenTheGeneratedTestIsTheSameAsTheSaved(self):
+        """Gherkin DSL step"""
         self.settings["stub"] = self.name
         inFileName = os.path.join('../Examples/tests', self.name + '.feature')
         f = open(inFileName, "r")
@@ -24,6 +27,7 @@ class Helpers(unittest.TestCase):
         self.DiffHelper(contents, filePath)
 
     def DiffHelper(self, contents, filename):
+        """Gherkin DSL step"""
         newlines = contents.split('\n')
         oldlines = []
         if os.path.isfile(filename):
@@ -52,7 +56,9 @@ class Helpers(unittest.TestCase):
 
 
 class CppunittestHelper(Helpers):
+    """Test class helper"""
     def WhenTheGeneratorIsCppunittest(self):
+        """Gherkin DSL step"""
         self.output = "cpp/cppunittest"
         self.folder = "cppunittest"
         self.ext = ".cpp"
@@ -61,7 +67,9 @@ class CppunittestHelper(Helpers):
 
 
 class CpphelpersHelper(Helpers):
+    """Test class helper"""
     def WhenTheGeneratorIsCpphelpers(self):
+        """Gherkin DSL step"""
         self.output = "cpp/cpphelpers"
         self.folder = "cpphelpers"
         self.ext = ".h"
@@ -70,7 +78,9 @@ class CpphelpersHelper(Helpers):
 
 
 class GoogletestHelper(Helpers):
+    """Test class helper"""
     def WhenTheGeneratorIsGoogletest(self):
+        """Gherkin DSL step"""
         self.output = "cpp/googletest"
         self.folder = "googletest"
         self.ext = ".cpp"
@@ -79,7 +89,9 @@ class GoogletestHelper(Helpers):
 
 
 class Pyunit_testsHelper(Helpers):
+    """Test class helper"""
     def WhenTheGeneratorIsPyunit_tests(self):
+        """Gherkin DSL step"""
         self.output = "py/pyunit_tests"
         self.folder = "pyunit_tests"
         self.ext = ".py"
@@ -89,7 +101,9 @@ class Pyunit_testsHelper(Helpers):
 
 
 class PyhelpersHelper(Helpers):
+    """Test class helper"""
     def WhenTheGeneratorIsPyhelpers(self):
+        """Gherkin DSL step"""
         self.output = "py/pyhelpers"
         self.folder = "pyunit_tests"
         self.ext = "_helpers.py"

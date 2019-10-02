@@ -17,17 +17,22 @@ import pyutils
 
 
 class TemplatedHelper(unittest.TestCase):
+    """Test class helper"""
     def GivenAnArgument(self, arg):
+        """Gherkin DSL step"""
         self.arg = arg
 
     def GivenAType(self, type):
+        """Gherkin DSL step"""
         self.type = type
 
     def GivenATemplate(self, template):
+        """Gherkin DSL step"""
         self.templates = {}
         self.templates[self.type] = template
 
     def ThenItHasCorresponding(self, output):
+        """Gherkin DSL step"""
         out = common.Argument(self.arg, self.type, self.templates)
         if out != output:
             print("\n{} isn't {}".format(out, output))
@@ -35,10 +40,13 @@ class TemplatedHelper(unittest.TestCase):
 
 
 class TokenizedHelper(unittest.TestCase):
+    """Test class helper"""
     def GivenAnArgument(self, arg):
+        """Gherkin DSL step"""
         self.arg = arg
 
     def ThenItHasCorresponding(self, output):
+        """Gherkin DSL step"""
         out = common.Tokenise(self.arg)
         if out != output:
             print("\n{} isn't {}".format(out, output))
@@ -46,10 +54,13 @@ class TokenizedHelper(unittest.TestCase):
 
 
 class SnakedHelper(unittest.TestCase):
+    """Test class helper"""
     def GivenAnArgument(self, arg):
+        """Gherkin DSL step"""
         self.arg = arg
 
     def ThenItHasCorresponding(self, output):
+        """Gherkin DSL step"""
         out = common.SnakeCase(self.arg)
         if out != output:
             print("\n{} isn't {}".format(out, output))
@@ -57,19 +68,25 @@ class SnakedHelper(unittest.TestCase):
 
 
 class ArgumentalHelper(unittest.TestCase):
+    """Test class helper"""
     def GivenArguments(self, args):
+        """Gherkin DSL step"""
         self.args = args.split(",")
 
     def GivenTypes(self, types):
+        """Gherkin DSL step"""
         self.types = types.split(",")
 
     def GivenALanguage(self, language):
+        """Gherkin DSL step"""
         self.language = language
 
     def GivenItIsADeclaration(self, declaration):
+        """Gherkin DSL step"""
         self.declaration = declaration
 
     def ThenItHasCorresponding(self, output):
+        """Gherkin DSL step"""
         settings = {}
         if self.language == "cpp":
             settings = cornichon.Settings("cpp/cpphelpers")
