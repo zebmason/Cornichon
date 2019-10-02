@@ -42,6 +42,8 @@ class Helpers(unittest.TestCase):
         num = len(newlines)
         num2 = len(oldlines)
         diffs = abs(num - num2)
+        if os.path.exists(filename + ".fail"):
+            os.remove(filename + ".fail")
         if num2 < num:
             num = num2
         for i in range(num):
