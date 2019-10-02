@@ -43,6 +43,8 @@ def TestMethods(scenarios):
 
 def Settings():
     settings = cpputils.Settings()
+    settings["cases"]["scenario"] = "Camel"
+    settings["cases"]["test"] = "Camel"
     settings["helpers"] = "../helpers/"
     return settings
 

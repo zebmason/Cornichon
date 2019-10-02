@@ -82,6 +82,7 @@ def Camel(line):
 def Settings():
     settings = {}
     settings["gherkin"] = ""
+    settings["cases"] = {}
     settings["types"] = {}
     settings["values"] = {}
     for type in ["bool", "int", "uint", "float", "string"]:

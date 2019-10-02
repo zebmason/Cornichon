@@ -1,6 +1,6 @@
 import common
 import pyutils
-
+import pyhelpers
 
 def PrintScenario(scenario, arguments, steps, settings, indent):
     buffer = """
@@ -81,7 +81,9 @@ def ScenarioInsts(scenarios, settings, indent):
 
 
 def Settings():
-    settings = common.Settings()
+    settings = pyutils.Settings()
+    settings["cases"]["scenario"] = "Camel"
+    settings["cases"]["test"] = "snake"
     settings["helpers"] = "helpers"
     return settings
 

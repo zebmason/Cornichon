@@ -5,6 +5,10 @@ import gherkin
 def Settings():
     settings = common.Settings()
     settings["rootnamespace"] = "Cornichon::"
+    settings["cases"]["class"] = "Camel"
+    settings["cases"]["namespace"] = "Camel"
+    settings["cases"]["param"] = "camel"
+    settings["cases"]["step"] = "Camel"
     settings["types"]["bool"] = "bool {}"
     settings["types"]["int"] = "int {}"
     settings["types"]["uint"] = "unsigned int {}"

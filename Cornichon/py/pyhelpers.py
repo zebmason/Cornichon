@@ -1,4 +1,5 @@
 import common
+import pyutils
 
 
 def Description(section, lines, params, indent, lindent):
@@ -61,7 +62,7 @@ def Steps(scenario):
 
 
 def Settings():
-    settings = common.Settings()
+    settings = pyutils.Settings()
     return settings
 
 
