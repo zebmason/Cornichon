@@ -1,6 +1,7 @@
 import common
 import cpputils
 
+
 def TestMethods(scenarios):
     concat = ""
     # parse the sections
@@ -39,10 +40,12 @@ def TestMethods(scenarios):
             concat += buffer
     return concat.rstrip()
 
+
 def Settings():
     settings = cpputils.Settings()
     settings["helpers"] = "../helpers/"
     return settings
+
 
 def Generate(parsed, settings):
     scenarios = parsed[0]
@@ -92,7 +95,7 @@ namespace [[rootnamespace]][[namespace]]
     buffer = buffer.replace("[[stub]]", settings["stub"])
     buffer = buffer.replace("[[helpers]]", settings["helpers"])
     buffer = buffer.replace("[[TestMethods]]", TestMethods(scenarios))
-    
+
     namespace = settings["stub"]
     namespace, args, params = common.CamelCase('', namespace)
     buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])

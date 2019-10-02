@@ -6,6 +6,7 @@ subdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'Cornichon')
 sys.path.insert(0, subdir)
 import cornichon
 
+
 header = "// Copyright (c) 2019 ...\n\n"
 
 for filename in os.listdir('Examples/tests'):
@@ -16,7 +17,7 @@ for filename in os.listdir('Examples/tests'):
         f = open(inFileName, "r")
         gherkin = f.readlines()
         f.close()
-        
+
         settings = cornichon.Settings("cpp/cppunittest")
         settings["gherkin"] = gherkin
         settings["stub"] = stub
@@ -28,7 +29,7 @@ for filename in os.listdir('Examples/tests'):
         fp = open(ofilename, "w")
         fp.write(cornichon.Generate(settings, "cpp/cppunittest"))
         fp.close()
-        
+
         settings = cornichon.Settings("cpp/cpphelpers")
         settings["gherkin"] = gherkin
         settings["rootnamespace"] = "Cornichon::"

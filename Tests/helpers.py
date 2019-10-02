@@ -1,9 +1,13 @@
 import unittest
+import os
+import os.path
+import sys
 
-import os, os.path, sys
-subdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../Cornichon')
+curdir = os.path.dirname(os.path.realpath(__file__))
+subdir = os.path.join(curdir, '../Cornichon')
 sys.path.insert(0, subdir)
 import cornichon
+
 
 class Helpers(unittest.TestCase):
     def GivenAFeatureFileCalled(self, name):
@@ -16,16 +20,8 @@ class Helpers(unittest.TestCase):
         self.settings["gherkin"] = f.readlines()
         f.close()
         contents = self.header + cornichon.Generate(self.settings, self.output)
-        self.DiffHelper(contents, '../Examples/%s/%s%s' % (self.folder, self.name, self.ext))
-
-    def ThenTheGeneratedTestIsTheSameAsTheSaved(self):
-        self.settings["stub"] = self.name
-        inFileName = os.path.join('../Examples/tests', self.name + '.feature')
-        f = open(inFileName, "r")
-        self.settings["gherkin"] = f.readlines()
-        f.close()
-        contents = self.header + cornichon.Generate(self.settings, self.output)
-        self.DiffHelper(contents, '../Examples/%s/%s%s' % (self.folder, self.name, self.ext))
+        filePath = '../Examples/%s/%s%s' % (self.folder, self.name, self.ext)
+        self.DiffHelper(contents, filePath)
 
     def DiffHelper(self, contents, filename):
         newlines = contents.split('\n')
@@ -54,6 +50,7 @@ class Helpers(unittest.TestCase):
                 fp.close()
             self.assertEqual(old, newlines[i])
 
+
 class CppunittestHelper(Helpers):
     def WhenTheGeneratorIsCppunittest(self):
         self.output = "cpp/cppunittest"
@@ -61,6 +58,7 @@ class CppunittestHelper(Helpers):
         self.ext = ".cpp"
         self.header = ""
         self.settings = cornichon.Settings(self.output)
+
 
 class CpphelpersHelper(Helpers):
     def WhenTheGeneratorIsCpphelpers(self):
@@ -70,6 +68,7 @@ class CpphelpersHelper(Helpers):
         self.header = "// Copyright (c) 2019 ...\n\n"
         self.settings = cornichon.Settings(self.output)
 
+
 class GoogletestHelper(Helpers):
     def WhenTheGeneratorIsGoogletest(self):
         self.output = "cpp/googletest"
@@ -77,6 +76,7 @@ class GoogletestHelper(Helpers):
         self.ext = ".cpp"
         self.header = "// Copyright (c) 2019 ...\n\n"
         self.settings = cornichon.Settings(self.output)
+
 
 class Pyunit_testsHelper(Helpers):
     def WhenTheGeneratorIsPyunit_tests(self):
@@ -87,6 +87,7 @@ class Pyunit_testsHelper(Helpers):
         self.settings = cornichon.Settings(self.output)
         self.settings["helpers"] = "example_helpers"
 
+
 class PyhelpersHelper(Helpers):
     def WhenTheGeneratorIsPyhelpers(self):
         self.output = "py/pyhelpers"
@@ -94,4 +95,3 @@ class PyhelpersHelper(Helpers):
         self.ext = "_helpers.py"
         self.header = ""
         self.settings = cornichon.Settings(self.output)
-

@@ -1,8 +1,12 @@
-import os, os.path, sys
+import os
+import os.path
+import sys
 
-subdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), '../Cornichon')
+curdir = os.path.dirname(os.path.realpath(__file__))
+subdir = os.path.join(curdir, '../Cornichon')
 sys.path.insert(0, subdir)
 import cornichon
+
 
 def Process(stub, bit):
 
@@ -23,6 +27,7 @@ def Process(stub, bit):
     fp = open('helpers' + bit + '.py', "w")
     fp.write(cornichon.Generate(settings, "py/pyhelpers"))
     fp.close()
+
 
 features = {}
 features['cornichon'] = ''

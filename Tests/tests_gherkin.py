@@ -1,18 +1,19 @@
 import unittest
 from helpers_gherkin import *
 
+
 class Cornichon(unittest.TestCase):
 
     def Types(self, type,  value):
         helpers = TypesHelper()
-        helpers.GivenAnInput(value);
-        helpers.ThenItHasCorresponding(type);
+        helpers.GivenAnInput(value)
+        helpers.ThenItHasCorresponding(type)
 
     def Worst(self, type,  first,  second):
         helpers = WorstHelper()
-        helpers.GivenAFirstType(first);
-        helpers.GivenASecondType(second);
-        helpers.ThenItHasCorresponding(type);
+        helpers.GivenAFirstType(first)
+        helpers.GivenASecondType(second)
+        helpers.ThenItHasCorresponding(type)
 
     def test_types_symbol_sym(self):
         self.Types("symbol", "sym")
@@ -76,6 +77,7 @@ class Cornichon(unittest.TestCase):
 
     def test_worst_symbol_none_symbol(self):
         self.Worst("symbol", "none", "symbol")
+
 
 if __name__ == '__main__':
     unittest.main()

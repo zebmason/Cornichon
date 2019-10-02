@@ -1,6 +1,7 @@
 import common
 import cpputils
 
+
 def Description(section, lines, params, indent, lindent):
     des = ''
     first = True
@@ -13,7 +14,8 @@ def Description(section, lines, params, indent, lindent):
         line = '"%s"' % line
         for i in range(len(params)):
             if params[i][0] == '<':
-                line = line.replace(params[i], '" << %s << "' % params[i][1:-1])
+                sub = '" << %s << "' % params[i][1:-1]
+                line = line.replace(params[i], sub)
                 continue
             line = line.replace(params[i], '" << arg%d << "' % (i+1))
         line = line.replace(' << ""', '')
@@ -25,13 +27,17 @@ def Description(section, lines, params, indent, lindent):
         des += buffer
     return des[1:]
 
+
 def FeatureDesc(feature, indent):
     lines = feature.split('\n')
     return Description('Feature:', lines, [], '  ', indent)
 
+
 def Documentation(scenario, feature, settings, indent):
     lines = scenario.lines.split('\n')
-    return feature + "\n" + Description('Scenario:', lines, [], '    ', indent)
+    description = Description('Scenario:', lines, [], '    ', indent)
+    return feature + "\n" + description
+
 
 def Steps(scenarios, settings):
     concat = ""
@@ -56,13 +62,16 @@ def Steps(scenarios, settings):
 """[1:]
             buffer = buffer.replace("[[camelCase]]", camelCase)
             buffer = buffer.replace("[[arguments]]", arguments)
-            buffer = buffer.replace("[[Description]]", Description(s[0], lines, params, '      ', '    '))
+            description = Description(s[0], lines, params, '      ', '    ')
+            buffer = buffer.replace("[[Description]]", description)
             concat += buffer
     return concat.rstrip()
+
 
 def Settings():
     settings = cpputils.Settings()
     return settings
+
 
 def Generate(parsed, settings):
     scenarios = parsed[0]
@@ -112,7 +121,7 @@ namespace [[rootnamespace]][[namespace]]::Helpers
         buffer = buffer.replace("[[documentation]]", documentation)
         buffer = buffer.replace("[[steps]]", Steps(scenarios, settings))
         concat += buffer
-    
+
     concat = concat[:-2] + """
 }
 """

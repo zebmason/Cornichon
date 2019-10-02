@@ -1,7 +1,8 @@
 import common
 
+
 def Type(value):
-    if value == "true" or value == "True" or value == "false" or value == "False":
+    if value in ["true", "True", "false", "False"]:
         return "bool"
     try:
         i = int(value)
@@ -9,16 +10,17 @@ def Type(value):
             return "int"
         elif value == "0" or i > 0:
             return "uint"
-    except:
+    except ValueError:
         pass
     try:
         f = float(value)
         return "float"
-    except:
+    except ValueError:
         pass
     if value.isalnum():
         return "symbol"
     return "string"
+
 
 def WorseComb(type, other, types, first):
     if type == types[0]:
@@ -27,6 +29,7 @@ def WorseComb(type, other, types, first):
     if first:
         return WorseComb(other, type, types, False)
     return "none"
+
 
 def Worst(other, type):
     if type == "none" or type == other:
@@ -46,6 +49,7 @@ def Worst(other, type):
         return comb
     return "string"
 
+
 class Examples:
     def __init__(self, lines):
         self.lines = lines
@@ -57,7 +61,7 @@ class Examples:
     def Types(self):
         if self.lines == '':
             return
-        
+
         lines = self.lines.split('\n')
         number = lines[1].count("|") - 1
         self.types = ["none" for i in range(number)]
@@ -65,7 +69,7 @@ class Examples:
             vals = line.split("|")
             if len(vals) < number + 1:
                 continue
-            
+
             for i in range(number):
                 self.types[i] = Worst(self.types[i], Type(vals[i+1].strip()))
 
@@ -80,18 +84,18 @@ class Examples:
     def Header(self):
         if self.lines == "":
             return []
-            
+
         lines = self.lines.split('\n')
         for line in lines[1:]:
             args = Examples.Arguments(line)
             return args
-        
+
         return []
 
     def ArgumentsList(self, settings):
         if self.lines == "":
             return ""
-        
+
         args = self.Header()
         if args == []:
             return ""
@@ -101,6 +105,7 @@ class Examples:
     def ArgumentsInstance(self, settings, line, argModifier):
         args = Examples.Arguments(line)
         return common.ArgumentList(args, self.types, settings, argModifier)
+
 
 class Scenario:
     def __init__(self, lines, background):
@@ -114,6 +119,7 @@ class Scenario:
         steps.extend(self.background)
         steps.extend(self.steps)
         return steps
+
 
 def GetScenarios(sections):
     scenarios = []
@@ -131,11 +137,12 @@ def GetScenarios(sections):
             scenarios[-1].examples = Examples(section[1])
         elif 'Scenario:' == section[0]:
             scenarios.append(Scenario(section[1], background))
-    
+
     for scenario in scenarios:
         scenario.examples.Types()
-    
+
     return [scenarios, feature]
+
 
 def GetSections(settings):
     section = ''
@@ -144,7 +151,7 @@ def GetSections(settings):
         if line.lstrip()[:1] == '#':
             continue
         bits = line.split()
-        if len(bits) > 0 and 1 == ['Feature:', 'Scenario:', 'Examples:', 'Given', 'When', 'Then', 'But', 'And'].count(bits[0]):
+        if len(bits) > 0 and bits[0] in ['Feature:', 'Scenario:', 'Examples:', 'Given', 'When', 'Then', 'But', 'And']:
             if bits[0] != 'And':
                 section = bits[0]
             line = ' '.join(bits[1:]) + '\n'
@@ -157,6 +164,7 @@ def GetSections(settings):
         else:
             sections[-1][1] += line
     return sections
+
 
 def Parse(settings):
     sections = GetSections(settings)

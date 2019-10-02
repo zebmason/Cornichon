@@ -1,5 +1,6 @@
 import common
 
+
 def Description(section, lines, params, indent, lindent):
     des = ''
     first = True
@@ -12,7 +13,8 @@ def Description(section, lines, params, indent, lindent):
         line = '"%s"' % line
         for i in range(len(params)):
             if params[i][0] == '<':
-                line = line.replace(params[i], '" << %s << "' % params[i][1:-1])
+                sub = '" << %s << "' % params[i][1:-1]
+                line = line.replace(params[i], sub)
                 continue
             line = line.replace(params[i], '" << arg%d << "' % (i+1))
         line = line.replace(' << ""', '')
@@ -24,10 +26,12 @@ def Description(section, lines, params, indent, lindent):
         des += buffer
     return des[1:]
 
+
 def Feature(feature, indent):
     lines = feature.split('\n')
     camelCase, args, params = common.CamelCase('Feature:', lines[0])
     return camelCase, Description('Feature:', lines, [], '  ', indent)
+
 
 def Steps(scenario):
     concat = ""
@@ -50,13 +54,16 @@ def Steps(scenario):
         buffer = buffer.replace("[[comment]]", '"""Gherkin DSL step"""')
         buffer = buffer.replace("[[camelCase]]", camelCase)
         buffer = buffer.replace("[[arguments]]", arguments)
-        buffer = buffer.replace("[[Description]]", Description(s[0], lines, params, '      ', '    '))
+        description = Description(s[0], lines, params, '      ', '    ')
+        buffer = buffer.replace("[[Description]]", description)
         concat += buffer
     return concat.rstrip()
+
 
 def Settings():
     settings = common.Settings()
     return settings
+
 
 def Generate(parsed, settings):
     scenarios = parsed[0]
@@ -82,9 +89,11 @@ class [[Helper]](unittest.TestCase):
         buffer = buffer.replace("[[comment1]]", '"""Test class helper"""')
         buffer = buffer.replace("[[comment2]]", '"""Initialiser"""')
         buffer = buffer.replace("[[steps]]", Steps(scenario))
-        buffer = buffer.replace("[[Helper]]", common.Camel(scenario.lines + " Helper"))
+        helper = common.Camel(scenario.lines + " Helper")
+        buffer = buffer.replace("[[Helper]]", helper)
         lines = scenario.lines.split('\n')
-        documentation = featureDesc + "\n" + Description('Scenario:', lines, [], '    ', '    ')
+        desc = Description('Scenario:', lines, [], '    ', '    ')
+        documentation = featureDesc + "\n" + desc
         buffer = buffer.replace("[[documentation]]", documentation)
         concat += buffer
 

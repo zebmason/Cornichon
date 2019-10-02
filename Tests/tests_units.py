@@ -1,32 +1,33 @@
 import unittest
 from helpers_units import *
 
+
 class Cornichon(unittest.TestCase):
 
     def Templated(self, arg,  type,  template,  output):
         helpers = TemplatedHelper()
-        helpers.GivenAnArgument(arg);
-        helpers.GivenAType(type);
-        helpers.GivenATemplate(template);
-        helpers.ThenItHasCorresponding(output);
+        helpers.GivenAnArgument(arg)
+        helpers.GivenAType(type)
+        helpers.GivenATemplate(template)
+        helpers.ThenItHasCorresponding(output)
 
     def Tokenized(self, arg,  output):
         helpers = TokenizedHelper()
-        helpers.GivenAnArgument(arg);
-        helpers.ThenItHasCorresponding(output);
+        helpers.GivenAnArgument(arg)
+        helpers.ThenItHasCorresponding(output)
 
     def Snaked(self, arg,  output):
         helpers = SnakedHelper()
-        helpers.GivenAnArgument(arg);
-        helpers.ThenItHasCorresponding(output);
+        helpers.GivenAnArgument(arg)
+        helpers.ThenItHasCorresponding(output)
 
     def Argumental(self, args,  types,  language,  declaration,  output):
         helpers = ArgumentalHelper()
-        helpers.GivenArguments(args);
-        helpers.GivenTypes(types);
-        helpers.GivenALanguage(language);
-        helpers.GivenItIsADeclaration(declaration);
-        helpers.ThenItHasCorresponding(output);
+        helpers.GivenArguments(args)
+        helpers.GivenTypes(types)
+        helpers.GivenALanguage(language)
+        helpers.GivenItIsADeclaration(declaration)
+        helpers.ThenItHasCorresponding(output)
 
     def test_templated_one_int_int_int_one(self):
         self.Templated("one", "int", "int {}", "int one")
@@ -60,6 +61,7 @@ class Cornichon(unittest.TestCase):
 
     def test_argumental_falseFalsetrueTrue_boolboolboolbool_python_False_False_False_True_True(self):
         self.Argumental("false,False,true,True", "bool,bool,bool,bool", "python", False, "False, False, True, True")
+
 
 if __name__ == '__main__':
     unittest.main()

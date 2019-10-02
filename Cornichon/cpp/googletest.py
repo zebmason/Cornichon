@@ -1,6 +1,7 @@
 import common
 import cpputils
 
+
 def TestMethods(scenarios, namespace):
     concat = ""
     # parse the sections
@@ -13,7 +14,7 @@ def TestMethods(scenarios, namespace):
             arguments = cpputils.Arguments(s.examples, header)
             concat2 = cpputils.Concat(s.examples, header)
             stringify = cpputils.Stringify(s.examples, header)
-            
+
             buffer = """
 #define [[scenario]]Inst([[arguments]]) \\
   TEST([[namespace]], [[scenario]] ## [[concat2]]) \\
@@ -42,17 +43,19 @@ def TestMethods(scenarios, namespace):
             concat += buffer
     return concat
 
+
 def Settings():
     settings = cpputils.Settings()
     settings["helpers"] = "../helpers/"
     return settings
+
 
 def Generate(parsed, settings):
     scenarios = parsed[0]
     feature = parsed[1]
     namespace = settings["stub"]
     namespace, args, params = common.CamelCase('', namespace)
-    
+
     buffer = """
 // Other bespoke headers
 #include "[[helpers]][[stub]].h"

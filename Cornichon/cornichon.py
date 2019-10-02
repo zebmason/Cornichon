@@ -1,5 +1,9 @@
-import importlib, os, os.path, sys
+import importlib
+import os
+import os.path
+import sys
 import gherkin
+
 
 def Import(output):
     bits = output.split("/")
@@ -8,9 +12,11 @@ def Import(output):
         sys.path.insert(0, subdir)
     return importlib.import_module(bits[1])
 
+
 def Settings(output):
     mod = Import(output)
     return mod.Settings()
+
 
 def Generate(settings, output):
     parsed = gherkin.Parse(settings)

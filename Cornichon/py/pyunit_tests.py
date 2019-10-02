@@ -1,6 +1,7 @@
 import common
 import pyutils
 
+
 def PrintScenario(scenario, arguments, steps, settings, indent):
     buffer = """
     def [[scenario]](self, [[arguments]]):
@@ -11,12 +12,13 @@ def PrintScenario(scenario, arguments, steps, settings, indent):
     buffer = buffer.replace("[[comment]]", '"""Gherkin DSL scenario"""')
     buffer = buffer.replace("[[scenario]]", scenario)
     buffer = buffer.replace("[[arguments]]", arguments)
-    
+
     concat = ""
     for step in steps:
         concat += step + "\n"
     buffer = buffer.replace("[[steps]]", concat.rstrip())
     return buffer
+
 
 def Scenarios(scenarios, settings, indent):
     concat = ""
@@ -29,7 +31,8 @@ def Scenarios(scenarios, settings, indent):
             camelCase, args, params = common.CamelCase(step[0], lines[0])
             for i in range(len(params)):
                 args[i] = params[i]
-            arguments = common.Arguments(args, '', ', ').replace('<', '').replace('>', '')
+            arguments = common.Arguments(args, '', ', ')
+            arguments = arguments.replace('<', '').replace('>', '')
             buffer = '        helpers.[[camelCase]]([[arguments]])'
             buffer = buffer.replace("[[camelCase]]", camelCase)
             buffer = buffer.replace("[[arguments]]", arguments)
@@ -40,6 +43,7 @@ def Scenarios(scenarios, settings, indent):
         concat += PrintScenario(scenarioName, fullArgs, steps, settings, indent)
         concat += "\n"
     return concat.rstrip()
+
 
 def ScenarioInsts(scenarios, settings, indent):
     concat = ""
@@ -53,7 +57,7 @@ def ScenarioInsts(scenarios, settings, indent):
                 args = line.strip()[1:-2].replace('|', ' ')
                 if '' == args:
                     continue
-                testName = " ".join(["test", scenario[0].lower() + scenario[1:], args])
+                testName = " ".join(["test", common.Lower(scenario), args])
                 testName = common.SnakeCase(testName)
                 arguments2 = s.examples.ArgumentsInstance(settings["values"], line, pyutils.ArgModifier)
                 buffer = """
@@ -62,7 +66,7 @@ def ScenarioInsts(scenarios, settings, indent):
         self.[[Scenario]]([[arguments2]])
 """
                 buffer = buffer.replace("[[comment]]", '"""Gherkin DSL test"""')
-                buffer = buffer.replace("[[scenario]]", scenario[0].lower() + scenario[1:])
+                buffer = buffer.replace("[[scenario]]", common.Lower(scenario))
                 buffer = buffer.replace("[[Scenario]]", scenario)
                 buffer = buffer.replace("[[testName]]", testName)
                 buffer = buffer.replace("[[arguments2]]", arguments2)
@@ -75,10 +79,12 @@ def ScenarioInsts(scenarios, settings, indent):
             concat += buffer
     return concat.rstrip()
 
+
 def Settings():
     settings = common.Settings()
     settings["helpers"] = "helpers"
     return settings
+
 
 def Generate(parsed, settings):
     scenarios = parsed[0]
@@ -105,7 +111,9 @@ if __name__ == '__main__':
     buffer = buffer.replace("[[comment]]", '"""Gherkin DSL feature"""')
     buffer = buffer.replace("[[helpers]]", settings["helpers"])
     buffer = buffer.replace("[[namespace]]", namespace)
-    buffer = buffer.replace("[[Scenarios]]", Scenarios(scenarios, settings, "  "))
-    buffer = buffer.replace("[[ScenarioInsts]]", ScenarioInsts(scenarios, settings, "  "))
+    sub = Scenarios(scenarios, settings, "  ")
+    buffer = buffer.replace("[[Scenarios]]", sub)
+    sub = ScenarioInsts(scenarios, settings, "  ")
+    buffer = buffer.replace("[[ScenarioInsts]]", sub)
 
     return buffer

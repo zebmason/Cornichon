@@ -1,4 +1,6 @@
-import common, gherkin
+import common
+import gherkin
+
 
 def Settings():
     settings = common.Settings()
@@ -10,11 +12,13 @@ def Settings():
     settings["types"]["string"] = "const std::string& {}"
     return settings
 
+
 def Macro():
     settings = {}
     for type in ["bool", "int", "uint", "float", "string"]:
-        settings[type]   = "_{}"
+        settings[type] = "_{}"
     return settings
+
 
 def ArgModifier(val, type):
     if type == "bool":
@@ -23,18 +27,22 @@ def ArgModifier(val, type):
         return val.replace('"', '\\"')
     return val
 
+
 def Arguments(examples, header):
     settings = Macro()
     return common.ArgumentList(header, examples.types, settings, common.AsUpperSymbol)
+
 
 def Concat(examples, header):
     settings = Macro()
     return common.ArgumentList(header, examples.types, settings, common.AsUpperSymbol, " ## ")
 
+
 def Stringify(examples, header):
     settings = Macro()
     settings["string"] = "#_{}"
     return common.ArgumentList(header, examples.types, settings, common.AsUpperSymbol)
+
 
 def PrintScenario(namespace, scenario, arguments, steps, settings, indent):
     buffer = """
@@ -49,17 +57,19 @@ def PrintScenario(namespace, scenario, arguments, steps, settings, indent):
     buffer = buffer.replace("[[arguments]]", arguments)
     buffer = buffer.replace("[[namespace]]", namespace)
     buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
-    
+
     concat = ""
     for step in steps:
         concat += step + "\n"
     buffer = buffer.replace("[[steps]]", concat.rstrip())
     return buffer
 
+
 def FeatureName(feature):
     lines = feature.split('\n')
     camelCase, args, params = common.CamelCase('Feature:', lines[0])
     return camelCase
+
 
 def Scenarios(namespace, scenarios, settings, indent):
     concat = ""
@@ -72,7 +82,8 @@ def Scenarios(namespace, scenarios, settings, indent):
             camelCase, args, params = common.CamelCase(step[0], lines[0])
             for i in range(len(params)):
                 args[i] = params[i]
-            arguments = common.Arguments(args, '').replace('<', '').replace('>', '')
+            arguments = common.Arguments(args, '')
+            arguments = arguments.replace('<', '').replace('>', '')
             buffer = '[[indent]]  instance.[[camelCase]]([[arguments]]);'
             buffer = buffer.replace("[[indent]]", indent)
             buffer = buffer.replace("[[camelCase]]", camelCase)
@@ -84,6 +95,7 @@ def Scenarios(namespace, scenarios, settings, indent):
         concat += PrintScenario(namespace, scenarioName, fullArgs, steps, settings, indent)
         concat += "\n"
     return concat.rstrip()
+
 
 def ScenarioInsts(scenarios, settings, indent):
     concat = ""
@@ -112,5 +124,3 @@ def ScenarioInsts(scenarios, settings, indent):
             buffer = buffer.replace("[[scenario]]", scenario)
             concat += buffer
     return concat.rstrip()
-
-
