@@ -64,6 +64,7 @@ def Generate(parsed, settings):
     featureName, featureDesc = Feature(feature, '  ')
     concat = """
 import unittest
+
 """[1:]
 
     for scenario in scenarios:
@@ -75,6 +76,7 @@ class [[Helper]](unittest.TestCase):
 [[documentation]]
 
 [[steps]]
+
 """
 
         buffer = buffer.replace("[[comment1]]", '"""Test class helper"""')

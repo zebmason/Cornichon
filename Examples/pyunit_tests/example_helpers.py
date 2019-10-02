@@ -1,5 +1,6 @@
 import unittest
 
+
 class AddOneOtherHelper(unittest.TestCase):
     """Test class helper"""
     def __init__(self):
@@ -18,6 +19,7 @@ class AddOneOtherHelper(unittest.TestCase):
     def ThenTheResultIs(self, sum):
         """Gherkin DSL step"""
         print("      Then the result is ", sum)
+
 
 class AddTwoOthersHelper(unittest.TestCase):
     """Test class helper"""

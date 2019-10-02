@@ -30,7 +30,7 @@ def Scenarios(scenarios, settings, indent):
             for i in range(len(params)):
                 args[i] = params[i]
             arguments = common.Arguments(args, '', ', ').replace('<', '').replace('>', '')
-            buffer = '        helpers.[[camelCase]]([[arguments]]);'
+            buffer = '        helpers.[[camelCase]]([[arguments]])'
             buffer = buffer.replace("[[camelCase]]", camelCase)
             buffer = buffer.replace("[[arguments]]", arguments)
             steps.append(buffer)
@@ -69,7 +69,7 @@ def ScenarioInsts(scenarios, settings, indent):
                 concat += buffer
         else:
             buffer = """
-    [[scenario]]Inst();
+    [[scenario]]Inst()
 """
             buffer = buffer.replace("[[scenario]]", scenario)
             concat += buffer
@@ -90,11 +90,13 @@ def Generate(parsed, settings):
 import unittest
 from [[helpers]] import *
 
+
 class [[namespace]](unittest.TestCase):
     [[comment]]
 
 [[Scenarios]]
 [[ScenarioInsts]]
+
 
 if __name__ == '__main__':
     unittest.main()
