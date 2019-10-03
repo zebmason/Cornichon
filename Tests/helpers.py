@@ -23,7 +23,7 @@ class Helpers(unittest.TestCase):
         self.settings["gherkin"] = f.readlines()
         f.close()
         contents = self.header + cornichon.Generate(self.settings, self.output)
-        filePath = '../Examples/%s/%s%s' % (self.folder, self.name, self.ext)
+        filePath = '../Examples/output/%s/%s%s' % (self.folder, self.name, self.ext)
         self.DiffHelper(contents, filePath)
 
     def DiffHelper(self, contents, filename):
