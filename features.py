@@ -26,6 +26,7 @@ for filename in os.listdir('Examples/tests'):
         settings["stub"] = stub
         settings["rootnamespace"] = "Cornichon::"
         settings["helpers"] = "../helpers/"
+        cornichon.PrintSettings(settings)
 
         # Generate the tests
         ofilename = 'Examples/output/cppunittest/' + stub + ".cpp"
