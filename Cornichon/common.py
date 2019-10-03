@@ -4,11 +4,11 @@ def ExtractParams(line, delim1, delim2):
         i = line.find(delim1)
         if -1 == i:
             break
-        j = line.find(delim2, i+1)
+        j = line.find(delim2, i + 1)
         if -1 == j:
             break
-        params.append(line[i:j+1])
-        line = line[:i] + line[j+1:]
+        params.append(line[i:j + 1])
+        line = line[:i] + line[j + 1:]
     return line, params
 
 

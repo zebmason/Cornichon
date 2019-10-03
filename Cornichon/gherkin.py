@@ -110,7 +110,7 @@ class Examples:
                 continue
 
             for i in range(number):
-                self.types[i] = Worst(self.types[i], Type(vals[i+1].strip()))
+                self.types[i] = Worst(self.types[i], Type(vals[i + 1].strip()))
 
     @staticmethod
     def Arguments(line):

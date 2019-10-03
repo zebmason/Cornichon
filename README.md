@@ -20,8 +20,16 @@ This is to allow for:
 The helper functions are generated using `cpphelpers`.
 
 The supported frameworks are:
-* `cppunittest` - Microsofts Visual C++ test framework which requires [LogStream.h](./TestUtils/LogStream.h)
+* `cppunittest` - Microsoft's Visual C++ test framework
 * `googletest` - Google Test
+
+### C#
+
+The helper functions are generated using `cshelpers`.
+
+The supported frameworks are:
+* `unittesting` - Microsoft's Unit Testing framework
+* `nunit` - NUnit
 
 ### Python
 

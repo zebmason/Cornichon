@@ -39,4 +39,3 @@ class AddTwoOthersHelper(unittest.TestCase):
     def ThenTheResultIs(self, sum):
         """Gherkin DSL step"""
         print("      Then the result is " + str(sum))
-

@@ -9,21 +9,24 @@ import cornichon
 
 
 def Process(stub, bit):
-
+    # Read the Gherkin DSL
     f = open(stub + '.feature', "r")
     gherkin = f.readlines()
     f.close()
 
+    # Only need to call Settings for the test framework as it builds
+    # on those settings for the helpers
     settings = cornichon.Settings("py/pyunit_tests")
     settings["stub"] = stub
     settings["gherkin"] = gherkin
     settings["helpers"] = "helpers" + bit
+
+    # Overwrite the tests
     fp = open('tests' + bit + '.py', "w")
     fp.write(cornichon.Generate(settings, "py/pyunit_tests"))
     fp.close()
 
-    settings = cornichon.Settings("py/pyhelpers")
-    settings["gherkin"] = gherkin
+    # Overwrite the test helpers
     fp = open('helpers' + bit + '.py', "w")
     fp.write(cornichon.Generate(settings, "py/pyhelpers"))
     fp.close()

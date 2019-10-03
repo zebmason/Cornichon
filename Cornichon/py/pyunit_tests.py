@@ -3,6 +3,7 @@ import pyutils
 import pyhelpers
 import gherkin
 
+
 def PrintScenario(scenario, arguments, steps, settings, indent):
     buffer = """
     def [[scenario]](self, [[arguments]]):
