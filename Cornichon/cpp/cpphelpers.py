@@ -1,5 +1,6 @@
 import common
 import cpputils
+import gherkin
 
 
 def Description(section, lines, params, indent, lindent):
@@ -13,11 +14,9 @@ def Description(section, lines, params, indent, lindent):
             line = "%s%s %s" % (indent, section, line)
         line = '"%s"' % line
         for i in range(len(params)):
-            if params[i][0] == '<':
-                sub = '" << %s << "' % params[i][1:-1]
-                line = line.replace(params[i], sub)
-                continue
-            line = line.replace(params[i], '" << arg%d << "' % (i+1))
+            sub = '" << %s << "' % params[i]
+            line = line.replace('<%s>' % params[i], sub)
+            line = line.replace('"%s"' % params[i], sub)
         line = line.replace(' << ""', '')
         line = line.replace(' "" << ', ' ')
         buffer = """
@@ -46,12 +45,13 @@ def Steps(scenarios, settings):
     for scenario in scenarios:
         for s in scenario.Steps():
             lines = s[1].split('\n')
-            camelCase, args, params = common.CamelCase(s[0], lines[0])
+            step = gherkin.Step(s[0], s[1])
+            camelCase = step.Tokenise(settings["cases"]["step"])
             if 0 != steps.count(camelCase):
                 continue
             steps.append(camelCase)
 
-            arguments = common.ArgumentList(args, scenario.examples.types, settings["types"], common.AsSymbol)
+            arguments = step.ArgumentList(scenario.examples.types, settings["types"])
             buffer = """
     /// Gherkin DSL step
     void [[camelCase]]([[arguments]])
@@ -62,7 +62,7 @@ def Steps(scenarios, settings):
 """[1:]
             buffer = buffer.replace("[[camelCase]]", camelCase)
             buffer = buffer.replace("[[arguments]]", arguments)
-            description = Description(s[0], lines, params, '      ', '    ')
+            description = Description(s[0], lines, step.params, '      ', '    ')
             buffer = buffer.replace("[[Description]]", description)
             concat += buffer
     return concat.rstrip()
@@ -76,7 +76,7 @@ def Settings():
 def Generate(parsed, settings):
     scenarios = parsed[0]
     feature = parsed[1]
-    featureName = cpputils.FeatureName(feature)
+    featureName = cpputils.FeatureName(feature, settings["cases"]["class"])
     featureDesc = FeatureDesc(feature, '    ')
 
     concat = """
@@ -95,7 +95,7 @@ namespace [[rootnamespace]][[namespace]]::Helpers
 """[1:]
 
     namespace = settings["stub"]
-    namespace, args, params = common.CamelCase('', namespace)
+    namespace = common.Tokenise(namespace, settings["cases"]["namespace"])
     concat = concat.replace("[[rootnamespace]]", settings["rootnamespace"])
     concat = concat.replace("[[namespace]]", namespace)
 
@@ -116,7 +116,7 @@ namespace [[rootnamespace]][[namespace]]::Helpers
 
 """[1:]
 
-        buffer = buffer.replace("[[featureName]]", common.Camel(scenario.lines))
+        buffer = buffer.replace("[[featureName]]", common.Tokenise(scenario.lines, settings["cases"]["class"]))
         documentation = Documentation(scenario, featureDesc, settings, "    ")
         buffer = buffer.replace("[[documentation]]", documentation)
         buffer = buffer.replace("[[steps]]", Steps(scenarios, settings))

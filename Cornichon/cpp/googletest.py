@@ -2,12 +2,12 @@ import common
 import cpputils
 
 
-def TestMethods(scenarios, namespace):
+def TestMethods(scenarios, namespace, settings):
     concat = ""
     # parse the sections
     for s in scenarios:
         lines = s.lines.split('\n')
-        scenario, args, params = common.CamelCase('Scenario', lines[0])
+        scenario = common.Tokenise(lines[0], settings["cases"]["scenario"])
 
         if s.examples.Exists():
             header = s.examples.Header()
@@ -56,7 +56,7 @@ def Generate(parsed, settings):
     scenarios = parsed[0]
     feature = parsed[1]
     namespace = settings["stub"]
-    namespace, args, params = common.CamelCase('', namespace)
+    namespace = common.Tokenise(namespace, settings["cases"]["namespace"])
 
     buffer = """
 // Other bespoke headers
@@ -74,7 +74,7 @@ def Generate(parsed, settings):
 
     buffer = buffer.replace("[[stub]]", settings["stub"])
     buffer = buffer.replace("[[helpers]]", settings["helpers"])
-    buffer = buffer.replace("[[TestMethods]]", TestMethods(scenarios, namespace))
+    buffer = buffer.replace("[[TestMethods]]", TestMethods(scenarios, namespace, settings))
     buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
     buffer = buffer.replace("[[namespace]]", namespace)
     buffer = buffer.replace("[[Scenarios]]", cpputils.Scenarios(namespace, scenarios, settings, "  "))

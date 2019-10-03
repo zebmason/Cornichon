@@ -50,6 +50,38 @@ def Worst(other, type):
     return "string"
 
 
+class Step:
+    def __init__(self, action, rest):
+        self.words = [action]
+        self.params = []
+        lines = rest.split('\n')
+        line = lines[0]
+        line = self.ExtractParams(line, '"', '"')
+        line = self.ExtractParams(line, '<', '>')
+        if len(line) > 0:
+            self.words.append(line)
+
+    def ExtractParams(self, line, delim1, delim2):
+        while True:
+            i = line.find(delim1)
+            if -1 == i:
+                return line
+            j = line.find(delim2, i + 1)
+            if -1 == j:
+                return line
+            self.words.append(line[:i].strip())
+            self.params.append(line[i + 1:j].strip())
+            line = line[j + 1:]
+        return line
+
+    def Tokenise(self, case):
+        line = " ".join(self.words)
+        return common.Tokenise(line, case)
+
+    def ArgumentList(self, types, settings):
+        return common.ArgumentList(self.params, types, settings, common.AsSymbol)
+
+
 class Examples:
     def __init__(self, lines):
         self.lines = lines

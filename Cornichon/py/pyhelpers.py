@@ -1,5 +1,6 @@
 import common
 import pyutils
+import gherkin
 
 
 def Description(section, lines, params, indent, lindent):
@@ -13,11 +14,9 @@ def Description(section, lines, params, indent, lindent):
             line = "%s%s %s" % (indent, section, line)
         line = '"%s"' % line
         for i in range(len(params)):
-            if params[i][0] == '<':
-                sub = '" << %s << "' % params[i][1:-1]
-                line = line.replace(params[i], sub)
-                continue
-            line = line.replace(params[i], '" << arg%d << "' % (i+1))
+            sub = '" << %s << "' % params[i]
+            line = line.replace('<%s>' % params[i], sub)
+            line = line.replace('"%s"' % params[i], sub)
         line = line.replace(' << ""', '')
         line = line.replace(' "" << ', ' ')
         line = line.replace(' << ', ', ')
@@ -28,24 +27,21 @@ def Description(section, lines, params, indent, lindent):
     return des[1:]
 
 
-def Feature(feature, indent):
-    lines = feature.split('\n')
-    camelCase, args, params = common.CamelCase('Feature:', lines[0])
-    return camelCase, Description('Feature:', lines, [], '  ', indent)
-
-
-def Steps(scenario):
+def Steps(scenario, settings):
     concat = ""
     steps = []
     # parse the sections
     for s in scenario.Steps():
         lines = s[1].split('\n')
-        camelCase, args, params = common.CamelCase(s[0], lines[0])
+        step = gherkin.Step(s[0], s[1])
+        camelCase = step.Tokenise(settings["cases"]["step"])
         if 0 != steps.count(camelCase):
             continue
         steps.append(camelCase)
 
-        arguments = common.Arguments(args, ', ')
+        arguments = step.ArgumentList(scenario.examples.types, settings["types"])
+        if len(arguments) > 0:
+            arguments = ", " + arguments
         buffer = """
     def [[camelCase]](self[[arguments]]):
         [[comment]]
@@ -55,7 +51,7 @@ def Steps(scenario):
         buffer = buffer.replace("[[comment]]", '"""Gherkin DSL step"""')
         buffer = buffer.replace("[[camelCase]]", camelCase)
         buffer = buffer.replace("[[arguments]]", arguments)
-        description = Description(s[0], lines, params, '      ', '    ')
+        description = Description(s[0], lines, step.params, '      ', '    ')
         buffer = buffer.replace("[[Description]]", description)
         concat += buffer
     return concat.rstrip()
@@ -69,7 +65,8 @@ def Settings():
 def Generate(parsed, settings):
     scenarios = parsed[0]
     feature = parsed[1]
-    featureName, featureDesc = Feature(feature, '  ')
+    lines = feature.split('\n')
+    featureDesc = Description('Feature:', lines, [], '  ', '  ')
     concat = """
 import unittest
 
@@ -89,8 +86,8 @@ class [[Helper]](unittest.TestCase):
 
         buffer = buffer.replace("[[comment1]]", '"""Test class helper"""')
         buffer = buffer.replace("[[comment2]]", '"""Initialiser"""')
-        buffer = buffer.replace("[[steps]]", Steps(scenario))
-        helper = common.Camel(scenario.lines + " Helper")
+        buffer = buffer.replace("[[steps]]", Steps(scenario, settings))
+        helper = common.Tokenise(scenario.lines + " Helper", settings["cases"]["class"])
         buffer = buffer.replace("[[Helper]]", helper)
         lines = scenario.lines.split('\n')
         desc = Description('Scenario:', lines, [], '    ', '    ')

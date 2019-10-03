@@ -2,12 +2,12 @@ import common
 import cpputils
 
 
-def TestMethods(scenarios):
+def TestMethods(scenarios, settings):
     concat = ""
     # parse the sections
     for s in scenarios:
         lines = s.lines.split('\n')
-        scenario, args, params = common.CamelCase('Scenario', lines[0])
+        scenario = common.Tokenise(lines[0], settings["cases"]["scenario"])
 
         if s.examples.Exists():
             header = s.examples.Header()
@@ -96,15 +96,15 @@ namespace [[rootnamespace]][[namespace]]
 
     buffer = buffer.replace("[[stub]]", settings["stub"])
     buffer = buffer.replace("[[helpers]]", settings["helpers"])
-    buffer = buffer.replace("[[TestMethods]]", TestMethods(scenarios))
+    buffer = buffer.replace("[[TestMethods]]", TestMethods(scenarios, settings))
 
     namespace = settings["stub"]
-    namespace, args, params = common.CamelCase('', namespace)
+    namespace = common.Tokenise(namespace, settings["cases"]["namespace"])
     buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
     buffer = buffer.replace("[[namespace]]", namespace)
 
     # Print the class
-    featureName = cpputils.FeatureName(feature)
+    featureName = cpputils.FeatureName(feature, settings["cases"]["class"])
     buffer = buffer.replace("[[featureName]]", featureName)
     buffer = buffer.replace("[[Scenarios]]", cpputils.Scenarios(namespace, scenarios, settings, "    "))
     buffer = buffer.replace("[[ScenarioInsts]]", cpputils.ScenarioInsts(scenarios, settings, "    "))

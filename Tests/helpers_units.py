@@ -61,7 +61,7 @@ class SnakedHelper(unittest.TestCase):
 
     def ThenItHasCorresponding(self, output):
         """Gherkin DSL step"""
-        out = common.SnakeCase(self.arg)
+        out = common.Tokenise(self.arg, "snake")
         if out != output:
             print("\n{} isn't {}".format(out, output))
         self.assertEqual(out, output)

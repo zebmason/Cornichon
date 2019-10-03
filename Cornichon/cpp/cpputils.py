@@ -69,9 +69,9 @@ def PrintScenario(namespace, scenario, arguments, steps, settings, indent):
     return buffer
 
 
-def FeatureName(feature):
+def FeatureName(feature, case):
     lines = feature.split('\n')
-    camelCase, args, params = common.CamelCase('Feature:', lines[0])
+    camelCase = common.Tokenise(lines[0], case)
     return camelCase
 
 
@@ -83,11 +83,9 @@ def Scenarios(namespace, scenarios, settings, indent):
         steps = []
         for step in s.Steps():
             lines = step[1].split('\n')
-            camelCase, args, params = common.CamelCase(step[0], lines[0])
-            for i in range(len(params)):
-                args[i] = params[i]
-            arguments = common.Arguments(args, '')
-            arguments = arguments.replace('<', '').replace('>', '')
+            st = gherkin.Step(step[0], step[1])
+            camelCase = st.Tokenise(settings["cases"]["step"])
+            arguments = st.ArgumentList(s.examples.types, settings["values"])
             buffer = '[[indent]]  instance.[[camelCase]]([[arguments]]);'
             buffer = buffer.replace("[[indent]]", indent)
             buffer = buffer.replace("[[camelCase]]", camelCase)
@@ -95,7 +93,7 @@ def Scenarios(namespace, scenarios, settings, indent):
             steps.append(buffer)
             continue
         lines = s.lines.split('\n')
-        scenarioName, args, params = common.CamelCase('Scenario:', lines[0])
+        scenarioName = common.Tokenise(lines[0], settings["cases"]["scenario"])
         concat += PrintScenario(namespace, scenarioName, fullArgs, steps, settings, indent)
         concat += "\n"
     return concat.rstrip()
@@ -106,7 +104,7 @@ def ScenarioInsts(scenarios, settings, indent):
     # parse the sections
     for s in scenarios:
         lines = s.lines.split('\n')
-        scenario, args, params = common.CamelCase('Scenario:', lines[0])
+        scenario = common.Tokenise(lines[0], settings["cases"]["scenario"])
         if s.examples.Exists():
             lines = s.examples.lines.split('\n')
             for line in lines[2:]:
