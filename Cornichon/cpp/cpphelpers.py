@@ -3,25 +3,17 @@ import cpputils
 import gherkin
 
 
-def Description(section, lines, params, indent, lindent):
+def Description(lines, indent):
     des = ''
-    first = True
-    for line in lines:
+    for line in lines.split('\n'):
         if line.strip() == '':
             continue
-        if first:
-            first = False
-            line = "%s%s %s" % (indent, section, line)
         line = '"%s"' % line
-        for i in range(len(params)):
-            sub = '" << %s << "' % params[i]
-            line = line.replace('<%s>' % params[i], sub)
-            line = line.replace('"%s"' % params[i], sub)
         line = line.replace(' << ""', '')
         line = line.replace(' "" << ', ' ')
         buffer = """
 [[indent]]  std::clog << [[line]] << std::endl;"""
-        buffer = buffer.replace("[[indent]]", lindent)
+        buffer = buffer.replace("[[indent]]", indent)
         buffer = buffer.replace("[[line]]", line)
         des += buffer
     return des[1:]
@@ -29,12 +21,14 @@ def Description(section, lines, params, indent, lindent):
 
 def FeatureDesc(feature, indent):
     lines = feature.split('\n')
-    return Description('Feature:', lines, [], '  ', indent)
+    lines = "%s%s %s" % ('  ', 'Feature:', feature)
+    return Description(lines, indent)
 
 
 def Documentation(scenario, feature, settings, indent):
     lines = scenario.lines.split('\n')
-    description = Description('Scenario:', lines, [], '    ', indent)
+    lines = "%s%s %s" % ('    ', 'Scenario:', scenario.lines)
+    description = Description(lines, indent)
     return feature + "\n" + description
 
 
@@ -62,7 +56,8 @@ def Steps(scenarios, settings):
 """[1:]
             buffer = buffer.replace("[[camelCase]]", camelCase)
             buffer = buffer.replace("[[arguments]]", arguments)
-            description = Description(s[0], lines, step.params, '      ', '    ')
+            lines = "%s%s %s" % ('      ', s[0], s[1])
+            description = Description(step.Sub(lines, '" << %s << "'), '    ')
             buffer = buffer.replace("[[Description]]", description)
             concat += buffer
     return concat.rstrip()

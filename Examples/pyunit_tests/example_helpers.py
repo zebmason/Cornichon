@@ -10,15 +10,15 @@ class AddOneOtherHelper(unittest.TestCase):
 
     def GivenAnInitial(self, value):
         """Gherkin DSL step"""
-        print("      Given an initial ", value)
+        print("      Given an initial " + str(value))
 
     def WhenYouAddA(self, second):
         """Gherkin DSL step"""
-        print("      When you add a ", second)
+        print("      When you add a " + str(second))
 
     def ThenTheResultIs(self, sum):
         """Gherkin DSL step"""
-        print("      Then the result is ", sum)
+        print("      Then the result is " + str(sum))
 
 
 class AddTwoOthersHelper(unittest.TestCase):
@@ -30,12 +30,13 @@ class AddTwoOthersHelper(unittest.TestCase):
 
     def GivenAnInitial(self, value):
         """Gherkin DSL step"""
-        print("      Given an initial ", value)
+        print("      Given an initial " + str(value))
 
     def WhenYouAddA(self, second):
         """Gherkin DSL step"""
-        print("      When you add a ", second)
+        print("      When you add a " + str(second))
 
     def ThenTheResultIs(self, sum):
         """Gherkin DSL step"""
-        print("      Then the result is ", sum)
+        print("      Then the result is " + str(sum))
+

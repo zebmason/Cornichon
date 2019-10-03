@@ -3,23 +3,14 @@ import pyutils
 import gherkin
 
 
-def Description(section, lines, params, indent, lindent):
+def Description(lines, indent):
     des = ''
-    first = True
-    for line in lines:
+    for line in lines.split('\n'):
         if line.strip() == '':
             continue
-        if first:
-            first = False
-            line = "%s%s %s" % (indent, section, line)
         line = '"%s"' % line
-        for i in range(len(params)):
-            sub = '" << %s << "' % params[i]
-            line = line.replace('<%s>' % params[i], sub)
-            line = line.replace('"%s"' % params[i], sub)
-        line = line.replace(' << ""', '')
-        line = line.replace(' "" << ', ' ')
-        line = line.replace(' << ', ', ')
+        line = line.replace(' + ""', '')
+        line = line.replace(' "" + ', ' ')
         buffer = """
         print([[line]])"""
         buffer = buffer.replace("[[line]]", line)
@@ -51,7 +42,8 @@ def Steps(scenario, settings):
         buffer = buffer.replace("[[comment]]", '"""Gherkin DSL step"""')
         buffer = buffer.replace("[[camelCase]]", camelCase)
         buffer = buffer.replace("[[arguments]]", arguments)
-        description = Description(s[0], lines, step.params, '      ', '    ')
+        lines = "%s%s %s" % ('      ', s[0], s[1])
+        description = Description(step.Sub(lines, '" + str(%s) + "'), '    ')
         buffer = buffer.replace("[[Description]]", description)
         concat += buffer
     return concat.rstrip()
@@ -65,8 +57,8 @@ def Settings():
 def Generate(parsed, settings):
     scenarios = parsed[0]
     feature = parsed[1]
-    lines = feature.split('\n')
-    featureDesc = Description('Feature:', lines, [], '  ', '  ')
+    lines = "%s%s %s" % ('  ', 'Feature:', feature)
+    featureDesc = Description(lines, '  ')
     concat = """
 import unittest
 
@@ -89,8 +81,8 @@ class [[Helper]](unittest.TestCase):
         buffer = buffer.replace("[[steps]]", Steps(scenario, settings))
         helper = common.Tokenise(scenario.lines + " Helper", settings["cases"]["class"])
         buffer = buffer.replace("[[Helper]]", helper)
-        lines = scenario.lines.split('\n')
-        desc = Description('Scenario:', lines, [], '    ', '    ')
+        lines = "%s%s %s" % ('    ', 'Scenario:', scenario.lines)
+        desc = Description(lines, '    ')
         documentation = featureDesc + "\n" + desc
         buffer = buffer.replace("[[documentation]]", documentation)
         concat += buffer

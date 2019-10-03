@@ -81,6 +81,13 @@ class Step:
     def ArgumentList(self, types, settings):
         return common.ArgumentList(self.params, types, settings, common.AsSymbol)
 
+    def Sub(self, lines, template):
+        for i in range(len(self.params)):
+            sub = template % self.params[i]
+            lines = lines.replace('<%s>' % self.params[i], sub)
+            lines = lines.replace('"%s"' % self.params[i], sub)
+        return lines
+
 
 class Examples:
     def __init__(self, lines):
