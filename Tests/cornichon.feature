@@ -37,3 +37,24 @@ Scenario Outline: pyhelpers
   Examples:
     | name |
     | example |
+
+Scenario Outline: unittesting
+  When the generator is unittesting
+  Then the generated test is the same as the saved
+  Examples:
+    | name |
+    | example |
+
+Scenario Outline: nunit
+  When the generator is nunit
+  Then the generated test is the same as the saved
+  Examples:
+    | name |
+    | example |
+
+Scenario Outline: cshelpers
+  When the generator is cshelpers
+  Then the generated test is the same as the saved
+  Examples:
+    | name |
+    | example |

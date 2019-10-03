@@ -26,11 +26,11 @@ class Cornichon(unittest.TestCase):
         helpers.WhenTheGeneratorIsGoogletest()
         helpers.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
-    def Pyunit_tests(self, name):
+    def Pyunittests(self, name):
         """Gherkin DSL scenario"""
-        helpers = Pyunit_testsHelper()
+        helpers = PyunittestsHelper()
         helpers.GivenAFeatureFileCalled(name)
-        helpers.WhenTheGeneratorIsPyunit_tests()
+        helpers.WhenTheGeneratorIsPyunittests()
         helpers.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
     def Pyhelpers(self, name):
@@ -38,6 +38,27 @@ class Cornichon(unittest.TestCase):
         helpers = PyhelpersHelper()
         helpers.GivenAFeatureFileCalled(name)
         helpers.WhenTheGeneratorIsPyhelpers()
+        helpers.ThenTheGeneratedTestIsTheSameAsTheSaved()
+
+    def Unittesting(self, name):
+        """Gherkin DSL scenario"""
+        helpers = UnittestingHelper()
+        helpers.GivenAFeatureFileCalled(name)
+        helpers.WhenTheGeneratorIsUnittesting()
+        helpers.ThenTheGeneratedTestIsTheSameAsTheSaved()
+
+    def Nunit(self, name):
+        """Gherkin DSL scenario"""
+        helpers = NunitHelper()
+        helpers.GivenAFeatureFileCalled(name)
+        helpers.WhenTheGeneratorIsNunit()
+        helpers.ThenTheGeneratedTestIsTheSameAsTheSaved()
+
+    def Cshelpers(self, name):
+        """Gherkin DSL scenario"""
+        helpers = CshelpersHelper()
+        helpers.GivenAFeatureFileCalled(name)
+        helpers.WhenTheGeneratorIsCshelpers()
         helpers.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
     def test_cppunittest_example(self):
@@ -52,13 +73,25 @@ class Cornichon(unittest.TestCase):
         """Gherkin DSL test"""
         self.Googletest("example")
 
-    def test_pyunit_tests_example(self):
+    def test_pyunittests_example(self):
         """Gherkin DSL test"""
-        self.Pyunit_tests("example")
+        self.Pyunittests("example")
 
     def test_pyhelpers_example(self):
         """Gherkin DSL test"""
         self.Pyhelpers("example")
+
+    def test_unittesting_example(self):
+        """Gherkin DSL test"""
+        self.Unittesting("example")
+
+    def test_nunit_example(self):
+        """Gherkin DSL test"""
+        self.Nunit("example")
+
+    def test_cshelpers_example(self):
+        """Gherkin DSL test"""
+        self.Cshelpers("example")
 
 
 if __name__ == '__main__':

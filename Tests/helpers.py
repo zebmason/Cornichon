@@ -88,9 +88,9 @@ class GoogletestHelper(Helpers):
         self.settings = cornichon.Settings(self.output)
 
 
-class Pyunit_testsHelper(Helpers):
+class PyunittestsHelper(Helpers):
     """Test class helper"""
-    def WhenTheGeneratorIsPyunit_tests(self):
+    def WhenTheGeneratorIsPyunittests(self):
         """Gherkin DSL step"""
         self.output = "py/pyunit_tests"
         self.folder = "pyunit_tests"
@@ -107,5 +107,38 @@ class PyhelpersHelper(Helpers):
         self.output = "py/pyhelpers"
         self.folder = "pyunit_tests"
         self.ext = "_helpers.py"
+        self.header = ""
+        self.settings = cornichon.Settings(self.output)
+
+
+class UnittestingHelper(Helpers):
+    """Test class helper"""
+    def WhenTheGeneratorIsUnittesting(self):
+        """Gherkin DSL step"""
+        self.output = "cs/unittesting"
+        self.folder = "unittesting"
+        self.ext = ".cs"
+        self.header = ""
+        self.settings = cornichon.Settings(self.output)
+
+
+class NunitHelper(Helpers):
+    """Test class helper"""
+    def WhenTheGeneratorIsNunit(self):
+        """Gherkin DSL step"""
+        self.output = "cs/nunit"
+        self.folder = "nunit"
+        self.ext = ".cs"
+        self.header = ""
+        self.settings = cornichon.Settings(self.output)
+
+
+class CshelpersHelper(Helpers):
+    """Test class helper"""
+    def WhenTheGeneratorIsCshelpers(self):
+        """Gherkin DSL step"""
+        self.output = "cs/cshelpers"
+        self.folder = "cshelpers"
+        self.ext = ".cs"
         self.header = ""
         self.settings = cornichon.Settings(self.output)
