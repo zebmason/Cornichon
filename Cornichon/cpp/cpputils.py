@@ -99,7 +99,7 @@ def Scenarios(namespace, scenarios, settings, indent):
     return concat.rstrip()
 
 
-def ScenarioInsts(scenarios, settings, indent):
+def ScenarioInsts(scenarios, settings, stub, indent):
     concat = ""
     # parse the sections
     for s in scenarios:
@@ -112,8 +112,15 @@ def ScenarioInsts(scenarios, settings, indent):
                 if "" == arguments:
                     continue
                 buffer = """
-[[indent]][[scenario]]Inst([[arguments]]);
+[[indent]][[stub]][[testName]])
+[[indent]]{
+[[indent]]  [[scenario]]([[arguments]]);
+[[indent]]}
 """
+                testName = " ".join([scenario, arguments])
+                testName = common.Tokenise(testName, settings["cases"]["test"])
+                buffer = buffer.replace("[[testName]]", testName)
+                buffer = buffer.replace("[[stub]]", stub)
                 buffer = buffer.replace("[[indent]]", indent)
                 buffer = buffer.replace("[[scenario]]", scenario)
                 buffer = buffer.replace("[[arguments]]", arguments)

@@ -13,19 +13,6 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-#define AddOneOtherInst(_VALUE, _SECOND, _SUM) \
-  TEST_METHOD(AddOneOther ## _VALUE ## _SECOND ## _SUM) \
-  { \
-    AddOneOther(_VALUE, _SECOND, _SUM); \
-  }
-
-#define AddTwoOthersInst(_VALUE, _SECOND, _THIRD, _SUM) \
-  TEST_METHOD(AddTwoOthers ## _VALUE ## _SECOND ## _THIRD ## _SUM) \
-  { \
-    AddTwoOthers(_VALUE, _SECOND, _THIRD, _SUM); \
-  }
-
-
 namespace Cornichon::Example
 {
   TEST_CLASS(Accumulator)
@@ -60,12 +47,24 @@ namespace Cornichon::Example
 
   public:
 
-    AddOneOtherInst(1, 2, 3);
+    TEST_METHOD(AddOneOther123)
+    {
+      AddOneOther(1, 2, 3);
+    }
 
-    AddOneOtherInst(2, 2, 4);
+    TEST_METHOD(AddOneOther224)
+    {
+      AddOneOther(2, 2, 4);
+    }
 
-    AddTwoOthersInst(1, 2, 3, 6);
+    TEST_METHOD(AddTwoOthers1236)
+    {
+      AddTwoOthers(1, 2, 3, 6);
+    }
 
-    AddTwoOthersInst(2, 3, 4, 9);
+    TEST_METHOD(AddTwoOthers2349)
+    {
+      AddTwoOthers(2, 3, 4, 9);
+    }
   };
 }

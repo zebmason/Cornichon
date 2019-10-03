@@ -2,48 +2,6 @@ import common
 import cpputils
 
 
-def TestMethods(scenarios, namespace, settings):
-    concat = ""
-    # parse the sections
-    for s in scenarios:
-        lines = s.lines.split('\n')
-        scenario = common.Tokenise(lines[0], settings["cases"]["scenario"])
-
-        if s.examples.Exists():
-            header = s.examples.Header()
-            arguments = cpputils.Arguments(s.examples, header)
-            concat2 = cpputils.Concat(s.examples, header)
-            stringify = cpputils.Stringify(s.examples, header)
-
-            buffer = """
-#define [[scenario]]Inst([[arguments]]) \\
-  TEST([[namespace]], [[scenario]] ## [[concat2]]) \\
-  { \\
-    [[scenario]]([[stringify]]); \\
-  }
-
-"""[1:]
-            buffer = buffer.replace("[[scenario]]", scenario)
-            buffer = buffer.replace("[[arguments]]", arguments)
-            buffer = buffer.replace("[[namespace]]", namespace)
-            buffer = buffer.replace("[[concat2]]", concat2)
-            buffer = buffer.replace("[[stringify]]", stringify)
-            concat += buffer
-        else:
-            buffer = """
-#define [[scenario]]Inst() \\
-  TEST([[namespace]], [[scenario]] ## Impl) \\
-  { \\
-    [[scenario]](); \\
-  }
-
-"""[1:]
-            buffer = buffer.replace("[[scenario]]", scenario)
-            buffer = buffer.replace("[[namespace]]", namespace)
-            concat += buffer
-    return concat
-
-
 def Settings():
     settings = cpputils.Settings()
     settings["cases"]["scenario"] = "Camel"
@@ -65,7 +23,7 @@ def Generate(parsed, settings):
 // Third party headers
 #include "gtest/gtest.h"
 
-[[TestMethods]]namespace [[rootnamespace]][[namespace]]
+namespace [[rootnamespace]][[namespace]]
 {
 [[Scenarios]]
 [[ScenarioInsts]]
@@ -74,10 +32,11 @@ def Generate(parsed, settings):
 
     buffer = buffer.replace("[[stub]]", settings["stub"])
     buffer = buffer.replace("[[helpers]]", settings["helpers"])
-    buffer = buffer.replace("[[TestMethods]]", TestMethods(scenarios, namespace, settings))
     buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
     buffer = buffer.replace("[[namespace]]", namespace)
     buffer = buffer.replace("[[Scenarios]]", cpputils.Scenarios(namespace, scenarios, settings, "  "))
-    buffer = buffer.replace("[[ScenarioInsts]]", cpputils.ScenarioInsts(scenarios, settings, "  "))
+    stub = "TEST(%s, " % namespace
+    insts = cpputils.ScenarioInsts(scenarios, settings, stub, "  ")
+    buffer = buffer.replace("[[ScenarioInsts]]", insts)
 
     return buffer
