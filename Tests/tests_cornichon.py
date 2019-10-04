@@ -1,5 +1,5 @@
 import unittest
-from helpers import *
+from scenarios_cornichon import *
 
 
 class Cornichon(unittest.TestCase):
@@ -7,67 +7,67 @@ class Cornichon(unittest.TestCase):
 
     def Cppunittest(self, name):
         """Gherkin DSL scenario"""
-        helpers = CppunittestHelper()
-        helpers.GivenAFeatureFileCalled(name)
-        helpers.WhenTheGeneratorIsCppunittest()
-        helpers.ThenTheGeneratedTestIsTheSameAsTheSaved()
+        scenario = CppunittestScenario()
+        scenario.GivenAFeatureFileCalled(name)
+        scenario.WhenTheGeneratorIsCppunittest()
+        scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
-    def Cpphelpers(self, name):
+    def Cppscenarios(self, name):
         """Gherkin DSL scenario"""
-        helpers = CpphelpersHelper()
-        helpers.GivenAFeatureFileCalled(name)
-        helpers.WhenTheGeneratorIsCpphelpers()
-        helpers.ThenTheGeneratedTestIsTheSameAsTheSaved()
+        scenario = CppscenariosScenario()
+        scenario.GivenAFeatureFileCalled(name)
+        scenario.WhenTheGeneratorIsCppscenarios()
+        scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
     def Googletest(self, name):
         """Gherkin DSL scenario"""
-        helpers = GoogletestHelper()
-        helpers.GivenAFeatureFileCalled(name)
-        helpers.WhenTheGeneratorIsGoogletest()
-        helpers.ThenTheGeneratedTestIsTheSameAsTheSaved()
+        scenario = GoogletestScenario()
+        scenario.GivenAFeatureFileCalled(name)
+        scenario.WhenTheGeneratorIsGoogletest()
+        scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
     def Pyunittests(self, name):
         """Gherkin DSL scenario"""
-        helpers = PyunittestsHelper()
-        helpers.GivenAFeatureFileCalled(name)
-        helpers.WhenTheGeneratorIsPyunittests()
-        helpers.ThenTheGeneratedTestIsTheSameAsTheSaved()
+        scenario = PyunittestsScenario()
+        scenario.GivenAFeatureFileCalled(name)
+        scenario.WhenTheGeneratorIsPyunittests()
+        scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
-    def Pyhelpers(self, name):
+    def Pyscenarios(self, name):
         """Gherkin DSL scenario"""
-        helpers = PyhelpersHelper()
-        helpers.GivenAFeatureFileCalled(name)
-        helpers.WhenTheGeneratorIsPyhelpers()
-        helpers.ThenTheGeneratedTestIsTheSameAsTheSaved()
+        scenario = PyscenariosScenario()
+        scenario.GivenAFeatureFileCalled(name)
+        scenario.WhenTheGeneratorIsPyscenarios()
+        scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
     def Unittesting(self, name):
         """Gherkin DSL scenario"""
-        helpers = UnittestingHelper()
-        helpers.GivenAFeatureFileCalled(name)
-        helpers.WhenTheGeneratorIsUnittesting()
-        helpers.ThenTheGeneratedTestIsTheSameAsTheSaved()
+        scenario = UnittestingScenario()
+        scenario.GivenAFeatureFileCalled(name)
+        scenario.WhenTheGeneratorIsUnittesting()
+        scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
     def Nunit(self, name):
         """Gherkin DSL scenario"""
-        helpers = NunitHelper()
-        helpers.GivenAFeatureFileCalled(name)
-        helpers.WhenTheGeneratorIsNunit()
-        helpers.ThenTheGeneratedTestIsTheSameAsTheSaved()
+        scenario = NunitScenario()
+        scenario.GivenAFeatureFileCalled(name)
+        scenario.WhenTheGeneratorIsNunit()
+        scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
-    def Cshelpers(self, name):
+    def Csscenarios(self, name):
         """Gherkin DSL scenario"""
-        helpers = CshelpersHelper()
-        helpers.GivenAFeatureFileCalled(name)
-        helpers.WhenTheGeneratorIsCshelpers()
-        helpers.ThenTheGeneratedTestIsTheSameAsTheSaved()
+        scenario = CsscenariosScenario()
+        scenario.GivenAFeatureFileCalled(name)
+        scenario.WhenTheGeneratorIsCsscenarios()
+        scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
     def test_cppunittest_example(self):
         """Gherkin DSL test"""
         self.Cppunittest("example")
 
-    def test_cpphelpers_example(self):
+    def test_cppscenarios_example(self):
         """Gherkin DSL test"""
-        self.Cpphelpers("example")
+        self.Cppscenarios("example")
 
     def test_googletest_example(self):
         """Gherkin DSL test"""
@@ -77,9 +77,9 @@ class Cornichon(unittest.TestCase):
         """Gherkin DSL test"""
         self.Pyunittests("example")
 
-    def test_pyhelpers_example(self):
+    def test_pyscenarios_example(self):
         """Gherkin DSL test"""
-        self.Pyhelpers("example")
+        self.Pyscenarios("example")
 
     def test_unittesting_example(self):
         """Gherkin DSL test"""
@@ -89,9 +89,9 @@ class Cornichon(unittest.TestCase):
         """Gherkin DSL test"""
         self.Nunit("example")
 
-    def test_cshelpers_example(self):
+    def test_csscenarios_example(self):
         """Gherkin DSL test"""
-        self.Cshelpers("example")
+        self.Csscenarios("example")
 
 
 if __name__ == '__main__':

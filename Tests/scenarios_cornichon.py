@@ -9,8 +9,8 @@ sys.path.insert(0, subdir)
 import cornichon
 
 
-class Helpers(unittest.TestCase):
-    """Test class helper"""
+class Scenarios(unittest.TestCase):
+    """Test class scenario"""
     def GivenAFeatureFileCalled(self, name):
         """Gherkin DSL step"""
         self.name = name
@@ -24,9 +24,9 @@ class Helpers(unittest.TestCase):
         f.close()
         contents = self.header + cornichon.Generate(self.settings, self.output)
         filePath = '../Examples/output/%s/%s%s' % (self.folder, self.name, self.ext)
-        self.DiffHelper(contents, filePath)
+        self.DiffScenario(contents, filePath)
 
-    def DiffHelper(self, contents, filename):
+    def DiffScenario(self, contents, filename):
         """Gherkin DSL step"""
         newlines = contents.split('\n')
         oldlines = []
@@ -55,8 +55,8 @@ class Helpers(unittest.TestCase):
             self.assertEqual(old, newlines[i])
 
 
-class CppunittestHelper(Helpers):
-    """Test class helper"""
+class CppunittestScenario(Scenarios):
+    """Test class scenario"""
     def WhenTheGeneratorIsCppunittest(self):
         """Gherkin DSL step"""
         self.output = "cpp/cppunittest"
@@ -64,21 +64,22 @@ class CppunittestHelper(Helpers):
         self.ext = ".cpp"
         self.header = ""
         self.settings = cornichon.Settings(self.output)
+        self.settings["scenarios file"] = "../cppscenarios/%s.h" % self.name
 
 
-class CpphelpersHelper(Helpers):
-    """Test class helper"""
-    def WhenTheGeneratorIsCpphelpers(self):
+class CppscenariosScenario(Scenarios):
+    """Test class scenario"""
+    def WhenTheGeneratorIsCppscenarios(self):
         """Gherkin DSL step"""
-        self.output = "cpp/cpphelpers"
-        self.folder = "cpphelpers"
+        self.output = "cpp/cppscenarios"
+        self.folder = "cppscenarios"
         self.ext = ".h"
         self.header = "// Copyright (c) 2019 ...\n\n"
         self.settings = cornichon.Settings(self.output)
 
 
-class GoogletestHelper(Helpers):
-    """Test class helper"""
+class GoogletestScenario(Scenarios):
+    """Test class scenario"""
     def WhenTheGeneratorIsGoogletest(self):
         """Gherkin DSL step"""
         self.output = "cpp/googletest"
@@ -86,10 +87,11 @@ class GoogletestHelper(Helpers):
         self.ext = ".cpp"
         self.header = "// Copyright (c) 2019 ...\n\n"
         self.settings = cornichon.Settings(self.output)
+        self.settings["scenarios file"] = "../cppscenarios/%s.h" % self.name
 
 
-class PyunittestsHelper(Helpers):
-    """Test class helper"""
+class PyunittestsScenario(Scenarios):
+    """Test class scenario"""
     def WhenTheGeneratorIsPyunittests(self):
         """Gherkin DSL step"""
         self.output = "py/pyunit_tests"
@@ -97,22 +99,22 @@ class PyunittestsHelper(Helpers):
         self.ext = ".py"
         self.header = ""
         self.settings = cornichon.Settings(self.output)
-        self.settings["helpers"] = "example_helpers"
+        self.settings["scenarios file"] = "example_scenarios"
 
 
-class PyhelpersHelper(Helpers):
-    """Test class helper"""
-    def WhenTheGeneratorIsPyhelpers(self):
+class PyscenariosScenario(Scenarios):
+    """Test class scenario"""
+    def WhenTheGeneratorIsPyscenarios(self):
         """Gherkin DSL step"""
-        self.output = "py/pyhelpers"
+        self.output = "py/pyscenarios"
         self.folder = "pyunit_tests"
-        self.ext = "_helpers.py"
+        self.ext = "_scenarios.py"
         self.header = ""
         self.settings = cornichon.Settings(self.output)
 
 
-class UnittestingHelper(Helpers):
-    """Test class helper"""
+class UnittestingScenario(Scenarios):
+    """Test class scenario"""
     def WhenTheGeneratorIsUnittesting(self):
         """Gherkin DSL step"""
         self.output = "cs/unittesting"
@@ -122,8 +124,8 @@ class UnittestingHelper(Helpers):
         self.settings = cornichon.Settings(self.output)
 
 
-class NunitHelper(Helpers):
-    """Test class helper"""
+class NunitScenario(Scenarios):
+    """Test class scenario"""
     def WhenTheGeneratorIsNunit(self):
         """Gherkin DSL step"""
         self.output = "cs/nunit"
@@ -133,12 +135,12 @@ class NunitHelper(Helpers):
         self.settings = cornichon.Settings(self.output)
 
 
-class CshelpersHelper(Helpers):
-    """Test class helper"""
-    def WhenTheGeneratorIsCshelpers(self):
+class CsscenariosScenario(Scenarios):
+    """Test class scenario"""
+    def WhenTheGeneratorIsCsscenarios(self):
         """Gherkin DSL step"""
-        self.output = "cs/cshelpers"
-        self.folder = "cshelpers"
+        self.output = "cs/csscenarios"
+        self.folder = "csscenarios"
         self.ext = ".cs"
         self.header = ""
         self.settings = cornichon.Settings(self.output)

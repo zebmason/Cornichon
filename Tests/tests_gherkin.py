@@ -1,5 +1,5 @@
 import unittest
-from helpers_gherkin import *
+from scenarios_gherkin import *
 
 
 class Gherkin(unittest.TestCase):
@@ -7,16 +7,16 @@ class Gherkin(unittest.TestCase):
 
     def Types(self, type, value):
         """Gherkin DSL scenario"""
-        helpers = TypesHelper()
-        helpers.GivenAnInput(value)
-        helpers.ThenItHasCorresponding(type)
+        scenario = TypesScenario()
+        scenario.GivenAnInput(value)
+        scenario.ThenItHasCorresponding(type)
 
     def Worst(self, type, first, second):
         """Gherkin DSL scenario"""
-        helpers = WorstHelper()
-        helpers.GivenAFirstType(first)
-        helpers.GivenASecondType(second)
-        helpers.ThenItHasCorresponding(type)
+        scenario = WorstScenario()
+        scenario.GivenAFirstType(first)
+        scenario.GivenASecondType(second)
+        scenario.ThenItHasCorresponding(type)
 
     def test_types_symbol_sym(self):
         """Gherkin DSL test"""

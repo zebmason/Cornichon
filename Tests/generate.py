@@ -8,33 +8,30 @@ sys.path.insert(0, subdir)
 import cornichon
 
 
-def Process(stub, bit):
+def Process(stub):
     # Read the Gherkin DSL
     f = open(stub + '.feature', "r")
     gherkin = f.readlines()
     f.close()
 
     # Only need to call Settings for the test framework as it builds
-    # on those settings for the helpers
+    # on those settings for the scenarios
     settings = cornichon.Settings("py/pyunit_tests")
     settings["stub"] = stub
     settings["gherkin"] = gherkin
-    settings["helpers"] = "helpers" + bit
+    settings["scenarios file"] = 'scenarios_' + stub
 
     # Overwrite the tests
-    fp = open('tests' + bit + '.py', "w")
+    fp = open('tests_' + stub + '.py', "w")
     fp.write(cornichon.Generate(settings, "py/pyunit_tests"))
     fp.close()
 
-    # Overwrite the test helpers
-    fp = open('helpers' + bit + '.py', "w")
-    fp.write(cornichon.Generate(settings, "py/pyhelpers"))
+    # Overwrite the test scenarios
+    fp = open('scenarios_' + stub + '.py', "w")
+    fp.write(cornichon.Generate(settings, "py/pyscenarios"))
     fp.close()
 
 
-features = {}
-features['cornichon'] = ''
-features['units'] = '_units'
-features['gherkin'] = '_gherkin'
+features = ['cornichon', 'units', 'gherkin']
 for stub in features:
-    Process(stub, features[stub])
+    Process(stub)

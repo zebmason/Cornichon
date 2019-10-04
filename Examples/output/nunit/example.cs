@@ -13,7 +13,7 @@ namespace Cornichon.Example
     /// </summary>
     private static void AddOneOther(uint value, uint second, uint sum)
     {
-      var instance = new Cornichon.Example.Helpers.AddOneOther();
+      var instance = new Cornichon.Example.Scenarios.AddOneOther();
       instance.GivenAnInitial(value);
       instance.WhenYouAddA(second);
       instance.ThenTheResultIs(sum);
@@ -24,7 +24,7 @@ namespace Cornichon.Example
     /// </summary>
     private static void AddTwoOthers(uint value, uint second, uint third, uint sum)
     {
-      var instance = new Cornichon.Example.Helpers.AddTwoOthers();
+      var instance = new Cornichon.Example.Scenarios.AddTwoOthers();
       instance.GivenAnInitial(value);
       instance.WhenYouAddA(second);
       instance.WhenYouAddA(third);

@@ -10,9 +10,9 @@
 #include <iostream>
 #include <string>
 
-namespace Cornichon::Example::Helpers
+namespace Cornichon::Example::Scenarios
 {
-  /// Test class helper
+  /// Test class scenario
   class AddOneOther
   {
   public:
@@ -42,7 +42,7 @@ namespace Cornichon::Example::Helpers
     }
   };
 
-  /// Test class helper
+  /// Test class scenario
   class AddTwoOthers
   {
   public:

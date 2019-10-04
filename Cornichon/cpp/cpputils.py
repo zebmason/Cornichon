@@ -52,7 +52,7 @@ def PrintScenario(namespace, scenario, arguments, steps, settings, indent):
     buffer = """
 [[indent]]static void [[scenario]]([[arguments]])
 [[indent]]{
-[[indent]]  [[rootnamespace]][[namespace]]::Helpers::[[scenario]] instance;
+[[indent]]  [[rootnamespace]][[namespace]]::Scenarios::[[scenario]] instance;
 [[steps]]
 [[indent]]}
 """[1:]

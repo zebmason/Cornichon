@@ -1,6 +1,6 @@
 import common
 import pyutils
-import pyhelpers
+import pyscenarios
 import gherkin
 
 
@@ -8,7 +8,7 @@ def PrintScenario(scenario, arguments, steps, settings, indent):
     buffer = """
     def [[scenario]](self, [[arguments]]):
         [[comment]]
-        helpers = [[scenario]]Helper()
+        scenario = [[scenario]]Scenario()
 [[steps]]
 """[1:]
     buffer = buffer.replace("[[comment]]", '"""Gherkin DSL scenario"""')
@@ -33,7 +33,7 @@ def Scenarios(scenarios, settings, indent):
             st = gherkin.Step(step[0], step[1])
             camelCase = st.Tokenise(settings["cases"]["step"])
             arguments = st.ArgumentList(s.examples.types, settings["values"])
-            buffer = '        helpers.[[camelCase]]([[arguments]])'
+            buffer = '        scenario.[[camelCase]]([[arguments]])'
             buffer = buffer.replace("[[camelCase]]", camelCase)
             buffer = buffer.replace("[[arguments]]", arguments)
             steps.append(buffer)
@@ -84,7 +84,7 @@ def Settings():
     settings = pyutils.Settings()
     settings["cases"]["scenario"] = "Camel"
     settings["cases"]["test"] = "snake"
-    settings["helpers"] = "helpers"
+    settings["scenarios file"] = "scenarios"
     return settings
 
 
@@ -96,7 +96,7 @@ def Generate(parsed, settings):
 
     buffer = """
 import unittest
-from [[helpers]] import *
+from [[scenarios file]] import *
 
 
 class [[namespace]](unittest.TestCase):
@@ -111,7 +111,7 @@ if __name__ == '__main__':
 """[1:]
 
     buffer = buffer.replace("[[comment]]", '"""Gherkin DSL feature"""')
-    buffer = buffer.replace("[[helpers]]", settings["helpers"])
+    buffer = buffer.replace("[[scenarios file]]", settings["scenarios file"])
     buffer = buffer.replace("[[namespace]]", namespace)
     sub = Scenarios(scenarios, settings, "  ")
     buffer = buffer.replace("[[Scenarios]]", sub)

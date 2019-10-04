@@ -9,8 +9,8 @@ sys.path.insert(0, subdir)
 import gherkin
 
 
-class TypesHelper(unittest.TestCase):
-    """Test class helper"""
+class TypesScenario(unittest.TestCase):
+    """Test class scenario"""
     def GivenAnInput(self, value):
         """Gherkin DSL step"""
         self.value = value
@@ -23,8 +23,8 @@ class TypesHelper(unittest.TestCase):
         self.assertEqual(conv, type)
 
 
-class WorstHelper(unittest.TestCase):
-    """Test class helper"""
+class WorstScenario(unittest.TestCase):
+    """Test class scenario"""
     def GivenAFirstType(self, first):
         """Gherkin DSL step"""
         self.first = first

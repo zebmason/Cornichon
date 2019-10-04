@@ -16,8 +16,8 @@ sys.path.insert(0, os.path.join(subdir, "py"))
 import pyutils
 
 
-class TemplatedHelper(unittest.TestCase):
-    """Test class helper"""
+class TemplatedScenario(unittest.TestCase):
+    """Test class scenario"""
     def GivenAnArgument(self, arg):
         """Gherkin DSL step"""
         self.arg = arg
@@ -39,8 +39,8 @@ class TemplatedHelper(unittest.TestCase):
         self.assertEqual(out, output)
 
 
-class TokenizedHelper(unittest.TestCase):
-    """Test class helper"""
+class TokenizedScenario(unittest.TestCase):
+    """Test class scenario"""
     def GivenAnArgument(self, arg):
         """Gherkin DSL step"""
         self.arg = arg
@@ -53,8 +53,8 @@ class TokenizedHelper(unittest.TestCase):
         self.assertEqual(out, output)
 
 
-class SnakedHelper(unittest.TestCase):
-    """Test class helper"""
+class SnakedScenario(unittest.TestCase):
+    """Test class scenario"""
     def GivenAnArgument(self, arg):
         """Gherkin DSL step"""
         self.arg = arg
@@ -67,8 +67,8 @@ class SnakedHelper(unittest.TestCase):
         self.assertEqual(out, output)
 
 
-class ArgumentalHelper(unittest.TestCase):
-    """Test class helper"""
+class ArgumentalScenario(unittest.TestCase):
+    """Test class scenario"""
     def GivenArguments(self, args):
         """Gherkin DSL step"""
         self.args = args.split(",")
@@ -89,9 +89,9 @@ class ArgumentalHelper(unittest.TestCase):
         """Gherkin DSL step"""
         settings = {}
         if self.language == "cpp":
-            settings = cornichon.Settings("cpp/cpphelpers")
+            settings = cornichon.Settings("cpp/cppscenarios")
         elif self.language == "python":
-            settings = cornichon.Settings("py/pyhelpers")
+            settings = cornichon.Settings("py/pyscenarios")
 
         formats = {}
         argModifier = common.AsSymbol

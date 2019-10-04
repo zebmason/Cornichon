@@ -77,7 +77,7 @@ def Generate(parsed, settings):
     featureDesc = FeatureDesc(feature, '    ')
 
     concat = """
-namespace [[rootnamespace]][[namespace]].Helpers
+namespace [[rootnamespace]][[namespace]].Scenarios
 {
 """[1:]
 
@@ -89,7 +89,7 @@ namespace [[rootnamespace]][[namespace]].Helpers
     for scenario in scenarios:
         buffer = """
   /// <summary>
-  /// Test class helper
+  /// Test class scenario
   /// </summary>
   public class [[featureName]]
   {

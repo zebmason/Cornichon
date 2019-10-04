@@ -6,7 +6,7 @@ def Settings():
     settings = cpputils.Settings()
     settings["cases"]["scenario"] = "Camel"
     settings["cases"]["test"] = "Camel"
-    settings["helpers"] = "../helpers/"
+    settings["scenarios file"] = "../scenarios/scenarios.h"
     return settings
 
 
@@ -18,7 +18,7 @@ def Generate(parsed, settings):
 
     buffer = """
 // Other bespoke headers
-#include "[[helpers]][[stub]].h"
+#include "[[scenarios file]]"
 
 // Third party headers
 #include "gtest/gtest.h"
@@ -31,7 +31,7 @@ namespace [[rootnamespace]][[namespace]]
 """[1:]
 
     buffer = buffer.replace("[[stub]]", settings["stub"])
-    buffer = buffer.replace("[[helpers]]", settings["helpers"])
+    buffer = buffer.replace("[[scenarios file]]", settings["scenarios file"])
     buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
     buffer = buffer.replace("[[namespace]]", namespace)
     buffer = buffer.replace("[[Scenarios]]", cpputils.Scenarios(namespace, scenarios, settings, "  "))

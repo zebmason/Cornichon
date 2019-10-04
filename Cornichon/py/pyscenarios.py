@@ -66,7 +66,7 @@ import unittest
 
     for scenario in scenarios:
         buffer = """
-class [[Helper]](unittest.TestCase):
+class [[Scenario]](unittest.TestCase):
     [[comment1]]
     def __init__(self):
         [[comment2]]
@@ -76,11 +76,11 @@ class [[Helper]](unittest.TestCase):
 
 """
 
-        buffer = buffer.replace("[[comment1]]", '"""Test class helper"""')
+        buffer = buffer.replace("[[comment1]]", '"""Test class scenario"""')
         buffer = buffer.replace("[[comment2]]", '"""Initialiser"""')
         buffer = buffer.replace("[[steps]]", Steps(scenario, settings))
-        helper = common.Tokenise(scenario.lines + " Helper", settings["cases"]["class"])
-        buffer = buffer.replace("[[Helper]]", helper)
+        scenarioName = common.Tokenise(scenario.lines + " Scenario", settings["cases"]["class"])
+        buffer = buffer.replace("[[Scenario]]", scenarioName)
         lines = "%s%s %s" % ('    ', 'Scenario:', scenario.lines)
         desc = Description(lines, '    ')
         documentation = featureDesc + "\n" + desc

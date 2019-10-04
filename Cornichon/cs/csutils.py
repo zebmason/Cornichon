@@ -55,7 +55,7 @@ def PrintScenario(namespace, scenario, arguments, steps, settings):
     /// </summary>
     private static void [[scenario]]([[arguments]])
     {
-      var instance = new [[rootnamespace]][[namespace]].Helpers.[[scenario]]();
+      var instance = new [[rootnamespace]][[namespace]].Scenarios.[[scenario]]();
 [[steps]]
     }
 """[1:]

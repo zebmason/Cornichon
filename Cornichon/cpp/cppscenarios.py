@@ -85,7 +85,7 @@ def Generate(parsed, settings):
 #include <iostream>
 #include <string>
 
-namespace [[rootnamespace]][[namespace]]::Helpers
+namespace [[rootnamespace]][[namespace]]::Scenarios
 {
 """[1:]
 
@@ -96,7 +96,7 @@ namespace [[rootnamespace]][[namespace]]::Helpers
 
     for scenario in scenarios:
         buffer = """
-  /// Test class helper
+  /// Test class scenario
   class [[featureName]]
   {
   public:

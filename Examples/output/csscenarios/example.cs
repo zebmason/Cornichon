@@ -1,7 +1,7 @@
-namespace Cornichon.Example.Helpers
+namespace Cornichon.Example.Scenarios
 {
   /// <summary>
-  /// Test class helper
+  /// Test class scenario
   /// </summary>
   public class AddOneOther
   {
@@ -40,7 +40,7 @@ namespace Cornichon.Example.Helpers
   }
 
   /// <summary>
-  /// Test class helper
+  /// Test class scenario
   /// </summary>
   public class AddTwoOthers
   {

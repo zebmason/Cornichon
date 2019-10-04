@@ -6,7 +6,6 @@ def Settings():
     settings = csutils.Settings()
     settings["cases"]["scenario"] = "Camel"
     settings["cases"]["test"] = "Camel"
-    settings["helpers"] = "../helpers/"
     return settings
 
 
@@ -31,7 +30,6 @@ namespace [[rootnamespace]][[namespace]]
 """[1:]
 
     buffer = buffer.replace("[[stub]]", settings["stub"])
-    buffer = buffer.replace("[[helpers]]", settings["helpers"])
 
     namespace = settings["stub"]
     namespace = common.Tokenise(namespace, settings["cases"]["namespace"])

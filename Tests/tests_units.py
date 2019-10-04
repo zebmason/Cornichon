@@ -1,5 +1,5 @@
 import unittest
-from helpers_units import *
+from scenarios_units import *
 
 
 class Units(unittest.TestCase):
@@ -7,32 +7,32 @@ class Units(unittest.TestCase):
 
     def Templated(self, arg, type, template, output):
         """Gherkin DSL scenario"""
-        helpers = TemplatedHelper()
-        helpers.GivenAnArgument(arg)
-        helpers.GivenAType(type)
-        helpers.GivenATemplate(template)
-        helpers.ThenItHasCorresponding(output)
+        scenario = TemplatedScenario()
+        scenario.GivenAnArgument(arg)
+        scenario.GivenAType(type)
+        scenario.GivenATemplate(template)
+        scenario.ThenItHasCorresponding(output)
 
     def Tokenized(self, arg, output):
         """Gherkin DSL scenario"""
-        helpers = TokenizedHelper()
-        helpers.GivenAnArgument(arg)
-        helpers.ThenItHasCorresponding(output)
+        scenario = TokenizedScenario()
+        scenario.GivenAnArgument(arg)
+        scenario.ThenItHasCorresponding(output)
 
     def Snaked(self, arg, output):
         """Gherkin DSL scenario"""
-        helpers = SnakedHelper()
-        helpers.GivenAnArgument(arg)
-        helpers.ThenItHasCorresponding(output)
+        scenario = SnakedScenario()
+        scenario.GivenAnArgument(arg)
+        scenario.ThenItHasCorresponding(output)
 
     def Argumental(self, args, types, language, declaration, output):
         """Gherkin DSL scenario"""
-        helpers = ArgumentalHelper()
-        helpers.GivenArguments(args)
-        helpers.GivenTypes(types)
-        helpers.GivenALanguage(language)
-        helpers.GivenItIsADeclaration(declaration)
-        helpers.ThenItHasCorresponding(output)
+        scenario = ArgumentalScenario()
+        scenario.GivenArguments(args)
+        scenario.GivenTypes(types)
+        scenario.GivenALanguage(language)
+        scenario.GivenItIsADeclaration(declaration)
+        scenario.ThenItHasCorresponding(output)
 
     def test_templated_one_int_int_int_one(self):
         """Gherkin DSL test"""

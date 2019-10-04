@@ -1,8 +1,8 @@
 import unittest
 
 
-class AddOneOtherHelper(unittest.TestCase):
-    """Test class helper"""
+class AddOneOtherScenario(unittest.TestCase):
+    """Test class scenario"""
     def __init__(self):
         """Initialiser"""
         print("  Feature: Accumulator")
@@ -21,8 +21,8 @@ class AddOneOtherHelper(unittest.TestCase):
         print("      Then the result is " + str(sum))
 
 
-class AddTwoOthersHelper(unittest.TestCase):
-    """Test class helper"""
+class AddTwoOthersScenario(unittest.TestCase):
+    """Test class scenario"""
     def __init__(self):
         """Initialiser"""
         print("  Feature: Accumulator")

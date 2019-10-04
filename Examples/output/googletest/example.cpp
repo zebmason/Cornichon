@@ -1,7 +1,7 @@
 // Copyright (c) 2019 ...
 
 // Other bespoke headers
-#include "../helpers/example.h"
+#include "../cppscenarios/example.h"
 
 // Third party headers
 #include "gtest/gtest.h"
@@ -10,7 +10,7 @@ namespace Cornichon::Example
 {
   static void AddOneOther(unsigned int value, unsigned int second, unsigned int sum)
   {
-    Cornichon::Example::Helpers::AddOneOther instance;
+    Cornichon::Example::Scenarios::AddOneOther instance;
     instance.GivenAnInitial(value);
     instance.WhenYouAddA(second);
     instance.ThenTheResultIs(sum);
@@ -18,7 +18,7 @@ namespace Cornichon::Example
 
   static void AddTwoOthers(unsigned int value, unsigned int second, unsigned int third, unsigned int sum)
   {
-    Cornichon::Example::Helpers::AddTwoOthers instance;
+    Cornichon::Example::Scenarios::AddTwoOthers instance;
     instance.GivenAnInitial(value);
     instance.WhenYouAddA(second);
     instance.WhenYouAddA(third);
