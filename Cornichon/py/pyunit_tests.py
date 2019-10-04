@@ -32,7 +32,7 @@ def Scenarios(scenarios, settings, indent):
             lines = step[1].split('\n')
             st = gherkin.Step(step[0], step[1])
             camelCase = st.Tokenise(settings["cases"]["step"])
-            arguments = st.ArgumentList(s.examples.types, settings["values"])
+            arguments = st.ParameterList(s.examples.types)
             buffer = '        scenario.[[camelCase]]([[arguments]])'
             buffer = buffer.replace("[[camelCase]]", camelCase)
             buffer = buffer.replace("[[arguments]]", arguments)
