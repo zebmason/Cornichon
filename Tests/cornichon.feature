@@ -10,8 +10,8 @@ Scenario Outline: cppunittest
     | name |
     | example |
 
-Scenario Outline: cpphelpers
-  When the generator is cpphelpers
+Scenario Outline: cppscenarios
+  When the generator is cppscenarios
   Then the generated test is the same as the saved
   Examples:
     | name |
@@ -31,8 +31,8 @@ Scenario Outline: pyunit_tests
     | name |
     | example |
 
-Scenario Outline: pyhelpers
-  When the generator is pyhelpers
+Scenario Outline: pyscenarios
+  When the generator is pyscenarios
   Then the generated test is the same as the saved
   Examples:
     | name |
@@ -52,8 +52,8 @@ Scenario Outline: nunit
     | name |
     | example |
 
-Scenario Outline: cshelpers
-  When the generator is cshelpers
+Scenario Outline: csscenarios
+  When the generator is csscenarios
   Then the generated test is the same as the saved
   Examples:
     | name |
