@@ -55,6 +55,20 @@ def Settings():
     return settings
 
 
+def HelpSettings():
+    settings = {}
+    settings["gherkin"] = "An array of lines containing the Gherkin DSL to be parsed"
+    settings["cases"] = {}
+    settings["types"] = {}
+    settings["values"] = {}
+    for type in ["bool", "int", "uint", "float", "string"]:
+        settings["types"][type] = "The template used to specify the type of a parameter"
+        settings["values"][type] = "The template used to wrap the value of a parameter"
+    for case in ["class", "param", "step", "scenario", "test"]:
+        settings["cases"][case] = "When tokenising some text use one of camel, Camel, snake or Snake case"
+    return settings
+
+
 def SymbolToString(type):
     if type == "symbol":
         return "string"

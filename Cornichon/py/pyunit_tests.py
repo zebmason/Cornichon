@@ -88,6 +88,12 @@ def Settings():
     return settings
 
 
+def HelpSettings():
+    settings = pyutils.HelpSettings()
+    settings["scenarios file"] = "The generated scenarios to import"
+    return settings
+
+
 def Generate(parsed, settings):
     scenarios = parsed[0]
     feature = parsed[1]

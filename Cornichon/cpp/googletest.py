@@ -10,6 +10,12 @@ def Settings():
     return settings
 
 
+def HelpSettings():
+    settings = cpputils.HelpSettings()
+    settings["scenarios file"] = "The path to the generated scenarios to include"
+    return settings
+
+
 def Generate(parsed, settings):
     scenarios = parsed[0]
     feature = parsed[1]

@@ -17,6 +17,13 @@ def Settings():
     return settings
 
 
+def HelpSettings():
+    settings = common.HelpSettings()
+    settings["rootnamespace"] = "The concatenated namespace ending in a ."
+    settings["cases"]["namespace"] = settings["cases"]["class"]
+    return settings
+
+
 def Macro():
     settings = {}
     for type in ["bool", "int", "uint", "float", "string"]:

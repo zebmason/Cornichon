@@ -70,6 +70,11 @@ def Settings():
     return settings
 
 
+def HelpSettings():
+    settings = csutils.HelpSettings()
+    return settings
+
+
 def Generate(parsed, settings):
     scenarios = parsed[0]
     feature = parsed[1]

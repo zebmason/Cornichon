@@ -20,6 +20,13 @@ def PrintSettings(settings, level="settings"):
             pass
 
 
+def HelpSettings(output):
+    """Utility that prints all the help for individual settings"""
+    mod = gherkin.Import(output)
+    settings = mod.HelpSettings()
+    PrintSettings(settings)
+
+
 def Generate(settings, output):
     """Generate the stub code for the output type"""
     parsed = gherkin.Parse(settings)
