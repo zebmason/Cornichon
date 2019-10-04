@@ -10,19 +10,19 @@ namespace Cornichon::Accumulator
 {
   static void AddOneOther(unsigned int value, unsigned int second, unsigned int sum)
   {
-    Cornichon::Accumulator::Scenarios::AddOneOther instance;
-    instance.GivenAnInitial(value);
-    instance.WhenYouAddA(second);
-    instance.ThenTheResultIs(sum);
+    Cornichon::Accumulator::Scenarios::AddOneOther scenario;
+    scenario.GivenAnInitial(value);
+    scenario.WhenYouAddA(second);
+    scenario.ThenTheResultIs(sum);
   }
 
   static void AddTwoOthers(unsigned int value, unsigned int second, unsigned int third, unsigned int sum)
   {
-    Cornichon::Accumulator::Scenarios::AddTwoOthers instance;
-    instance.GivenAnInitial(value);
-    instance.WhenYouAddA(second);
-    instance.WhenYouAddA(third);
-    instance.ThenTheResultIs(sum);
+    Cornichon::Accumulator::Scenarios::AddTwoOthers scenario;
+    scenario.GivenAnInitial(value);
+    scenario.WhenYouAddA(second);
+    scenario.WhenYouAddA(third);
+    scenario.ThenTheResultIs(sum);
   }
 
   TEST(Accumulator, AddOneOther123)

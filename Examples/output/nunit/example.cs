@@ -13,10 +13,10 @@ namespace Cornichon.Accumulator
     /// </summary>
     private static void AddOneOther(uint value, uint second, uint sum)
     {
-      var instance = new Cornichon.Accumulator.Scenarios.AddOneOther();
-      instance.GivenAnInitial(value);
-      instance.WhenYouAddA(second);
-      instance.ThenTheResultIs(sum);
+      var scenario = new Cornichon.Accumulator.Scenarios.AddOneOther();
+      scenario.GivenAnInitial(value);
+      scenario.WhenYouAddA(second);
+      scenario.ThenTheResultIs(sum);
     }
 
     /// <summary>
@@ -24,11 +24,11 @@ namespace Cornichon.Accumulator
     /// </summary>
     private static void AddTwoOthers(uint value, uint second, uint third, uint sum)
     {
-      var instance = new Cornichon.Accumulator.Scenarios.AddTwoOthers();
-      instance.GivenAnInitial(value);
-      instance.WhenYouAddA(second);
-      instance.WhenYouAddA(third);
-      instance.ThenTheResultIs(sum);
+      var scenario = new Cornichon.Accumulator.Scenarios.AddTwoOthers();
+      scenario.GivenAnInitial(value);
+      scenario.WhenYouAddA(second);
+      scenario.WhenYouAddA(third);
+      scenario.ThenTheResultIs(sum);
     }
 
     /// <summary>

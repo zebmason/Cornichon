@@ -55,7 +55,7 @@ def PrintScenario(namespace, scenario, arguments, steps, settings):
     /// </summary>
     private static void [[scenario]]([[arguments]])
     {
-      var instance = new [[rootnamespace]][[namespace]].Scenarios.[[scenario]]();
+      var scenario = new [[rootnamespace]][[namespace]].Scenarios.[[scenario]]();
 [[steps]]
     }
 """[1:]
@@ -88,7 +88,7 @@ def Scenarios(namespace, scenarios, settings, indent):
             st = gherkin.Step(step[0], step[1])
             camelCase = st.Tokenise(settings["cases"]["step"])
             arguments = st.ArgumentList(s.examples.types, settings["values"])
-            buffer = '[[indent]]  instance.[[camelCase]]([[arguments]]);'
+            buffer = '[[indent]]  scenario.[[camelCase]]([[arguments]]);'
             buffer = buffer.replace("[[indent]]", indent)
             buffer = buffer.replace("[[camelCase]]", camelCase)
             buffer = buffer.replace("[[arguments]]", arguments)
