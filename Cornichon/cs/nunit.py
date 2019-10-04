@@ -21,7 +21,7 @@ namespace [[rootnamespace]][[namespace]]
   /// Gherkin DSL feature
   /// </summary>
   [TestFixture]
-  public class [[featureName]]
+  public class [[className]]
   {
 [[Scenarios]]
 [[ScenarioInsts]]
@@ -29,16 +29,13 @@ namespace [[rootnamespace]][[namespace]]
 }
 """[1:]
 
-    buffer = buffer.replace("[[stub]]", settings["stub"])
-
-    namespace = settings["stub"]
-    namespace = common.Tokenise(namespace, settings["cases"]["namespace"])
+    namespace = csutils.FeatureName(feature, settings["cases"]["namespace"])
     buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
     buffer = buffer.replace("[[namespace]]", namespace)
 
     # Print the class
-    featureName = csutils.FeatureName(feature, settings["cases"]["class"])
-    buffer = buffer.replace("[[featureName]]", featureName)
+    className = common.Tokenise("Feature", settings["cases"]["class"])
+    buffer = buffer.replace("[[className]]", className)
     buffer = buffer.replace("[[Scenarios]]", csutils.Scenarios(namespace, scenarios, settings, "    "))
     insts = csutils.ScenarioInsts(scenarios, settings, "Test", "    ")
     buffer = buffer.replace("[[ScenarioInsts]]", insts)

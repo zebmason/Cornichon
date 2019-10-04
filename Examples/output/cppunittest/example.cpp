@@ -13,13 +13,13 @@
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
-namespace Cornichon::Example
+namespace Cornichon::Accumulator
 {
-  TEST_CLASS(Accumulator)
+  TEST_CLASS(Feature)
   {
     static void AddOneOther(unsigned int value, unsigned int second, unsigned int sum)
     {
-      Cornichon::Example::Scenarios::AddOneOther instance;
+      Cornichon::Accumulator::Scenarios::AddOneOther instance;
       instance.GivenAnInitial(value);
       instance.WhenYouAddA(second);
       instance.ThenTheResultIs(sum);
@@ -27,7 +27,7 @@ namespace Cornichon::Example
 
     static void AddTwoOthers(unsigned int value, unsigned int second, unsigned int third, unsigned int sum)
     {
-      Cornichon::Example::Scenarios::AddTwoOthers instance;
+      Cornichon::Accumulator::Scenarios::AddTwoOthers instance;
       instance.GivenAnInitial(value);
       instance.WhenYouAddA(second);
       instance.WhenYouAddA(third);
@@ -37,12 +37,12 @@ namespace Cornichon::Example
 
     TEST_CLASS_INITIALIZE(ClassInitialize)
     {
-      std::clog << "Entering example" << std::endl;
+      std::clog << "Entering Accumulator" << std::endl;
     }
 
     TEST_CLASS_CLEANUP(ClassCleanup)
     {
-      std::clog << "Exiting example" << std::endl;
+      std::clog << "Exiting Accumulator" << std::endl;
     }
 
   public:

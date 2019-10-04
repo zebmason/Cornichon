@@ -1,4 +1,4 @@
-namespace Cornichon.Example.Scenarios
+namespace Cornichon.Accumulator.Scenarios
 {
   /// <summary>
   /// Test class scenario

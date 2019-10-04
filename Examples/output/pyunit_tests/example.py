@@ -2,7 +2,7 @@ import unittest
 from example_scenarios import *
 
 
-class Example(unittest.TestCase):
+class Accumulator(unittest.TestCase):
     """Gherkin DSL feature"""
 
     def AddOneOther(self, value, second, sum):

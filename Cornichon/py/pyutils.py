@@ -15,3 +15,9 @@ def ArgModifier(val, type):
     if type in ["string", "symbol"]:
         return val.replace('"', '\\"')
     return val
+
+
+def FeatureName(feature, case):
+    lines = feature.split('\n')
+    camelCase = common.Tokenise(lines[0], case)
+    return camelCase

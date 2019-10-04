@@ -71,7 +71,7 @@ def Settings():
 def Generate(parsed, settings):
     scenarios = parsed[0]
     feature = parsed[1]
-    featureName = cpputils.FeatureName(feature, settings["cases"]["class"])
+    featureName = cpputils.FeatureName(feature, settings["cases"]["namespace"])
     featureDesc = FeatureDesc(feature, '    ')
 
     concat = """
@@ -89,8 +89,7 @@ namespace [[rootnamespace]][[namespace]]::Scenarios
 {
 """[1:]
 
-    namespace = settings["stub"]
-    namespace = common.Tokenise(namespace, settings["cases"]["namespace"])
+    namespace = common.Tokenise(featureName, settings["cases"]["namespace"])
     concat = concat.replace("[[rootnamespace]]", settings["rootnamespace"])
     concat = concat.replace("[[namespace]]", namespace)
 

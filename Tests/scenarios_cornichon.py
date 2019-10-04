@@ -17,7 +17,6 @@ class Scenarios(unittest.TestCase):
 
     def ThenTheGeneratedTestIsTheSameAsTheSaved(self):
         """Gherkin DSL step"""
-        self.settings["stub"] = self.name
         inFileName = os.path.join('../Examples/tests', self.name + '.feature')
         f = open(inFileName, "r")
         self.settings["gherkin"] = f.readlines()

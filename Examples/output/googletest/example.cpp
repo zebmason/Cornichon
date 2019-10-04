@@ -6,11 +6,11 @@
 // Third party headers
 #include "gtest/gtest.h"
 
-namespace Cornichon::Example
+namespace Cornichon::Accumulator
 {
   static void AddOneOther(unsigned int value, unsigned int second, unsigned int sum)
   {
-    Cornichon::Example::Scenarios::AddOneOther instance;
+    Cornichon::Accumulator::Scenarios::AddOneOther instance;
     instance.GivenAnInitial(value);
     instance.WhenYouAddA(second);
     instance.ThenTheResultIs(sum);
@@ -18,29 +18,29 @@ namespace Cornichon::Example
 
   static void AddTwoOthers(unsigned int value, unsigned int second, unsigned int third, unsigned int sum)
   {
-    Cornichon::Example::Scenarios::AddTwoOthers instance;
+    Cornichon::Accumulator::Scenarios::AddTwoOthers instance;
     instance.GivenAnInitial(value);
     instance.WhenYouAddA(second);
     instance.WhenYouAddA(third);
     instance.ThenTheResultIs(sum);
   }
 
-  TEST(Example, AddOneOther123)
+  TEST(Accumulator, AddOneOther123)
   {
     AddOneOther(1, 2, 3);
   }
 
-  TEST(Example, AddOneOther224)
+  TEST(Accumulator, AddOneOther224)
   {
     AddOneOther(2, 2, 4);
   }
 
-  TEST(Example, AddTwoOthers1236)
+  TEST(Accumulator, AddTwoOthers1236)
   {
     AddTwoOthers(1, 2, 3, 6);
   }
 
-  TEST(Example, AddTwoOthers2349)
+  TEST(Accumulator, AddTwoOthers2349)
   {
     AddTwoOthers(2, 3, 4, 9);
   }

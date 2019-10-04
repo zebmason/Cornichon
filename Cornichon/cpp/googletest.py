@@ -13,8 +13,8 @@ def Settings():
 def Generate(parsed, settings):
     scenarios = parsed[0]
     feature = parsed[1]
-    namespace = settings["stub"]
-    namespace = common.Tokenise(namespace, settings["cases"]["namespace"])
+    featureName = cpputils.FeatureName(feature, settings["cases"]["namespace"])
+    namespace = common.Tokenise(featureName, settings["cases"]["namespace"])
 
     buffer = """
 // Other bespoke headers
@@ -30,7 +30,6 @@ namespace [[rootnamespace]][[namespace]]
 }
 """[1:]
 
-    buffer = buffer.replace("[[stub]]", settings["stub"])
     buffer = buffer.replace("[[scenarios file]]", settings["scenarios file"])
     buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
     buffer = buffer.replace("[[namespace]]", namespace)

@@ -1,4 +1,4 @@
-namespace Cornichon.Example
+namespace Cornichon.Accumulator
 {
   using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -6,14 +6,14 @@ namespace Cornichon.Example
   /// Gherkin DSL feature
   /// </summary>
   [TestClass]
-  public class Accumulator
+  public class Feature
   {
     /// <summary>
     /// Gherkin DSL scenario
     /// </summary>
     private static void AddOneOther(uint value, uint second, uint sum)
     {
-      var instance = new Cornichon.Example.Scenarios.AddOneOther();
+      var instance = new Cornichon.Accumulator.Scenarios.AddOneOther();
       instance.GivenAnInitial(value);
       instance.WhenYouAddA(second);
       instance.ThenTheResultIs(sum);
@@ -24,7 +24,7 @@ namespace Cornichon.Example
     /// </summary>
     private static void AddTwoOthers(uint value, uint second, uint third, uint sum)
     {
-      var instance = new Cornichon.Example.Scenarios.AddTwoOthers();
+      var instance = new Cornichon.Accumulator.Scenarios.AddTwoOthers();
       instance.GivenAnInitial(value);
       instance.WhenYouAddA(second);
       instance.WhenYouAddA(third);

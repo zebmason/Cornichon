@@ -31,19 +31,19 @@ using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
 namespace [[rootnamespace]][[namespace]]
 {
-  TEST_CLASS([[featureName]])
+  TEST_CLASS([[className]])
   {
 [[Scenarios]]
 
 
     TEST_CLASS_INITIALIZE(ClassInitialize)
     {
-      std::clog << "Entering [[stub]]" << std::endl;
+      std::clog << "Entering [[featureName]]" << std::endl;
     }
 
     TEST_CLASS_CLEANUP(ClassCleanup)
     {
-      std::clog << "Exiting [[stub]]" << std::endl;
+      std::clog << "Exiting [[featureName]]" << std::endl;
     }
 
   public:
@@ -52,17 +52,17 @@ namespace [[rootnamespace]][[namespace]]
 }
 """[1:]
 
-    buffer = buffer.replace("[[stub]]", settings["stub"])
     buffer = buffer.replace("[[scenarios file]]", settings["scenarios file"])
 
-    namespace = settings["stub"]
-    namespace = common.Tokenise(namespace, settings["cases"]["namespace"])
+    namespace = cpputils.FeatureName(feature, settings["cases"]["namespace"])
     buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
     buffer = buffer.replace("[[namespace]]", namespace)
 
     # Print the class
     featureName = cpputils.FeatureName(feature, settings["cases"]["class"])
     buffer = buffer.replace("[[featureName]]", featureName)
+    className = common.Tokenise("Feature", settings["cases"]["class"])
+    buffer = buffer.replace("[[className]]", className)
     buffer = buffer.replace("[[Scenarios]]", cpputils.Scenarios(namespace, scenarios, settings, "    "))
     insts = cpputils.ScenarioInsts(scenarios, settings, "TEST_METHOD(", "    ")
     buffer = buffer.replace("[[ScenarioInsts]]", insts)

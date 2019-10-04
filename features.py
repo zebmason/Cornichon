@@ -23,7 +23,6 @@ for filename in os.listdir('Examples/tests'):
         # on those settings for the scenarios
         settings = cornichon.Settings("cpp/cppunittest")
         settings["gherkin"] = gherkin
-        settings["stub"] = stub
         settings["rootnamespace"] = "Cornichon::"
         settings["scenarios file"] = "../cppscenarios/" + stub + ".h"
         cornichon.PrintSettings(settings)

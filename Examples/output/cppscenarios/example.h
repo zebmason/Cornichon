@@ -10,7 +10,7 @@
 #include <iostream>
 #include <string>
 
-namespace Cornichon::Example::Scenarios
+namespace Cornichon::Accumulator::Scenarios
 {
   /// Test class scenario
   class AddOneOther

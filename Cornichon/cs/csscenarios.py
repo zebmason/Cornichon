@@ -81,8 +81,7 @@ namespace [[rootnamespace]][[namespace]].Scenarios
 {
 """[1:]
 
-    namespace = settings["stub"]
-    namespace = common.Tokenise(namespace, settings["cases"]["namespace"])
+    namespace = csutils.FeatureName(feature, settings["cases"]["namespace"])
     concat = concat.replace("[[rootnamespace]]", settings["rootnamespace"])
     concat = concat.replace("[[namespace]]", namespace)
 
