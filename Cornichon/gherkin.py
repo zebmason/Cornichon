@@ -10,6 +10,8 @@ def Import(output):
     subdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), bits[0])
     if subdir not in sys.path:
         sys.path.insert(0, subdir)
+    if bits[1] in sys.modules:
+        del sys.modules[bits[1]]
     return importlib.import_module(bits[1])
 
 

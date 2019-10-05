@@ -21,13 +21,8 @@ class Scenarios(unittest.TestCase):
         f = open(inFileName, "r")
         self.settings["gherkin"] = f.readlines()
         f.close()
-        sub = self.ext[1:]
-        if sub == "h":
-            sub = "cpp"
-        elif sub == "scenarios.py":
-            sub = "py"
         contents = self.header + cornichon.Generate(self.settings, self.output)
-        filePath = '../Examples/output/%s/%s/%s%s' % (sub, self.folder, self.name, self.ext)
+        filePath = '../Examples/output/%s/%s%s' % (self.folder, self.name, self.ext)
         self.DiffScenario(contents, filePath)
 
     def DiffScenario(self, contents, filename):
@@ -64,7 +59,7 @@ class CppunittestScenario(Scenarios):
     def WhenTheGeneratorIsCppunittest(self):
         """Gherkin DSL step"""
         self.output = "cpp/cppunittest"
-        self.folder = "cppunittest"
+        self.folder = "cpp/cppunittest"
         self.ext = ".cpp"
         self.header = ""
         self.settings = cornichon.Settings(self.output)
@@ -76,7 +71,7 @@ class CppscenariosScenario(Scenarios):
     def WhenTheGeneratorIsCppscenarios(self):
         """Gherkin DSL step"""
         self.output = "cpp/cppscenarios"
-        self.folder = "cppscenarios"
+        self.folder = "cpp/cppscenarios"
         self.ext = ".h"
         self.header = "// Copyright (c) 2019 ...\n\n"
         self.settings = cornichon.Settings(self.output)
@@ -87,7 +82,7 @@ class GoogletestScenario(Scenarios):
     def WhenTheGeneratorIsGoogletest(self):
         """Gherkin DSL step"""
         self.output = "cpp/googletest"
-        self.folder = "googletest"
+        self.folder = "cpp/googletest"
         self.ext = ".cpp"
         self.header = "// Copyright (c) 2019 ...\n\n"
         self.settings = cornichon.Settings(self.output)
@@ -99,7 +94,7 @@ class Pyunit_testsScenario(Scenarios):
     def WhenTheGeneratorIsPyunit_tests(self):
         """Gherkin DSL step"""
         self.output = "py/pyunit_tests"
-        self.folder = "pyunit_tests"
+        self.folder = "py/pyunit_tests"
         self.ext = ".py"
         self.header = ""
         self.settings = cornichon.Settings(self.output)
@@ -111,7 +106,7 @@ class PyscenariosScenario(Scenarios):
     def WhenTheGeneratorIsPyscenarios(self):
         """Gherkin DSL step"""
         self.output = "py/pyscenarios"
-        self.folder = "pyunit_tests"
+        self.folder = "py/pyunit_tests"
         self.ext = "_scenarios.py"
         self.header = ""
         self.settings = cornichon.Settings(self.output)
@@ -122,7 +117,7 @@ class UnittestingScenario(Scenarios):
     def WhenTheGeneratorIsUnittesting(self):
         """Gherkin DSL step"""
         self.output = "cs/unittesting"
-        self.folder = "unittesting"
+        self.folder = "cs/unittesting"
         self.ext = ".cs"
         self.header = ""
         self.settings = cornichon.Settings(self.output)
@@ -133,7 +128,7 @@ class NunitScenario(Scenarios):
     def WhenTheGeneratorIsNunit(self):
         """Gherkin DSL step"""
         self.output = "cs/nunit"
-        self.folder = "nunit"
+        self.folder = "cs/nunit"
         self.ext = ".cs"
         self.header = ""
         self.settings = cornichon.Settings(self.output)
@@ -144,7 +139,40 @@ class CsscenariosScenario(Scenarios):
     def WhenTheGeneratorIsCsscenarios(self):
         """Gherkin DSL step"""
         self.output = "cs/csscenarios"
-        self.folder = "csscenarios"
+        self.folder = "cs/csscenarios"
         self.ext = ".cs"
+        self.header = ""
+        self.settings = cornichon.Settings(self.output)
+
+
+class VbunittestingScenario(Scenarios):
+    """Test class scenario"""
+    def WhenTheGeneratorIsUnittesting(self):
+        """Gherkin DSL step"""
+        self.output = "vb/unittesting"
+        self.folder = "vb/unittesting"
+        self.ext = ".vb"
+        self.header = ""
+        self.settings = cornichon.Settings(self.output)
+
+
+class VbnunitScenario(Scenarios):
+    """Test class scenario"""
+    def WhenTheGeneratorIsNunit(self):
+        """Gherkin DSL step"""
+        self.output = "vb/nunit"
+        self.folder = "vb/nunit"
+        self.ext = ".vb"
+        self.header = ""
+        self.settings = cornichon.Settings(self.output)
+
+
+class VbscenariosScenario(Scenarios):
+    """Test class scenario"""
+    def WhenTheGeneratorIsVbscenarios(self):
+        """Gherkin DSL step"""
+        self.output = "vb/vbscenarios"
+        self.folder = "vb/vbscenarios"
+        self.ext = ".vb"
         self.header = ""
         self.settings = cornichon.Settings(self.output)

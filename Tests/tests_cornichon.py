@@ -61,6 +61,27 @@ class Cornichon(unittest.TestCase):
         scenario.WhenTheGeneratorIsCsscenarios()
         scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
+    def Vbunittesting(self, name):
+        """Gherkin DSL scenario"""
+        scenario = VbunittestingScenario()
+        scenario.GivenAFeatureFileCalled(name)
+        scenario.WhenTheGeneratorIsUnittesting()
+        scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
+
+    def Vbnunit(self, name):
+        """Gherkin DSL scenario"""
+        scenario = VbnunitScenario()
+        scenario.GivenAFeatureFileCalled(name)
+        scenario.WhenTheGeneratorIsNunit()
+        scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
+
+    def Vbscenarios(self, name):
+        """Gherkin DSL scenario"""
+        scenario = VbscenariosScenario()
+        scenario.GivenAFeatureFileCalled(name)
+        scenario.WhenTheGeneratorIsVbscenarios()
+        scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
+
     def test_cppunittest_example(self):
         """Gherkin DSL test"""
         self.Cppunittest("example")
@@ -92,6 +113,18 @@ class Cornichon(unittest.TestCase):
     def test_csscenarios_example(self):
         """Gherkin DSL test"""
         self.Csscenarios("example")
+
+    def test_vbunittesting_example(self):
+        """Gherkin DSL test"""
+        self.Vbunittesting("example")
+
+    def test_vbnunit_example(self):
+        """Gherkin DSL test"""
+        self.Vbnunit("example")
+
+    def test_vbscenarios_example(self):
+        """Gherkin DSL test"""
+        self.Vbscenarios("example")
 
 
 if __name__ == '__main__':

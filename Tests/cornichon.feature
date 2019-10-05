@@ -58,3 +58,24 @@ Scenario Outline: csscenarios
   Examples:
     | name |
     | example |
+
+Scenario Outline: vbunittesting
+  When the generator is unittesting
+  Then the generated test is the same as the saved
+  Examples:
+    | name |
+    | example |
+
+Scenario Outline: vbnunit
+  When the generator is nunit
+  Then the generated test is the same as the saved
+  Examples:
+    | name |
+    | example |
+
+Scenario Outline: vbscenarios
+  When the generator is vbscenarios
+  Then the generated test is the same as the saved
+  Examples:
+    | name |
+    | example |
