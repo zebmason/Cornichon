@@ -25,20 +25,19 @@ for filename in os.listdir('Examples/tests'):
         settings["gherkin"] = gherkin
         settings["rootnamespace"] = "Cornichon::"
         settings["scenarios file"] = "../cppscenarios/" + stub + ".h"
-        cornichon.PrintSettings(settings)
 
         # Generate the tests
-        ofilename = 'Examples/output/cppunittest/' + stub + ".cpp"
+        ofilename = 'Examples/output/cpp/cppunittest/' + stub + ".cpp"
         if os.path.exists(ofilename):
-            ofilename = 'Examples/output/cppunittest/' + stub + ".fpp"
+            ofilename = 'Examples/output/cpp/cppunittest/' + stub + ".fpp"
         fp = open(ofilename, "w")
         fp.write(cornichon.Generate(settings, "cpp/cppunittest"))
         fp.close()
 
         # Generate the test scenarios
-        ofilename = 'Examples/output/cppscenarios/' + stub + ".h"
+        ofilename = 'Examples/output/cpp/cppscenarios/' + stub + ".h"
         if os.path.exists(ofilename):
-            ofilename = 'Examples/output/cppscenarios/' + stub + ".f"
+            ofilename = 'Examples/output/cpp/cppscenarios/' + stub + ".f"
         fp = open(ofilename, "w")
         fp.write(header + cornichon.Generate(settings, "cpp/cppscenarios"))
         fp.close()

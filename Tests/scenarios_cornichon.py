@@ -21,8 +21,13 @@ class Scenarios(unittest.TestCase):
         f = open(inFileName, "r")
         self.settings["gherkin"] = f.readlines()
         f.close()
+        sub = self.ext[1:]
+        if sub == "h":
+            sub = "cpp"
+        elif sub == "scenarios.py":
+            sub = "py"
         contents = self.header + cornichon.Generate(self.settings, self.output)
-        filePath = '../Examples/output/%s/%s%s' % (self.folder, self.name, self.ext)
+        filePath = '../Examples/output/%s/%s/%s%s' % (sub, self.folder, self.name, self.ext)
         self.DiffScenario(contents, filePath)
 
     def DiffScenario(self, contents, filename):
