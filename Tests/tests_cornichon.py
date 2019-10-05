@@ -26,11 +26,11 @@ class Cornichon(unittest.TestCase):
         scenario.WhenTheGeneratorIsGoogletest()
         scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
-    def Pyunittests(self, name):
+    def Pyunit_tests(self, name):
         """Gherkin DSL scenario"""
-        scenario = PyunittestsScenario()
+        scenario = Pyunit_testsScenario()
         scenario.GivenAFeatureFileCalled(name)
-        scenario.WhenTheGeneratorIsPyunittests()
+        scenario.WhenTheGeneratorIsPyunit_tests()
         scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
     def Pyscenarios(self, name):
@@ -73,9 +73,9 @@ class Cornichon(unittest.TestCase):
         """Gherkin DSL test"""
         self.Googletest("example")
 
-    def test_pyunittests_example(self):
+    def test_pyunit_tests_example(self):
         """Gherkin DSL test"""
-        self.Pyunittests("example")
+        self.Pyunit_tests("example")
 
     def test_pyscenarios_example(self):
         """Gherkin DSL test"""

@@ -19,16 +19,18 @@ def Argument(arg, type, templates):
 
 
 def Tokenise(line, case=""):
-    line = ''.join([i for i in line if (i.isalnum() or i == " ")])
+    line = ''.join([i for i in line if (i.isalnum() or i in [" ", "_"])])
     while line.find("  ") != -1:
         line = line.replace("  ", " ")
 
     if case == "Camel":
         return ''.join([Upper(i) for i in line.split()])
     elif case == "camel":
-        return ''.join([Lower(i) for i in line.split()])
+        return Lower(''.join([Upper(i) for i in line.split()]))
     elif case == "snake":
         return '_'.join([Lower(i) for i in line.split()])
+    elif case == "Snake":
+        return Upper('_'.join([Lower(i) for i in line.split()]))
 
     return line.replace(" ", "")
 

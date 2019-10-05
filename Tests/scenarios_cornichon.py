@@ -89,9 +89,9 @@ class GoogletestScenario(Scenarios):
         self.settings["scenarios file"] = "../cppscenarios/%s.h" % self.name
 
 
-class PyunittestsScenario(Scenarios):
+class Pyunit_testsScenario(Scenarios):
     """Test class scenario"""
-    def WhenTheGeneratorIsPyunittests(self):
+    def WhenTheGeneratorIsPyunit_tests(self):
         """Gherkin DSL step"""
         self.output = "py/pyunit_tests"
         self.folder = "pyunit_tests"

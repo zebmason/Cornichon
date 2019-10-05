@@ -29,7 +29,7 @@ def Type(value):
         return "float"
     except ValueError:
         pass
-    if value.isalnum():
+    if value.replace("_", "").isalnum():
         return "symbol"
     return "string"
 
