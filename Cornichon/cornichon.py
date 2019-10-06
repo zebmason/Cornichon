@@ -27,6 +27,12 @@ def HelpSettings(output):
     PrintSettings(settings)
 
 
+def ListModules():
+    """Utility that lists all the output types available to generate stub code"""
+    for mod in gherkin.ListModules():
+        print(mod)
+
+
 def Generate(settings, output):
     """Generate the stub code for the output type"""
     parsed = gherkin.Parse(settings)

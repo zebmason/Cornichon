@@ -31,6 +31,14 @@ The supported frameworks are:
 * `unittesting` - Microsoft's Unit Testing framework
 * `nunit` - NUnit
 
+### Visual Basic
+
+The scenario classes are generated using `vbscenarios`.
+
+The supported frameworks are:
+* `unittesting` - Microsoft's Unit Testing framework
+* `nunit` - NUnit
+
 ### Python
 
 The scenario classes are generated using `pyscenarios`.

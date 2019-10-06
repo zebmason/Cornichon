@@ -15,6 +15,23 @@ def Import(output):
     return importlib.import_module(bits[1])
 
 
+def ListModules():
+    list = []
+    direc = os.path.dirname(__file__)
+    for sub in os.listdir(direc):
+        if sub == "__pycache__":
+            continue
+        path = os.path.join(direc, sub)
+        if not os.path.isdir(path):
+            continue
+        skip = ["__pycache__", sub + "utils.py"]
+        for item in os.listdir(path):
+            if item in skip:
+                continue
+            list.append(sub + "/" + os.path.splitext(item)[0])
+    return list
+
+
 def Type(value):
     if value in ["true", "True", "false", "False"]:
         return "bool"
