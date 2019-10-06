@@ -1,6 +1,3 @@
-// Local headers
-#include "stdafx.h"
-
 // Other bespoke headers
 #include "../cppscenarios/example.h"
 

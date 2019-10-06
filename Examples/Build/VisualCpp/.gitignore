@@ -1,0 +1,7 @@
+/.vs
+/packages
+/Debug
+/Release
+/*/Debug
+/*/Release
+/*/*.user

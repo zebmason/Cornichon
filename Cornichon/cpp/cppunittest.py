@@ -20,9 +20,6 @@ def Generate(parsed, settings):
     scenarios = parsed[0]
     feature = parsed[1]
     buffer = """
-// Local headers
-#include "stdafx.h"
-
 // Other bespoke headers
 #include "[[scenarios file]]"
 
