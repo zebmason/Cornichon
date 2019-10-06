@@ -15,21 +15,21 @@ Namespace Cornichon.Accumulator.Scenarios
     ' Gherkin DSL step
     ' </summary>
     Public Sub GivenAnInitial(value As UInteger)
-      System.Console.WriteLine("      Given an initial " + value)
+      System.Console.WriteLine("      Given an initial " + value.ToString())
     End Sub
 
     ' <summary>
     ' Gherkin DSL step
     ' </summary>
     Public Sub WhenYouAddA(second As UInteger)
-      System.Console.WriteLine("      When you add a " + second)
+      System.Console.WriteLine("      When you add a " + second.ToString())
     End Sub
 
     ' <summary>
     ' Gherkin DSL step
     ' </summary>
     Public Sub ThenTheResultIs(sum As UInteger)
-      System.Console.WriteLine("      Then the result is " + sum)
+      System.Console.WriteLine("      Then the result is " + sum.ToString())
     End Sub
   End Class
 
@@ -49,21 +49,21 @@ Namespace Cornichon.Accumulator.Scenarios
     ' Gherkin DSL step
     ' </summary>
     Public Sub GivenAnInitial(value As UInteger)
-      System.Console.WriteLine("      Given an initial " + value)
+      System.Console.WriteLine("      Given an initial " + value.ToString())
     End Sub
 
     ' <summary>
     ' Gherkin DSL step
     ' </summary>
     Public Sub WhenYouAddA(second As UInteger)
-      System.Console.WriteLine("      When you add a " + second)
+      System.Console.WriteLine("      When you add a " + second.ToString())
     End Sub
 
     ' <summary>
     ' Gherkin DSL step
     ' </summary>
     Public Sub ThenTheResultIs(sum As UInteger)
-      System.Console.WriteLine("      Then the result is " + sum)
+      System.Console.WriteLine("      Then the result is " + sum.ToString())
     End Sub
   End Class
 End Namespace

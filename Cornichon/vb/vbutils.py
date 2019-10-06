@@ -60,7 +60,7 @@ def PrintScenario(namespace, scenario, arguments, steps, settings):
     ' <summary>
     ' Gherkin DSL scenario
     ' </summary>
-    Private Static Sub [[scenario]]([[arguments]])
+    Private Shared Sub [[scenario]]([[arguments]])
       Dim scenario As Scenarios.[[scenario]] = New Scenarios.[[scenario]]()
 [[steps]]
     End Sub

@@ -58,7 +58,7 @@ def Steps(scenarios, settings):
             buffer = buffer.replace("[[camelCase]]", camelCase)
             buffer = buffer.replace("[[arguments]]", arguments)
             lines = "%s%s %s" % ('      ', s[0], s[1])
-            description = Description(step.Sub(lines, '" + %s + "'), '    ')
+            description = Description(step.Sub(lines, '" + %s.ToString() + "'), '    ')
             buffer = buffer.replace("[[Description]]", description)
             concat += buffer
     return concat.rstrip()

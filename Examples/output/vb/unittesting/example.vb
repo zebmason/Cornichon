@@ -10,7 +10,7 @@ Namespace Cornichon.Accumulator
     ' <summary>
     ' Gherkin DSL scenario
     ' </summary>
-    Private Static Sub AddOneOther(value As UInteger, second As UInteger, sum As UInteger)
+    Private Shared Sub AddOneOther(value As UInteger, second As UInteger, sum As UInteger)
       Dim scenario As Scenarios.AddOneOther = New Scenarios.AddOneOther()
       scenario.GivenAnInitial(value)
       scenario.WhenYouAddA(second)
@@ -20,7 +20,7 @@ Namespace Cornichon.Accumulator
     ' <summary>
     ' Gherkin DSL scenario
     ' </summary>
-    Private Static Sub AddTwoOthers(value As UInteger, second As UInteger, third As UInteger, sum As UInteger)
+    Private Shared Sub AddTwoOthers(value As UInteger, second As UInteger, third As UInteger, sum As UInteger)
       Dim scenario As Scenarios.AddTwoOthers = New Scenarios.AddTwoOthers()
       scenario.GivenAnInitial(value)
       scenario.WhenYouAddA(second)
