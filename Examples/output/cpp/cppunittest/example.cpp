@@ -16,7 +16,7 @@ namespace Cornichon::Accumulator
   {
     static void AddOneOther(unsigned int value, unsigned int second, unsigned int sum)
     {
-      Cornichon::Accumulator::Scenarios::AddOneOther scenario;
+      Scenarios::AddOneOther scenario;
       scenario.GivenAnInitial(value);
       scenario.WhenYouAddA(second);
       scenario.ThenTheResultIs(sum);
@@ -24,7 +24,7 @@ namespace Cornichon::Accumulator
 
     static void AddTwoOthers(unsigned int value, unsigned int second, unsigned int third, unsigned int sum)
     {
-      Cornichon::Accumulator::Scenarios::AddTwoOthers scenario;
+      Scenarios::AddTwoOthers scenario;
       scenario.GivenAnInitial(value);
       scenario.WhenYouAddA(second);
       scenario.WhenYouAddA(third);

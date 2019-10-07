@@ -1,41 +1,42 @@
 import unittest
 
 
-class AddOneOtherScenario(unittest.TestCase):
-    """Test class scenario"""
-    def __init__(self):
-        """Initialiser"""
-        print("  Feature: Accumulator")
-        print("    Scenario: Add one other")
+class Scenarios:
 
-    def GivenAnInitial(self, value):
-        """Gherkin DSL step"""
-        print("      Given an initial " + str(value))
+    class AddOneOther(unittest.TestCase):
+        """Test class scenario"""
+        def __init__(self):
+            """Initialiser"""
+            print("  Feature: Accumulator")
+            print("    Scenario: Add one other")
 
-    def WhenYouAddA(self, second):
-        """Gherkin DSL step"""
-        print("      When you add a " + str(second))
+        def GivenAnInitial(self, value):
+            """Gherkin DSL step"""
+            print("      Given an initial " + str(value))
 
-    def ThenTheResultIs(self, sum):
-        """Gherkin DSL step"""
-        print("      Then the result is " + str(sum))
+        def WhenYouAddA(self, second):
+            """Gherkin DSL step"""
+            print("      When you add a " + str(second))
 
+        def ThenTheResultIs(self, sum):
+            """Gherkin DSL step"""
+            print("      Then the result is " + str(sum))
 
-class AddTwoOthersScenario(unittest.TestCase):
-    """Test class scenario"""
-    def __init__(self):
-        """Initialiser"""
-        print("  Feature: Accumulator")
-        print("    Scenario: Add two others")
+    class AddTwoOthers(unittest.TestCase):
+        """Test class scenario"""
+        def __init__(self):
+            """Initialiser"""
+            print("  Feature: Accumulator")
+            print("    Scenario: Add two others")
 
-    def GivenAnInitial(self, value):
-        """Gherkin DSL step"""
-        print("      Given an initial " + str(value))
+        def GivenAnInitial(self, value):
+            """Gherkin DSL step"""
+            print("      Given an initial " + str(value))
 
-    def WhenYouAddA(self, second):
-        """Gherkin DSL step"""
-        print("      When you add a " + str(second))
+        def WhenYouAddA(self, second):
+            """Gherkin DSL step"""
+            print("      When you add a " + str(second))
 
-    def ThenTheResultIs(self, sum):
-        """Gherkin DSL step"""
-        print("      Then the result is " + str(sum))
+        def ThenTheResultIs(self, sum):
+            """Gherkin DSL step"""
+            print("      Then the result is " + str(sum))

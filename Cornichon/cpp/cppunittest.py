@@ -66,7 +66,7 @@ namespace [[rootnamespace]][[namespace]]
     buffer = buffer.replace("[[featureName]]", featureName)
     className = common.Tokenise("Feature", settings["cases"]["class"])
     buffer = buffer.replace("[[className]]", className)
-    buffer = buffer.replace("[[Scenarios]]", cpputils.Scenarios(namespace, scenarios, settings, "    "))
+    buffer = buffer.replace("[[Scenarios]]", cpputils.Scenarios(scenarios, settings, "    "))
     insts = cpputils.ScenarioInsts(scenarios, settings, "TEST_METHOD(", "    ")
     buffer = buffer.replace("[[ScenarioInsts]]", insts)
 

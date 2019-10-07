@@ -7,14 +7,14 @@ class Accumulator(unittest.TestCase):
 
     def AddOneOther(self, value, second, sum):
         """Gherkin DSL scenario"""
-        scenario = AddOneOtherScenario()
+        scenario = Scenarios.AddOneOther()
         scenario.GivenAnInitial(value)
         scenario.WhenYouAddA(second)
         scenario.ThenTheResultIs(sum)
 
     def AddTwoOthers(self, value, second, third, sum):
         """Gherkin DSL scenario"""
-        scenario = AddTwoOthersScenario()
+        scenario = Scenarios.AddTwoOthers()
         scenario.GivenAnInitial(value)
         scenario.WhenYouAddA(second)
         scenario.WhenYouAddA(third)

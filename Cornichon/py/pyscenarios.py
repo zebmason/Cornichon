@@ -12,7 +12,7 @@ def Description(lines, indent):
         line = line.replace(' + ""', '')
         line = line.replace(' "" + ', ' ')
         buffer = """
-        print([[line]])"""
+            print([[line]])"""
         buffer = buffer.replace("[[line]]", line)
         des += buffer
     return des[1:]
@@ -34,8 +34,8 @@ def Steps(scenario, settings):
         if len(arguments) > 0:
             arguments = ", " + arguments
         buffer = """
-    def [[camelCase]](self[[arguments]]):
-        [[comment]]
+        def [[camelCase]](self[[arguments]]):
+            [[comment]]
 [[Description]]
 
 """[1:]
@@ -67,24 +67,25 @@ def Generate(parsed, settings):
     concat = """
 import unittest
 
+
+class Scenarios:
 """[1:]
 
     for scenario in scenarios:
         buffer = """
-class [[Scenario]](unittest.TestCase):
-    [[comment1]]
-    def __init__(self):
-        [[comment2]]
+    class [[Scenario]](unittest.TestCase):
+        [[comment1]]
+        def __init__(self):
+            [[comment2]]
 [[documentation]]
 
 [[steps]]
-
 """
 
         buffer = buffer.replace("[[comment1]]", '"""Test class scenario"""')
         buffer = buffer.replace("[[comment2]]", '"""Initialiser"""')
         buffer = buffer.replace("[[steps]]", Steps(scenario, settings))
-        scenarioName = common.Tokenise(scenario.lines + " Scenario", settings["cases"]["class"])
+        scenarioName = common.Tokenise(scenario.lines, settings["cases"]["class"])
         buffer = buffer.replace("[[Scenario]]", scenarioName)
         lines = "%s%s %s" % ('    ', 'Scenario:', scenario.lines)
         desc = Description(lines, '    ')

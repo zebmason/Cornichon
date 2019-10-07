@@ -55,20 +55,19 @@ def Stringify(examples, header):
     return common.ArgumentList(header, examples.types, settings, common.AsUpperSymbol)
 
 
-def PrintScenario(namespace, scenario, arguments, steps, settings):
+def PrintScenario(className, scenario, arguments, steps, settings):
     buffer = """
     ' <summary>
     ' Gherkin DSL scenario
     ' </summary>
     Private Shared Sub [[scenario]]([[arguments]])
-      Dim scenario As Scenarios.[[scenario]] = New Scenarios.[[scenario]]()
+      Dim scenario As Scenarios.[[className]] = New Scenarios.[[className]]()
 [[steps]]
     End Sub
 """[1:]
     buffer = buffer.replace("[[scenario]]", scenario)
+    buffer = buffer.replace("[[className]]", className)
     buffer = buffer.replace("[[arguments]]", arguments)
-    buffer = buffer.replace("[[namespace]]", namespace)
-    buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
 
     concat = ""
     for step in steps:
@@ -83,7 +82,7 @@ def FeatureName(feature, case):
     return camelCase
 
 
-def Scenarios(namespace, scenarios, settings, indent):
+def Scenarios(scenarios, settings, indent):
     concat = ""
     # parse the scenarios
     for s in scenarios:
@@ -101,8 +100,9 @@ def Scenarios(namespace, scenarios, settings, indent):
             steps.append(buffer)
             continue
         lines = s.lines.split('\n')
+        className = common.Tokenise(lines[0], settings["cases"]["class"])
         scenarioName = common.Tokenise(lines[0], settings["cases"]["scenario"])
-        concat += PrintScenario(namespace, scenarioName, fullArgs, steps, settings)
+        concat += PrintScenario(className, scenarioName, fullArgs, steps, settings)
         concat += "\n"
     return concat.rstrip()
 

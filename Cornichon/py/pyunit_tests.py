@@ -8,7 +8,7 @@ def PrintScenario(scenario, arguments, steps, settings, indent):
     buffer = """
     def [[scenario]](self, [[arguments]]):
         [[comment]]
-        scenario = [[scenario]]Scenario()
+        scenario = Scenarios.[[scenario]]()
 [[steps]]
 """[1:]
     buffer = buffer.replace("[[comment]]", '"""Gherkin DSL scenario"""')

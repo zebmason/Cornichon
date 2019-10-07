@@ -39,7 +39,7 @@ namespace [[rootnamespace]][[namespace]]
     buffer = buffer.replace("[[scenarios file]]", settings["scenarios file"])
     buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
     buffer = buffer.replace("[[namespace]]", namespace)
-    buffer = buffer.replace("[[Scenarios]]", cpputils.Scenarios(namespace, scenarios, settings, "  "))
+    buffer = buffer.replace("[[Scenarios]]", cpputils.Scenarios(scenarios, settings, "  "))
     stub = "TEST(%s, " % namespace
     insts = cpputils.ScenarioInsts(scenarios, settings, stub, "  ")
     buffer = buffer.replace("[[ScenarioInsts]]", insts)

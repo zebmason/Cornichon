@@ -55,19 +55,18 @@ def Stringify(examples, header):
     return common.ArgumentList(header, examples.types, settings, common.AsUpperSymbol)
 
 
-def PrintScenario(namespace, scenario, arguments, steps, settings, indent):
+def PrintScenario(className, scenario, arguments, steps, settings, indent):
     buffer = """
 [[indent]]static void [[scenario]]([[arguments]])
 [[indent]]{
-[[indent]]  [[rootnamespace]][[namespace]]::Scenarios::[[scenario]] scenario;
+[[indent]]  Scenarios::[[className]] scenario;
 [[steps]]
 [[indent]]}
 """[1:]
     buffer = buffer.replace("[[indent]]", indent)
     buffer = buffer.replace("[[scenario]]", scenario)
+    buffer = buffer.replace("[[className]]", className)
     buffer = buffer.replace("[[arguments]]", arguments)
-    buffer = buffer.replace("[[namespace]]", namespace)
-    buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
 
     concat = ""
     for step in steps:
@@ -82,7 +81,7 @@ def FeatureName(feature, case):
     return camelCase
 
 
-def Scenarios(namespace, scenarios, settings, indent):
+def Scenarios(scenarios, settings, indent):
     concat = ""
     # parse the scenarios
     for s in scenarios:
@@ -100,8 +99,9 @@ def Scenarios(namespace, scenarios, settings, indent):
             steps.append(buffer)
             continue
         lines = s.lines.split('\n')
+        className = common.Tokenise(lines[0], settings["cases"]["class"])
         scenarioName = common.Tokenise(lines[0], settings["cases"]["scenario"])
-        concat += PrintScenario(namespace, scenarioName, fullArgs, steps, settings, indent)
+        concat += PrintScenario(className, scenarioName, fullArgs, steps, settings, indent)
         concat += "\n"
     return concat.rstrip()
 

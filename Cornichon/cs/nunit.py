@@ -41,7 +41,7 @@ namespace [[rootnamespace]][[namespace]]
     # Print the class
     className = common.Tokenise("Feature", settings["cases"]["class"])
     buffer = buffer.replace("[[className]]", className)
-    buffer = buffer.replace("[[Scenarios]]", csutils.Scenarios(namespace, scenarios, settings, "    "))
+    buffer = buffer.replace("[[Scenarios]]", csutils.Scenarios(scenarios, settings, "    "))
     insts = csutils.ScenarioInsts(scenarios, settings, "Test", "    ")
     buffer = buffer.replace("[[ScenarioInsts]]", insts)
 

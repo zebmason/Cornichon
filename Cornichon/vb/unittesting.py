@@ -40,7 +40,7 @@ End Namespace
     # Print the class
     className = common.Tokenise("Feature", settings["cases"]["class"])
     buffer = buffer.replace("[[className]]", className)
-    buffer = buffer.replace("[[Scenarios]]", vbutils.Scenarios(namespace, scenarios, settings, "    "))
+    buffer = buffer.replace("[[Scenarios]]", vbutils.Scenarios(scenarios, settings, "    "))
     insts = vbutils.ScenarioInsts(scenarios, settings, "TestMethod", "    ")
     buffer = buffer.replace("[[ScenarioInsts]]", insts)
 
