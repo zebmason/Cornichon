@@ -7,13 +7,13 @@ class Gherkin(unittest.TestCase):
 
     def Types(self, type, value):
         """Gherkin DSL scenario"""
-        scenario = TypesScenario()
+        scenario = Scenarios.Types()
         scenario.GivenAnInput(value)
         scenario.ThenItHasCorresponding(type)
 
     def Worst(self, type, first, second):
         """Gherkin DSL scenario"""
-        scenario = WorstScenario()
+        scenario = Scenarios.Worst()
         scenario.GivenAFirstType(first)
         scenario.GivenASecondType(second)
         scenario.ThenItHasCorresponding(type)

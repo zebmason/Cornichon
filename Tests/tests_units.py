@@ -7,7 +7,7 @@ class Units(unittest.TestCase):
 
     def Templated(self, arg, type, template, output):
         """Gherkin DSL scenario"""
-        scenario = TemplatedScenario()
+        scenario = Scenarios.Templated()
         scenario.GivenAnArgument(arg)
         scenario.GivenAType(type)
         scenario.GivenATemplate(template)
@@ -15,19 +15,19 @@ class Units(unittest.TestCase):
 
     def Tokenized(self, arg, output):
         """Gherkin DSL scenario"""
-        scenario = TokenizedScenario()
+        scenario = Scenarios.Tokenized()
         scenario.GivenAnArgument(arg)
         scenario.ThenItHasCorresponding(output)
 
     def Snaked(self, arg, output):
         """Gherkin DSL scenario"""
-        scenario = SnakedScenario()
+        scenario = Scenarios.Snaked()
         scenario.GivenAnArgument(arg)
         scenario.ThenItHasCorresponding(output)
 
     def Argumental(self, args, types, language, declaration, output):
         """Gherkin DSL scenario"""
-        scenario = ArgumentalScenario()
+        scenario = Scenarios.Argumental()
         scenario.GivenArguments(args)
         scenario.GivenTypes(types)
         scenario.GivenALanguage(language)

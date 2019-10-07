@@ -16,95 +16,95 @@ sys.path.insert(0, os.path.join(subdir, "py"))
 import pyutils
 
 
-class TemplatedScenario(unittest.TestCase):
-    """Test class scenario"""
-    def GivenAnArgument(self, arg):
-        """Gherkin DSL step"""
-        self.arg = arg
+class Scenarios:
 
-    def GivenAType(self, type):
-        """Gherkin DSL step"""
-        self.type = type
+    class Templated(unittest.TestCase):
+        """Test class scenario"""
 
-    def GivenATemplate(self, template):
-        """Gherkin DSL step"""
-        self.templates = {}
-        self.templates[self.type] = template
+        def GivenAnArgument(self, arg):
+            """Gherkin DSL step"""
+            self.arg = arg
 
-    def ThenItHasCorresponding(self, output):
-        """Gherkin DSL step"""
-        out = common.Argument(self.arg, self.type, self.templates)
-        if out != output:
-            print("\n{} isn't {}".format(out, output))
-        self.assertEqual(out, output)
+        def GivenAType(self, type):
+            """Gherkin DSL step"""
+            self.type = type
 
+        def GivenATemplate(self, template):
+            """Gherkin DSL step"""
+            self.templates = {}
+            self.templates[self.type] = template
 
-class TokenizedScenario(unittest.TestCase):
-    """Test class scenario"""
-    def GivenAnArgument(self, arg):
-        """Gherkin DSL step"""
-        self.arg = arg
+        def ThenItHasCorresponding(self, output):
+            """Gherkin DSL step"""
+            out = common.Argument(self.arg, self.type, self.templates)
+            if out != output:
+                print("\n{} isn't {}".format(out, output))
+            self.assertEqual(out, output)
 
-    def ThenItHasCorresponding(self, output):
-        """Gherkin DSL step"""
-        out = common.Tokenise(self.arg)
-        if out != output:
-            print("\n{} isn't {}".format(out, output))
-        self.assertEqual(out, output)
+    class Tokenized(unittest.TestCase):
+        """Test class scenario"""
+        def GivenAnArgument(self, arg):
+            """Gherkin DSL step"""
+            self.arg = arg
 
+        def ThenItHasCorresponding(self, output):
+            """Gherkin DSL step"""
+            out = common.Tokenise(self.arg)
+            if out != output:
+                print("\n{} isn't {}".format(out, output))
+            self.assertEqual(out, output)
 
-class SnakedScenario(unittest.TestCase):
-    """Test class scenario"""
-    def GivenAnArgument(self, arg):
-        """Gherkin DSL step"""
-        self.arg = arg
+    class Snaked(unittest.TestCase):
+        """Test class scenario"""
+        def GivenAnArgument(self, arg):
+            """Gherkin DSL step"""
+            self.arg = arg
 
-    def ThenItHasCorresponding(self, output):
-        """Gherkin DSL step"""
-        out = common.Tokenise(self.arg, "snake")
-        if out != output:
-            print("\n{} isn't {}".format(out, output))
-        self.assertEqual(out, output)
+        def ThenItHasCorresponding(self, output):
+            """Gherkin DSL step"""
+            out = common.Tokenise(self.arg, "snake")
+            if out != output:
+                print("\n{} isn't {}".format(out, output))
+            self.assertEqual(out, output)
 
+    class Argumental(unittest.TestCase):
+        """Test class scenario"""
+        def GivenArguments(self, args):
+            """Gherkin DSL step"""
+            self.args = args.split(",")
 
-class ArgumentalScenario(unittest.TestCase):
-    """Test class scenario"""
-    def GivenArguments(self, args):
-        """Gherkin DSL step"""
-        self.args = args.split(",")
+        def GivenTypes(self, types):
+            """Gherkin DSL step"""
+            self.types = types.split(",")
 
-    def GivenTypes(self, types):
-        """Gherkin DSL step"""
-        self.types = types.split(",")
+        def GivenALanguage(self, language):
+            """Gherkin DSL step"""
+            self.language = language
 
-    def GivenALanguage(self, language):
-        """Gherkin DSL step"""
-        self.language = language
+        def GivenItIsADeclaration(self, declaration):
+            """Gherkin DSL step"""
+            self.declaration = declaration
 
-    def GivenItIsADeclaration(self, declaration):
-        """Gherkin DSL step"""
-        self.declaration = declaration
-
-    def ThenItHasCorresponding(self, output):
-        """Gherkin DSL step"""
-        settings = {}
-        if self.language == "cpp":
-            settings = cornichon.Settings("cpp/cppscenarios")
-        elif self.language == "python":
-            settings = cornichon.Settings("py/pyscenarios")
-
-        formats = {}
-        argModifier = common.AsSymbol
-        if self.declaration:
-            formats = settings["types"]
-        else:
-            formats = settings["values"]
+        def ThenItHasCorresponding(self, output):
+            """Gherkin DSL step"""
+            settings = {}
             if self.language == "cpp":
-                argModifier = cpputils.ArgModifier
+                settings = cornichon.Settings("cpp/cppscenarios")
             elif self.language == "python":
-                argModifier = pyutils.ArgModifier
+                settings = cornichon.Settings("py/pyscenarios")
 
-        out = common.ArgumentList(self.args, self.types, formats, argModifier)
-        if out != output:
-            print("\n{} isn't {}".format(out, output))
-        self.assertEqual(out, output)
+            formats = {}
+            argModifier = common.AsSymbol
+            if self.declaration:
+                formats = settings["types"]
+            else:
+                formats = settings["values"]
+                if self.language == "cpp":
+                    argModifier = cpputils.ArgModifier
+                elif self.language == "python":
+                    argModifier = pyutils.ArgModifier
+
+            out = common.ArgumentList(self.args, self.types, formats, argModifier)
+            if out != output:
+                print("\n{} isn't {}".format(out, output))
+            self.assertEqual(out, output)

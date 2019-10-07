@@ -7,77 +7,77 @@ class Cornichon(unittest.TestCase):
 
     def Cppunittest(self, name):
         """Gherkin DSL scenario"""
-        scenario = CppunittestScenario()
+        scenario = Scenarios.Cppunittest()
         scenario.GivenAFeatureFileCalled(name)
         scenario.WhenTheGeneratorIsCppunittest()
         scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
     def Cppscenarios(self, name):
         """Gherkin DSL scenario"""
-        scenario = CppscenariosScenario()
+        scenario = Scenarios.Cppscenarios()
         scenario.GivenAFeatureFileCalled(name)
         scenario.WhenTheGeneratorIsCppscenarios()
         scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
     def Googletest(self, name):
         """Gherkin DSL scenario"""
-        scenario = GoogletestScenario()
+        scenario = Scenarios.Googletest()
         scenario.GivenAFeatureFileCalled(name)
         scenario.WhenTheGeneratorIsGoogletest()
         scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
     def Pyunit_tests(self, name):
         """Gherkin DSL scenario"""
-        scenario = Pyunit_testsScenario()
+        scenario = Scenarios.Pyunit_tests()
         scenario.GivenAFeatureFileCalled(name)
         scenario.WhenTheGeneratorIsPyunit_tests()
         scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
     def Pyscenarios(self, name):
         """Gherkin DSL scenario"""
-        scenario = PyscenariosScenario()
+        scenario = Scenarios.Pyscenarios()
         scenario.GivenAFeatureFileCalled(name)
         scenario.WhenTheGeneratorIsPyscenarios()
         scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
     def Unittesting(self, name):
         """Gherkin DSL scenario"""
-        scenario = UnittestingScenario()
+        scenario = Scenarios.Unittesting()
         scenario.GivenAFeatureFileCalled(name)
         scenario.WhenTheGeneratorIsUnittesting()
         scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
     def Nunit(self, name):
         """Gherkin DSL scenario"""
-        scenario = NunitScenario()
+        scenario = Scenarios.Nunit()
         scenario.GivenAFeatureFileCalled(name)
         scenario.WhenTheGeneratorIsNunit()
         scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
     def Csscenarios(self, name):
         """Gherkin DSL scenario"""
-        scenario = CsscenariosScenario()
+        scenario = Scenarios.Csscenarios()
         scenario.GivenAFeatureFileCalled(name)
         scenario.WhenTheGeneratorIsCsscenarios()
         scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
     def Vbunittesting(self, name):
         """Gherkin DSL scenario"""
-        scenario = VbunittestingScenario()
+        scenario = Scenarios.Vbunittesting()
         scenario.GivenAFeatureFileCalled(name)
         scenario.WhenTheGeneratorIsUnittesting()
         scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
     def Vbnunit(self, name):
         """Gherkin DSL scenario"""
-        scenario = VbnunitScenario()
+        scenario = Scenarios.Vbnunit()
         scenario.GivenAFeatureFileCalled(name)
         scenario.WhenTheGeneratorIsNunit()
         scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
     def Vbscenarios(self, name):
         """Gherkin DSL scenario"""
-        scenario = VbscenariosScenario()
+        scenario = Scenarios.Vbscenarios()
         scenario.GivenAFeatureFileCalled(name)
         scenario.WhenTheGeneratorIsVbscenarios()
         scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
