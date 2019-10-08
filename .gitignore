@@ -1,3 +1,6 @@
 __pycache__
 /Examples/Doxygen/html
 /Examples/Doxygen/warnings.txt
+/build
+/cornichon.egg-info
+/dist
