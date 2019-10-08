@@ -43,7 +43,6 @@ def Lower(word):
 
 def Settings():
     settings = {}
-    settings["gherkin"] = ""
     settings["cases"] = {}
     settings["types"] = {}
     settings["values"] = {}
@@ -57,7 +56,6 @@ def Settings():
 
 def HelpSettings():
     settings = {}
-    settings["gherkin"] = "An array of lines containing the Gherkin DSL to be parsed"
     settings["cases"] = {}
     settings["types"] = {}
     settings["values"] = {}

@@ -21,9 +21,9 @@ class Scenarios:
             """Gherkin DSL step"""
             inFileName = os.path.join('../Examples/tests', self.name + '.feature')
             f = open(inFileName, "r")
-            self.settings["gherkin"] = f.readlines()
+            gherkin = f.readlines()
             f.close()
-            contents = self.header + cornichon.Generate(self.settings, self.output)
+            contents = self.header + cornichon.Generate(gherkin, self.settings, self.output)
             filePath = '../Examples/output/%s/%s%s' % (self.folder, self.name, self.ext)
             self.DiffScenario(contents, filePath)
 

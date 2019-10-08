@@ -215,10 +215,10 @@ def GetScenarios(sections):
     return [scenarios, feature]
 
 
-def GetSections(settings):
+def GetSections(input, settings):
     section = ''
     sections = []
-    for line in settings["gherkin"]:
+    for line in input:
         if line.lstrip()[:1] == '#':
             continue
         bits = line.split()
@@ -237,6 +237,6 @@ def GetSections(settings):
     return sections
 
 
-def Parse(settings):
-    sections = GetSections(settings)
+def Parse(input, settings):
+    sections = GetSections(input, settings)
     return GetScenarios(sections)

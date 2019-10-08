@@ -22,7 +22,6 @@ for filename in os.listdir('Examples/tests'):
         # Only need to call Settings for the test framework as it builds
         # on those settings for the scenarios
         settings = cornichon.Settings("cpp/cppunittest")
-        settings["gherkin"] = gherkin
         settings["rootnamespace"] = "Cornichon::"
         settings["scenarios file"] = "../cppscenarios/" + stub + ".h"
 
@@ -31,7 +30,7 @@ for filename in os.listdir('Examples/tests'):
         if os.path.exists(ofilename):
             ofilename = 'Examples/output/cpp/cppunittest/' + stub + ".fpp"
         fp = open(ofilename, "w")
-        fp.write(cornichon.Generate(settings, "cpp/cppunittest"))
+        fp.write(cornichon.Generate(gherkin, settings, "cpp/cppunittest"))
         fp.close()
 
         # Generate the test scenarios
@@ -39,5 +38,5 @@ for filename in os.listdir('Examples/tests'):
         if os.path.exists(ofilename):
             ofilename = 'Examples/output/cpp/cppscenarios/' + stub + ".f"
         fp = open(ofilename, "w")
-        fp.write(header + cornichon.Generate(settings, "cpp/cppscenarios"))
+        fp.write(header + cornichon.Generate(gherkin, settings, "cpp/cppscenarios"))
         fp.close()

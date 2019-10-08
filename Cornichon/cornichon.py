@@ -33,8 +33,8 @@ def ListModules():
         print(mod)
 
 
-def Generate(settings, output):
+def Generate(input, settings, output):
     """Generate the stub code for the output type"""
-    parsed = gherkin.Parse(settings)
+    parsed = gherkin.Parse(input, settings)
     mod = gherkin.Import(output)
     return mod.Generate(parsed, settings)

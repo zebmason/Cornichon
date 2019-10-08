@@ -17,18 +17,16 @@ def Process(stub):
     # Only need to call Settings for the test framework as it builds
     # on those settings for the scenarios
     settings = cornichon.Settings("py/pyunit_tests")
-    settings["stub"] = stub
-    settings["gherkin"] = gherkin
     settings["scenarios file"] = 'scenarios_' + stub
 
     # Overwrite the tests
     fp = open('tests_' + stub + '.py', "w")
-    fp.write(cornichon.Generate(settings, "py/pyunit_tests"))
+    fp.write(cornichon.Generate(gherkin, settings, "py/pyunit_tests"))
     fp.close()
 
     # Overwrite the test scenarios
     fp = open('scenarios_' + stub + '.py', "w")
-    fp.write(cornichon.Generate(settings, "py/pyscenarios"))
+    fp.write(cornichon.Generate(gherkin, settings, "py/pyscenarios"))
     fp.close()
 
 
