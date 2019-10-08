@@ -17,7 +17,7 @@ def HelpSettings():
 def ArgModifier(val, type):
     if type == "bool":
         return common.Upper(val)
-    if type in ["string", "symbol"]:
+    if type == "string":
         return val.replace('"', '\\"')
     return val
 

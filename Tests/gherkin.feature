@@ -5,7 +5,6 @@ Scenario Outline: types
   Then it has corresponding <type>
   Examples:
     | type   | value |
-    | symbol | sym   |
     | uint   | 78    |
     | bool   | true  |
     | int    | -90   |
@@ -18,18 +17,9 @@ Scenario Outline: worst
   Then it has corresponding <type>
   Examples:
     | type   | first  | second |
-    | symbol | symbol | symbol |
-    | symbol | uint   | symbol |
-    | symbol | symbol | uint   |
     | int    | int    | uint   |
     | float  | float  | uint   |
     | float  | float  | int    |
-    | string | symbol | int    |
-    | string | string | symbol |
     | string | string | uint   |
     | string | string | int    |
     | string | string | float  |
-    | string | string | symbol |
-    | string | string | symbol |
-    | symbol | symbol | none   |
-    | symbol | none   | symbol |

@@ -13,8 +13,6 @@ def ExtractParams(line, delim1, delim2):
 
 
 def Argument(arg, type, templates):
-    if type == "symbol":
-        return Argument(arg, "string", templates)
     return templates[type].format(arg)
 
 
@@ -71,18 +69,8 @@ def HelpSettings():
     return settings
 
 
-def SymbolToString(type):
-    if type == "symbol":
-        return "string"
-    return type
-
-
 def AsSymbol(val, type):
     return val
-
-
-def AsUpperSymbol(val, type):
-    return val.upper()
 
 
 def ArgumentList(args, types, formats, argModifier, sep=", "):
@@ -91,7 +79,7 @@ def ArgumentList(args, types, formats, argModifier, sep=", "):
 
     line = ""
     for i in range(len(args)):
-        type = SymbolToString(types[i])
+        type = types[i]
         bit = formats[type].format(argModifier(args[i], type))
         if len(bit.strip()) == 0:
             continue

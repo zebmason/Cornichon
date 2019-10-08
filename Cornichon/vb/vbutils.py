@@ -34,25 +34,9 @@ def Macro():
 def ArgModifier(val, type):
     if type == "bool":
         return common.Lower(val)
-    if type in ["string", "symbol"]:
+    if type == "string":
         return val.replace('"', '\\"')
     return val
-
-
-def Arguments(examples, header):
-    settings = Macro()
-    return common.ArgumentList(header, examples.types, settings, common.AsUpperSymbol)
-
-
-def Concat(examples, header):
-    settings = Macro()
-    return common.ArgumentList(header, examples.types, settings, common.AsUpperSymbol, " ## ")
-
-
-def Stringify(examples, header):
-    settings = Macro()
-    settings["string"] = "#_{}"
-    return common.ArgumentList(header, examples.types, settings, common.AsUpperSymbol)
 
 
 def PrintScenario(className, scenario, arguments, steps, settings):

@@ -62,13 +62,13 @@ class Units(unittest.TestCase):
         """Gherkin DSL test"""
         self.Snaked("1 9", "1_9")
 
-    def test_argumental_abcdef_intsymbolstringuintfloatbool_cpp_true_int_a_const_stdstring_b_const_stdstring_c_unsigned_int_d_double_e_bool_f(self):
+    def test_argumental_acdef_intstringuintfloatbool_cpp_true_int_a_const_stdstring_c_unsigned_int_d_double_e_bool_f(self):
         """Gherkin DSL test"""
-        self.Argumental("a,b,c,d,e,f", "int,symbol,string,uint,float,bool", "cpp", True, "int a, const std::string& b, const std::string& c, unsigned int d, double e, bool f")
+        self.Argumental("a,c,d,e,f", "int,string,uint,float,bool", "cpp", True, "int a, const std::string& c, unsigned int d, double e, bool f")
 
-    def test_argumental_9symbolas_is10175False_intsymbolstringuintfloatbool_cpp_false_9_symbol_as_is_10_175_false(self):
+    def test_argumental_9as_is10175False_intstringuintfloatbool_cpp_false_9_as_is_10_175_false(self):
         """Gherkin DSL test"""
-        self.Argumental("-9,symbol,as is,10,1.75,False", "int,symbol,string,uint,float,bool", "cpp", False, "-9, \"symbol\", \"as is\", 10, 1.75, false")
+        self.Argumental("-9,as is,10,1.75,False", "int,string,uint,float,bool", "cpp", False, "-9, \"as is\", 10, 1.75, false")
 
     def test_argumental_trueTruefalseFalse_boolboolboolbool_cpp_false_true_true_false_false(self):
         """Gherkin DSL test"""

@@ -35,7 +35,7 @@ Scenario Outline: argumental
   Then it has corresponding <output>
   Examples:
     | args | types | language | declaration | output |
-    | a,b,c,d,e,f | int,symbol,string,uint,float,bool | cpp | True | int a, const std::string& b, const std::string& c, unsigned int d, double e, bool f |
-    | -9,symbol,as is,10,1.75,False | int,symbol,string,uint,float,bool | cpp | False | -9, "symbol", "as is", 10, 1.75, false |
+    | a,c,d,e,f | int,string,uint,float,bool | cpp | True | int a, const std::string& c, unsigned int d, double e, bool f |
+    | -9,as is,10,1.75,False | int,string,uint,float,bool | cpp | False | -9, "as is", 10, 1.75, false |
     | true,True,false,False | bool,bool,bool,bool | cpp | False | true, true, false, false |
     | false,False,true,True | bool,bool,bool,bool | python | False | False, False, True, True |

@@ -48,8 +48,6 @@ def Type(value):
         return "float"
     except ValueError:
         pass
-    if value.replace("_", "").isalnum():
-        return "symbol"
     return "string"
 
 
@@ -70,9 +68,6 @@ def Worst(other, type):
     if type == "string" or other == "string":
         return "string"
     comb = WorseComb(type, other, ["int", "uint"], True)
-    if comb != "none":
-        return comb
-    comb = WorseComb(type, other, ["symbol", "uint"], True)
     if comb != "none":
         return comb
     comb = WorseComb(type, other, ["float", "int", "uint"], True)
