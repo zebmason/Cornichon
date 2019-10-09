@@ -1,5 +1,7 @@
 # Cornichon
 
+[![Build Status](https://api.travis-ci.org/zebmason/Cornichon.svg?branch=master)](https://travis-ci.org/zebmason/Cornichon)
+
 ## Introduction
 A small Gherkin DSL parser which reads in a feature file and produces stub code
 against a given test framework. This allows BDD to be integrated into new and existing

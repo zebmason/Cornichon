@@ -4,3 +4,4 @@ __pycache__
 /build
 /cornichon.egg-info
 /dist
+/.tox
