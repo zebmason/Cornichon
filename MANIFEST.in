@@ -1,0 +1,12 @@
+include Examples/output/cpp/cppscenarios/example.h
+include Examples/output/cpp/cppunittest/example.cpp
+include Examples/output/cpp/googletest/example.cpp
+include Examples/output/cs/csscenarios/example.cs
+include Examples/output/cs/nunit/example.cs
+include Examples/output/cs/unittesting/example.cs
+include Examples/output/py/pyunit_tests/example.py
+include Examples/output/py/pyunit_tests/example_scenarios.py
+include Examples/output/vb/nunit/example.vb
+include Examples/output/vb/unittesting/example.vb
+include Examples/output/vb/vbscenarios/example.vb
+include Examples/tests/example.feature

@@ -1,7 +1,25 @@
 import setuptools
+import os
+import os.path
+
+
+def SubDirecs(direc, pre):
+    list = []
+    for sub in os.listdir(direc):
+        if sub == "__pycache__":
+            continue
+        path = os.path.join(direc, sub)
+        if not os.path.isdir(path):
+            continue
+        list.append(pre + sub)
+    return list
 
 with open("README.md", "r") as fh:
     long_description = fh.read()
+
+packages = ["Tests", "cornichon"]
+root = os.path.dirname(__file__)
+packages.extend(SubDirecs(os.path.join(root, "cornichon"), "cornichon/"))
 
 setuptools.setup(
     name="cornichon",
@@ -15,7 +33,8 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/zebmason/Cornichon",
-    packages=["cornichon", "cornichon/cpp", "cornichon/cs", "cornichon/py", "cornichon/vb"],
+    packages=packages,
+    include_package_data=True,
     classifiers=[
         "Framework :: Pytest",
         "Topic :: Software Development :: Code Generators",
