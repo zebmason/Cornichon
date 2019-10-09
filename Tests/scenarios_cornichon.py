@@ -4,7 +4,7 @@ import os.path
 import sys
 
 curdir = os.path.dirname(os.path.realpath(__file__))
-subdir = os.path.join(curdir, '../Cornichon')
+subdir = os.path.join(curdir, '../cornichon')
 sys.path.insert(0, subdir)
 import cornichon
 
