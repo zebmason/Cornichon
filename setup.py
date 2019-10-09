@@ -23,7 +23,7 @@ packages.extend(SubDirecs(os.path.join(root, "cornichon"), "cornichon/"))
 
 setuptools.setup(
     name="cornichon",
-    version="0.9.0",
+    version="0.9.1",
     author="Zeb Mason",
     author_email="consulting@cyclerouter.co.uk",
     maintainer="Zeb Mason",

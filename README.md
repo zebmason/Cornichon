@@ -90,3 +90,8 @@ The scenario classes are generated using `vb/vbscenarios`.
 The supported frameworks are:
 * `vb/unittesting` - Microsoft's Unit Testing framework
 * `vb/nunit` - NUnit
+
+## Contributing
+
+Contributions are welcome. Please follow the directory layout for the location
+of the plug-ins and their associated generated code for `example.feature`.
