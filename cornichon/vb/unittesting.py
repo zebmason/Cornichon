@@ -27,8 +27,7 @@ Namespace [[rootnamespace]][[namespace]]
   ' </summary>
   <TestClass>
   Public Class [[className]]
-[[Scenarios]]
-[[ScenarioInsts]]
+[[TestBody]]
   End Class
 End Namespace
 """[1:]
@@ -40,8 +39,9 @@ End Namespace
     # Print the class
     className = common.Tokenise("Feature", settings["cases"]["class"])
     buffer = buffer.replace("[[className]]", className)
-    buffer = buffer.replace("[[Scenarios]]", vbutils.Scenarios(scenarios, settings, "    "))
-    insts = vbutils.ScenarioInsts(scenarios, settings, "TestMethod", "    ")
-    buffer = buffer.replace("[[ScenarioInsts]]", insts)
+
+    vb = vbutils.VBasic(settings, "TestMethod")
+    testBody = common.TestBody(scenarios, settings, vb)
+    buffer = buffer.replace("[[TestBody]]", testBody)
 
     return buffer

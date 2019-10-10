@@ -31,17 +31,18 @@ def Generate(parsed, settings):
 
 namespace [[rootnamespace]][[namespace]]
 {
-[[Scenarios]]
-[[ScenarioInsts]]
+[[TestBody]]
 }
 """[1:]
 
     buffer = buffer.replace("[[scenarios file]]", settings["scenarios file"])
     buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
     buffer = buffer.replace("[[namespace]]", namespace)
-    buffer = buffer.replace("[[Scenarios]]", cpputils.Scenarios(scenarios, settings, "  "))
-    stub = "TEST(%s, " % namespace
-    insts = cpputils.ScenarioInsts(scenarios, settings, stub, "  ")
-    buffer = buffer.replace("[[ScenarioInsts]]", insts)
+
+    decl = "  static void {0}({1})\n"
+    altdecl = "  TEST(%s, {0})\n" % namespace
+    cpp = cpputils.Cpp(settings, decl, altdecl, "  ")
+    testBody = common.TestBody(scenarios, settings, cpp)
+    buffer = buffer.replace("[[TestBody]]", testBody)
 
     return buffer

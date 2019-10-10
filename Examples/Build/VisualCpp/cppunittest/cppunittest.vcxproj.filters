@@ -18,9 +18,15 @@
     <ClInclude Include="..\..\..\output\cpp\cppscenarios\example.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\output\cpp\cppscenarios\example2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\output\cpp\cppunittest\example.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\output\cpp\cppunittest\example2.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

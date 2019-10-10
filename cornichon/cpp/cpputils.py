@@ -39,90 +39,74 @@ def ArgModifier(val, type):
     return val
 
 
-def PrintScenario(className, scenario, arguments, steps, settings, indent):
-    buffer = """
-[[indent]]static void [[scenario]]([[arguments]])
-[[indent]]{
-[[indent]]  Scenarios::[[className]] scenario;
-[[steps]]
-[[indent]]}
-"""[1:]
-    buffer = buffer.replace("[[indent]]", indent)
-    buffer = buffer.replace("[[scenario]]", scenario)
-    buffer = buffer.replace("[[className]]", className)
-    buffer = buffer.replace("[[arguments]]", arguments)
-
-    concat = ""
-    for step in steps:
-        concat += step + "\n"
-    buffer = buffer.replace("[[steps]]", concat.rstrip())
-    return buffer
-
-
 def FeatureName(feature, case):
     lines = feature.split('\n')
     camelCase = common.Tokenise(lines[0], case)
     return camelCase
 
 
-def Scenarios(scenarios, settings, indent):
-    concat = ""
-    # parse the scenarios
-    for s in scenarios:
-        fullArgs = s.examples.ArgumentsList(settings["types"])
+class Cpp:
+    def __init__(self, settings, decl, altdecl, indent):
+        self.settings = settings
+        self.decl = decl
+        self.altdecl = altdecl
+        self.indent = indent
+        self.argModifier = ArgModifier
+
+    @staticmethod
+    def ScenarioBody(className, steps, indent):
+        buffer = """
+[[indent]]{
+[[indent]]  Scenarios::[[className]] scenario;
+[[steps]]
+[[indent]]}
+"""[1:]
+        buffer = buffer.replace("[[indent]]", indent)
+        buffer = buffer.replace("[[className]]", className)
+
+        concat = ""
+        for step in steps:
+            concat += step + "\n"
+        buffer = buffer.replace("[[steps]]", concat.rstrip())
+        return buffer
+
+    def ScenarioDecl(self, line, fullArgs):
+        scenarioName = common.Tokenise(line, self.settings["cases"]["scenario"])
+        return self.decl.format(scenarioName, fullArgs)
+
+    def TestDecl(self, line):
+        scenarioName = common.Tokenise(line, self.settings["cases"]["scenario"])
+        return self.altdecl.format(scenarioName)
+
+    def Body(self, scenario):
         steps = []
-        for step in s.Steps():
+        for step in scenario.Steps():
             lines = step[1].split('\n')
             st = gherkin.Step(step[0], step[1])
-            camelCase = st.Tokenise(settings["cases"]["step"])
-            arguments = st.ParameterList(s.examples.types)
+            camelCase = st.Tokenise(self.settings["cases"]["step"])
+            arguments = st.ParameterList(scenario.examples.types)
             buffer = '[[indent]]  scenario.[[camelCase]]([[arguments]]);'
-            buffer = buffer.replace("[[indent]]", indent)
+            buffer = buffer.replace("[[indent]]", self.indent)
             buffer = buffer.replace("[[camelCase]]", camelCase)
             buffer = buffer.replace("[[arguments]]", arguments)
             steps.append(buffer)
             continue
-        lines = s.lines.split('\n')
-        className = common.Tokenise(lines[0], settings["cases"]["class"])
-        scenarioName = common.Tokenise(lines[0], settings["cases"]["scenario"])
-        concat += PrintScenario(className, scenarioName, fullArgs, steps, settings, indent)
-        concat += "\n"
-    return concat.rstrip()
+        lines = scenario.lines.split('\n')
+        className = common.Tokenise(lines[0], self.settings["cases"]["class"])
+        return Cpp.ScenarioBody(className, steps, self.indent) + "\n"
 
-
-def ScenarioInsts(scenarios, settings, stub, indent):
-    concat = ""
-    # parse the sections
-    for s in scenarios:
-        lines = s.lines.split('\n')
-        scenario = common.Tokenise(lines[0], settings["cases"]["scenario"])
-        if s.examples.Exists():
-            lines = s.examples.lines.split('\n')
-            for line in lines[2:]:
-                if len(line.strip()) == 0:
-                    continue
-                arguments = s.examples.ArgumentsInstance(settings["values"], line, ArgModifier)
-                if "" == arguments:
-                    continue
-                buffer = """
-[[indent]][[stub]][[testName]])
-[[indent]]{
+    def Example(self, line, arguments):
+        buffer = """
+[[testName]][[indent]]{
 [[indent]]  [[scenario]]([[arguments]]);
 [[indent]]}
 """
-                testName = " ".join([scenario, arguments])
-                testName = common.Tokenise(testName, settings["cases"]["test"])
-                buffer = buffer.replace("[[testName]]", testName)
-                buffer = buffer.replace("[[stub]]", stub)
-                buffer = buffer.replace("[[indent]]", indent)
-                buffer = buffer.replace("[[scenario]]", scenario)
-                buffer = buffer.replace("[[arguments]]", arguments)
-                concat += buffer
-        else:
-            buffer = """
-[[indent]][[scenario]]Inst();
-"""
-            buffer = buffer.replace("[[indent]]", indent)
-            buffer = buffer.replace("[[scenario]]", scenario)
-            concat += buffer
-    return concat.rstrip()
+        scenario = common.Tokenise(line, self.settings["cases"]["scenario"])
+        testName = " ".join([scenario, arguments])
+        testName = common.Tokenise(testName, self.settings["cases"]["test"])
+        testName = self.altdecl.format(testName)
+        buffer = buffer.replace("[[testName]]", testName)
+        buffer = buffer.replace("[[indent]]", self.indent)
+        buffer = buffer.replace("[[scenario]]", scenario)
+        buffer = buffer.replace("[[arguments]]", arguments)
+        return buffer

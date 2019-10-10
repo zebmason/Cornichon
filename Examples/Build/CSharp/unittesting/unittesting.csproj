@@ -50,7 +50,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\..\output\cs\csscenarios\example.cs" />
+    <Compile Include="..\..\..\output\cs\csscenarios\example2.cs" />
     <Compile Include="..\..\..\output\cs\unittesting\example.cs" />
+    <Compile Include="..\..\..\output\cs\unittesting\example2.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

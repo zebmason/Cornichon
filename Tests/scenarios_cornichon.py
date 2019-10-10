@@ -96,7 +96,7 @@ class Scenarios:
             self.ext = ".py"
             self.header = ""
             self.settings = cornichon.Settings(self.output)
-            self.settings["scenarios file"] = "example_scenarios"
+            self.settings["scenarios file"] = self.name + "_scenarios"
 
     class Pyscenarios(Scenarios):
         """Test class scenario"""

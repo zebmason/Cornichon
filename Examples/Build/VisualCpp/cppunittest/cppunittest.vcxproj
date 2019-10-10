@@ -155,9 +155,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\output\cpp\cppscenarios\example.h" />
+    <ClInclude Include="..\..\..\output\cpp\cppscenarios\example2.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\output\cpp\cppunittest\example.cpp" />
+    <ClCompile Include="..\..\..\output\cpp\cppunittest\example2.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

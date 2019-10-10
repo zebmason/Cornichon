@@ -84,3 +84,32 @@ def ArgumentList(args, types, formats, argModifier, sep=", "):
         line = "{}{}{}".format(line, sep, bit)
 
     return line[len(sep):]
+
+
+def TestBody(scenarios, settings, framework):
+    concat = ""
+    # Create the scenarios
+    for scenario in scenarios:
+        lines = scenario.lines.split('\n')
+        if scenario.examples.Exists():
+            fullArgs = scenario.examples.ArgumentsList(settings["types"])
+            concat += framework.ScenarioDecl(lines[0], fullArgs)
+        else:
+            scenarioName = Tokenise(lines[0], settings["cases"]["test"])
+            concat += framework.TestDecl(lines[0])
+        concat += framework.Body(scenario)
+    concat = concat.rstrip() + "\n"
+    # Create any examples
+    for scenario in scenarios:
+        lines = scenario.lines.split('\n')
+        sc = lines[0]
+        if scenario.examples.Exists():
+            lines = scenario.examples.lines.split('\n')
+            for line in lines[2:]:
+                if len(line.strip()) == 0:
+                    continue
+                arguments = scenario.examples.ArgumentsInstance(settings["values"], line, framework.argModifier)
+                if "" == arguments:
+                    continue
+                concat += framework.Example(sc, arguments)
+    return concat.rstrip()

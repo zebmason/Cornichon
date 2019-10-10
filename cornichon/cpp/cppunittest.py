@@ -36,8 +36,7 @@ namespace [[rootnamespace]][[namespace]]
 {
   TEST_CLASS([[className]])
   {
-[[Scenarios]]
-
+[[TestBody]]
 
     TEST_CLASS_INITIALIZE(ClassInitialize)
     {
@@ -48,9 +47,6 @@ namespace [[rootnamespace]][[namespace]]
     {
       std::clog << "Exiting [[featureName]]" << std::endl;
     }
-
-  public:
-[[ScenarioInsts]]
   };
 }
 """[1:]
@@ -66,8 +62,11 @@ namespace [[rootnamespace]][[namespace]]
     buffer = buffer.replace("[[featureName]]", featureName)
     className = common.Tokenise("Feature", settings["cases"]["class"])
     buffer = buffer.replace("[[className]]", className)
-    buffer = buffer.replace("[[Scenarios]]", cpputils.Scenarios(scenarios, settings, "    "))
-    insts = cpputils.ScenarioInsts(scenarios, settings, "TEST_METHOD(", "    ")
-    buffer = buffer.replace("[[ScenarioInsts]]", insts)
+
+    decl = "    static void {0}({1})\n"
+    altdecl = "    TEST_METHOD({0})\n"
+    cpp = cpputils.Cpp(settings, decl, altdecl, "    ")
+    testBody = common.TestBody(scenarios, settings, cpp)
+    buffer = buffer.replace("[[TestBody]]", testBody)
 
     return buffer

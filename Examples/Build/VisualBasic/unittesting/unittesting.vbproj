@@ -79,7 +79,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\..\output\vb\vbscenarios\example.vb" />
+    <Compile Include="..\..\..\output\vb\vbscenarios\example2.vb" />
     <Compile Include="..\..\..\output\vb\unittesting\example.vb" />
+    <Compile Include="..\..\..\output\vb\unittesting\example2.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
       <AutoGen>True</AutoGen>

@@ -31,19 +31,6 @@ namespace Cornichon::Accumulator
       scenario.ThenTheResultIs(sum);
     }
 
-
-    TEST_CLASS_INITIALIZE(ClassInitialize)
-    {
-      std::clog << "Entering Accumulator" << std::endl;
-    }
-
-    TEST_CLASS_CLEANUP(ClassCleanup)
-    {
-      std::clog << "Exiting Accumulator" << std::endl;
-    }
-
-  public:
-
     TEST_METHOD(AddOneOther123)
     {
       AddOneOther(1, 2, 3);
@@ -62,6 +49,16 @@ namespace Cornichon::Accumulator
     TEST_METHOD(AddTwoOthers2349)
     {
       AddTwoOthers(2, 3, 4, 9);
+    }
+
+    TEST_CLASS_INITIALIZE(ClassInitialize)
+    {
+      std::clog << "Entering Accumulator" << std::endl;
+    }
+
+    TEST_CLASS_CLEANUP(ClassCleanup)
+    {
+      std::clog << "Exiting Accumulator" << std::endl;
     }
   };
 }

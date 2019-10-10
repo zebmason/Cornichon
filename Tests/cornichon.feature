@@ -9,6 +9,7 @@ Scenario Outline: cppunittest
   Examples:
     | name |
     | example |
+    | example2 |
 
 Scenario Outline: cppscenarios
   When the generator is cppscenarios
@@ -16,6 +17,7 @@ Scenario Outline: cppscenarios
   Examples:
     | name |
     | example |
+    | example2 |
 
 Scenario Outline: googletest
   When the generator is googletest
@@ -23,6 +25,7 @@ Scenario Outline: googletest
   Examples:
     | name |
     | example |
+    | example2 |
 
 Scenario Outline: pyunit_tests
   When the generator is pyunit_tests
@@ -30,6 +33,7 @@ Scenario Outline: pyunit_tests
   Examples:
     | name |
     | example |
+    | example2 |
 
 Scenario Outline: pyscenarios
   When the generator is pyscenarios
@@ -37,6 +41,7 @@ Scenario Outline: pyscenarios
   Examples:
     | name |
     | example |
+    | example2 |
 
 Scenario Outline: unittesting
   When the generator is unittesting
@@ -44,6 +49,7 @@ Scenario Outline: unittesting
   Examples:
     | name |
     | example |
+    | example2 |
 
 Scenario Outline: nunit
   When the generator is nunit
@@ -51,6 +57,7 @@ Scenario Outline: nunit
   Examples:
     | name |
     | example |
+    | example2 |
 
 Scenario Outline: csscenarios
   When the generator is csscenarios
@@ -58,6 +65,7 @@ Scenario Outline: csscenarios
   Examples:
     | name |
     | example |
+    | example2 |
 
 Scenario Outline: vbunittesting
   When the generator is unittesting
@@ -65,6 +73,7 @@ Scenario Outline: vbunittesting
   Examples:
     | name |
     | example |
+    | example2 |
 
 Scenario Outline: vbnunit
   When the generator is nunit
@@ -72,6 +81,7 @@ Scenario Outline: vbnunit
   Examples:
     | name |
     | example |
+    | example2 |
 
 Scenario Outline: vbscenarios
   When the generator is vbscenarios
@@ -79,3 +89,4 @@ Scenario Outline: vbscenarios
   Examples:
     | name |
     | example |
+    | example2 |

@@ -28,8 +28,7 @@ namespace [[rootnamespace]][[namespace]]
   [TestFixture]
   public class [[className]]
   {
-[[Scenarios]]
-[[ScenarioInsts]]
+[[TestBody]]
   }
 }
 """[1:]
@@ -41,8 +40,9 @@ namespace [[rootnamespace]][[namespace]]
     # Print the class
     className = common.Tokenise("Feature", settings["cases"]["class"])
     buffer = buffer.replace("[[className]]", className)
-    buffer = buffer.replace("[[Scenarios]]", csutils.Scenarios(scenarios, settings, "    "))
-    insts = csutils.ScenarioInsts(scenarios, settings, "Test", "    ")
-    buffer = buffer.replace("[[ScenarioInsts]]", insts)
+
+    cs = csutils.CSharp(settings, "Test")
+    testBody = common.TestBody(scenarios, settings, cs)
+    buffer = buffer.replace("[[TestBody]]", testBody)
 
     return buffer

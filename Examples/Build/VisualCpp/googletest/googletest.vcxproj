@@ -34,9 +34,11 @@
   <PropertyGroup Label="UserMacros" />
   <ItemGroup>
     <ClInclude Include="..\..\..\output\cpp\cppscenarios\example.h" />
+    <ClInclude Include="..\..\..\output\cpp\cppscenarios\example2.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\output\cpp\googletest\example.cpp" />
+    <ClCompile Include="..\..\..\output\cpp\googletest\example2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -39,96 +39,81 @@ def ArgModifier(val, type):
     return val
 
 
-def PrintScenario(className, scenario, arguments, steps, settings):
-    buffer = """
-    /// <summary>
-    /// Gherkin DSL scenario
-    /// </summary>
-    private static void [[scenario]]([[arguments]])
-    {
-      var scenario = new Scenarios.[[className]]();
-[[steps]]
-    }
-"""[1:]
-    buffer = buffer.replace("[[scenario]]", scenario)
-    buffer = buffer.replace("[[className]]", className)
-    buffer = buffer.replace("[[arguments]]", arguments)
-
-    concat = ""
-    for step in steps:
-        concat += step + "\n"
-    buffer = buffer.replace("[[steps]]", concat.rstrip())
-    return buffer
-
-
 def FeatureName(feature, case):
     lines = feature.split('\n')
     camelCase = common.Tokenise(lines[0], case)
     return camelCase
 
 
-def Scenarios(scenarios, settings, indent):
-    concat = ""
-    # parse the scenarios
-    for s in scenarios:
-        fullArgs = s.examples.ArgumentsList(settings["types"])
+class CSharp:
+    def __init__(self, settings, decorator):
+        self.settings = settings
+        self.argModifier = ArgModifier
+        self.altdecl = """
+    /// <summary>
+    /// Gherkin DSL test
+    /// </summary>
+    [%s]
+    public void {0}()
+"""[1:] % decorator
+
+    @staticmethod
+    def ScenarioBody(className, steps):
+        buffer = """
+    {
+      var scenario = new Scenarios.[[className]]();
+[[steps]]
+    }
+"""[1:]
+        buffer = buffer.replace("[[className]]", className)
+
+        concat = ""
+        for step in steps:
+            concat += step + "\n"
+        buffer = buffer.replace("[[steps]]", concat.rstrip())
+        return buffer
+
+    def ScenarioDecl(self, line, fullArgs):
+        scenarioName = common.Tokenise(line, self.settings["cases"]["scenario"])
+        decl = """
+    /// <summary>
+    /// Gherkin DSL scenario
+    /// </summary>
+    private static void {0}({1})
+"""[1:]
+        return decl.format(scenarioName, fullArgs)
+
+    def TestDecl(self, line):
+        scenarioName = common.Tokenise(line, self.settings["cases"]["scenario"])
+        return self.altdecl.format(scenarioName)
+
+    def Body(self, scenario):
         steps = []
-        for step in s.Steps():
+        for step in scenario.Steps():
             lines = step[1].split('\n')
             st = gherkin.Step(step[0], step[1])
-            camelCase = st.Tokenise(settings["cases"]["step"])
-            arguments = st.ParameterList(s.examples.types)
-            buffer = '[[indent]]  scenario.[[camelCase]]([[arguments]]);'
-            buffer = buffer.replace("[[indent]]", indent)
+            camelCase = st.Tokenise(self.settings["cases"]["step"])
+            arguments = st.ParameterList(scenario.examples.types)
+            buffer = '      scenario.[[camelCase]]([[arguments]]);'
             buffer = buffer.replace("[[camelCase]]", camelCase)
             buffer = buffer.replace("[[arguments]]", arguments)
             steps.append(buffer)
             continue
-        lines = s.lines.split('\n')
-        className = common.Tokenise(lines[0], settings["cases"]["class"])
-        scenarioName = common.Tokenise(lines[0], settings["cases"]["scenario"])
-        concat += PrintScenario(className, scenarioName, fullArgs, steps, settings)
-        concat += "\n"
-    return concat.rstrip()
+        lines = scenario.lines.split('\n')
+        className = common.Tokenise(lines[0], self.settings["cases"]["class"])
+        return CSharp.ScenarioBody(className, steps) + "\n"
 
-
-def ScenarioInsts(scenarios, settings, decorator, indent):
-    concat = ""
-    # parse the sections
-    for s in scenarios:
-        lines = s.lines.split('\n')
-        scenario = common.Tokenise(lines[0], settings["cases"]["scenario"])
-        if s.examples.Exists():
-            lines = s.examples.lines.split('\n')
-            for line in lines[2:]:
-                if len(line.strip()) == 0:
-                    continue
-                arguments = s.examples.ArgumentsInstance(settings["values"], line, ArgModifier)
-                if "" == arguments:
-                    continue
-                buffer = """
-[[indent]]/// <summary>
-[[indent]]/// Gherkin DSL test
-[[indent]]/// </summary>
-[[indent]][[[decorator]]]
-[[indent]]public void [[testName]]()
-[[indent]]{
-[[indent]]  [[scenario]]([[arguments]]);
-[[indent]]}
+    def Example(self, line, arguments):
+        buffer = """
+[[testName]]    {
+      [[scenario]]([[arguments]]);
+    }
 """
-                testName = " ".join([scenario, arguments])
-                testName = common.Tokenise(testName, settings["cases"]["test"])
-                buffer = buffer.replace("[[testName]]", testName)
-                buffer = buffer.replace("[[decorator]]", decorator)
-                buffer = buffer.replace("[[indent]]", indent)
-                buffer = buffer.replace("[[scenario]]", scenario)
-                buffer = buffer.replace("[[arguments]]", arguments)
-                concat += buffer
-        else:
-            buffer = """
-[[indent]][[scenario]]Inst();
-"""
-            buffer = buffer.replace("[[indent]]", indent)
-            buffer = buffer.replace("[[scenario]]", scenario)
-            concat += buffer
-    return concat.rstrip()
+        scenario = common.Tokenise(line, self.settings["cases"]["scenario"])
+        testName = " ".join([scenario, arguments])
+        testName = common.Tokenise(testName, self.settings["cases"]["test"])
+        testName = self.altdecl.format(testName)
+        buffer = buffer.replace("[[testName]]", testName)
+        buffer = buffer.replace("[[scenario]]", scenario)
+        buffer = buffer.replace("[[arguments]]", arguments)
+        return buffer
