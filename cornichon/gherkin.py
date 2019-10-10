@@ -5,13 +5,14 @@ import sys
 import common
 
 
-def Import(output):
+def Import(output, unload=False):
     bits = output.split("/")
     subdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), bits[0])
-    if subdir not in sys.path:
-        sys.path.insert(0, subdir)
-    if bits[1] in sys.modules:
+    if unload:
+        sys.path.remove(subdir)
         del sys.modules[bits[1]]
+        return None
+    sys.path.insert(0, subdir)
     return importlib.import_module(bits[1])
 
 

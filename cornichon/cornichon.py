@@ -5,7 +5,9 @@ import gherkin
 def Settings(output):
     """Get the default settings for the output type"""
     mod = gherkin.Import(output)
-    return mod.Settings()
+    settings = mod.Settings()
+    gherkin.Import(output, True)
+    return settings
 
 
 def PrintSettings(settings, level="settings"):
@@ -24,6 +26,7 @@ def HelpSettings(output):
     """Utility that prints all the help for individual settings"""
     mod = gherkin.Import(output)
     settings = mod.HelpSettings()
+    gherkin.Import(output, True)
     PrintSettings(settings)
 
 
@@ -37,4 +40,6 @@ def Generate(input, settings, output):
     """Generate the stub code for the output type"""
     parsed = gherkin.Parse(input, settings)
     mod = gherkin.Import(output)
-    return mod.Generate(parsed, settings)
+    stubCode = mod.Generate(parsed, settings)
+    gherkin.Import(output, True)
+    return stubCode
