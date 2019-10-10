@@ -14,6 +14,7 @@ def SubDirecs(direc, pre):
         list.append(pre + sub)
     return list
 
+
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
@@ -23,7 +24,7 @@ packages.extend(SubDirecs(os.path.join(root, "cornichon"), "cornichon/"))
 
 setuptools.setup(
     name="cornichon",
-    version="0.9.1",
+    version="0.9.2",
     author="Zeb Mason",
     author_email="consulting@cyclerouter.co.uk",
     maintainer="Zeb Mason",
@@ -45,10 +46,10 @@ setuptools.setup(
         "Programming Language :: C#",
         "Programming Language :: C++",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3",
         "Programming Language :: Visual Basic",
         "Operating System :: OS Independent",
         "Intended Audience :: Developers",
     ],
-    python_requires='>=3.7.0',
+    python_requires='>=3.0.0',
 )
