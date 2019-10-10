@@ -101,6 +101,8 @@ def ScenarioInsts(scenarios, settings, decorator, indent):
         if s.examples.Exists():
             lines = s.examples.lines.split('\n')
             for line in lines[2:]:
+                if len(line.strip()) == 0:
+                    continue
                 arguments = s.examples.ArgumentsInstance(settings["values"], line, ArgModifier)
                 if "" == arguments:
                     continue

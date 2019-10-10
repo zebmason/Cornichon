@@ -54,6 +54,8 @@ def ScenarioInsts(scenarios, settings, indent):
         if s.examples.Exists():
             lines = s.examples.lines.split('\n')
             for line in lines[2:]:
+                if len(line.strip()) == 0:
+                    continue
                 args = line.strip()[1:-2].replace('|', ' ')
                 if '' == args:
                     continue
