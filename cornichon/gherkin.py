@@ -105,13 +105,13 @@ class Step:
         return common.Tokenise(line, case)
 
     def ArgumentList(self, types, settings):
-        return common.ArgumentList(self.params, types, settings, common.AsSymbol)
+        return common.ArgumentList(self.params, types, settings, common.UnmodifiedArg)
 
     def ParameterList(self, types):
         settings = {}
         for type in ["bool", "int", "uint", "float", "string"]:
             settings[type] = "{}"
-        return common.ArgumentList(self.params, types, settings, common.AsSymbol)
+        return common.ArgumentList(self.params, types, settings, common.UnmodifiedArg)
 
     def Sub(self, lines, template):
         for i in range(len(self.params)):
@@ -171,7 +171,7 @@ class Examples:
         if args == []:
             return ""
 
-        return common.ArgumentList(args, self.types, settings, common.AsSymbol)
+        return common.ArgumentList(args, self.types, settings, common.UnmodifiedArg)
 
     def ArgumentsInstance(self, settings, line, argModifier):
         args = Examples.Arguments(line)

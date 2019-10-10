@@ -94,7 +94,7 @@ class Scenarios:
                 settings = cornichon.Settings("py/pyscenarios")
 
             formats = {}
-            argModifier = common.AsSymbol
+            argModifier = common.UnmodifiedArg
             if self.declaration:
                 formats = settings["types"]
             else:

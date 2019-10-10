@@ -67,7 +67,7 @@ def HelpSettings():
     return settings
 
 
-def AsSymbol(val, type):
+def UnmodifiedArg(val, type):
     return val
 
 
