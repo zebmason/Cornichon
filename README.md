@@ -93,5 +93,4 @@ The supported frameworks are:
 
 ## Contributing
 
-Contributions are welcome. Please follow the directory layout for the location
-of the plug-ins and their associated generated code for `example.feature`.
+Contributions are welcome. Please read the testing documentation.
