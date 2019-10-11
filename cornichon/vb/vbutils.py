@@ -57,21 +57,6 @@ class VBasic:
     Public Sub {0}()
 """[1:] % decorator
 
-    @staticmethod
-    def ScenarioBody(className, steps):
-        buffer = """
-      Dim scenario As Scenarios.[[className]] = New Scenarios.[[className]]()
-[[steps]]
-    End Sub
-"""[1:]
-        buffer = buffer.replace("[[className]]", className)
-
-        concat = ""
-        for step in steps:
-            concat += step + "\n"
-        buffer = buffer.replace("[[steps]]", concat.rstrip())
-        return buffer
-
     def ScenarioDecl(self, line, fullArgs):
         scenarioName = common.Tokenise(line, self.settings["cases"]["scenario"])
         decl = """
@@ -86,21 +71,21 @@ class VBasic:
         scenarioName = common.Tokenise(line, self.settings["cases"]["scenario"])
         return self.altdecl.format(scenarioName)
 
-    def Body(self, scenario):
-        steps = []
-        for step in scenario.Steps():
-            lines = step[1].split('\n')
-            st = gherkin.Step(step[0], step[1])
-            camelCase = st.Tokenise(self.settings["cases"]["step"])
-            arguments = st.ParameterList(scenario.examples.types)
-            buffer = '      scenario.[[camelCase]]([[arguments]])'
-            buffer = buffer.replace("[[camelCase]]", camelCase)
-            buffer = buffer.replace("[[arguments]]", arguments)
-            steps.append(buffer)
-            continue
+    def StepTemplate(self):
+        return '      scenario.[[method]]([[arguments]])\n'
+
+    def Body(self, scenario, steps):
+        buffer = """
+      Dim scenario As Scenarios.[[className]] = New Scenarios.[[className]]()
+[[steps]]
+    End Sub
+
+"""[1:]
         lines = scenario.lines.split('\n')
         className = common.Tokenise(lines[0], self.settings["cases"]["class"])
-        return VBasic.ScenarioBody(className, steps) + "\n"
+        buffer = buffer.replace("[[className]]", className)
+        buffer = buffer.replace("[[steps]]", steps.rstrip())
+        return buffer
 
     def Example(self, line, arguments):
         buffer = """

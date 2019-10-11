@@ -53,23 +53,6 @@ class Cpp:
         self.indent = indent
         self.argModifier = ArgModifier
 
-    @staticmethod
-    def ScenarioBody(className, steps, indent):
-        buffer = """
-[[indent]]{
-[[indent]]  Scenarios::[[className]] scenario;
-[[steps]]
-[[indent]]}
-"""[1:]
-        buffer = buffer.replace("[[indent]]", indent)
-        buffer = buffer.replace("[[className]]", className)
-
-        concat = ""
-        for step in steps:
-            concat += step + "\n"
-        buffer = buffer.replace("[[steps]]", concat.rstrip())
-        return buffer
-
     def ScenarioDecl(self, line, fullArgs):
         scenarioName = common.Tokenise(line, self.settings["cases"]["scenario"])
         return self.decl.format(scenarioName, fullArgs)
@@ -78,22 +61,23 @@ class Cpp:
         scenarioName = common.Tokenise(line, self.settings["cases"]["scenario"])
         return self.altdecl.format(scenarioName)
 
-    def Body(self, scenario):
-        steps = []
-        for step in scenario.Steps():
-            lines = step[1].split('\n')
-            st = gherkin.Step(step[0], step[1])
-            camelCase = st.Tokenise(self.settings["cases"]["step"])
-            arguments = st.ParameterList(scenario.examples.types)
-            buffer = '[[indent]]  scenario.[[camelCase]]([[arguments]]);'
-            buffer = buffer.replace("[[indent]]", self.indent)
-            buffer = buffer.replace("[[camelCase]]", camelCase)
-            buffer = buffer.replace("[[arguments]]", arguments)
-            steps.append(buffer)
-            continue
+    def StepTemplate(self):
+        return self.indent + '  scenario.[[method]]([[arguments]]);\n'
+
+    def Body(self, scenario, steps):
+        buffer = """
+[[indent]]{
+[[indent]]  Scenarios::[[className]] scenario;
+[[steps]]
+[[indent]]}
+
+"""[1:]
+        buffer = buffer.replace("[[steps]]", steps.rstrip())
+        buffer = buffer.replace("[[indent]]", self.indent)
         lines = scenario.lines.split('\n')
         className = common.Tokenise(lines[0], self.settings["cases"]["class"])
-        return Cpp.ScenarioBody(className, steps, self.indent) + "\n"
+        buffer = buffer.replace("[[className]]", className)
+        return buffer
 
     def Example(self, line, arguments):
         buffer = """

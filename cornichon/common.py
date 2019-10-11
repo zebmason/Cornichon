@@ -1,3 +1,6 @@
+import gherkin
+
+
 def ExtractParams(line, delim1, delim2):
     params = []
     while True:
@@ -97,7 +100,18 @@ def TestBody(scenarios, settings, framework):
         else:
             scenarioName = Tokenise(lines[0], settings["cases"]["test"])
             concat += framework.TestDecl(lines[0])
-        concat += framework.Body(scenario)
+        steps = ""
+        template = framework.StepTemplate()
+        for step in scenario.Steps():
+            lines = step[1].split('\n')
+            st = gherkin.Step(step[0], step[1])
+            method = st.Tokenise(settings["cases"]["step"])
+            arguments = st.ParameterList(scenario.examples.types)
+            buffer = template
+            buffer = buffer.replace("[[method]]", method)
+            buffer = buffer.replace("[[arguments]]", arguments)
+            steps += buffer
+        concat += framework.Body(scenario, steps)
     concat = concat.rstrip() + "\n"
     # Create any examples
     for scenario in scenarios:
