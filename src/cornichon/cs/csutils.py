@@ -24,25 +24,12 @@ def HelpSettings():
     return settings
 
 
-def Macro():
-    settings = {}
-    for type in ["bool", "int", "uint", "float", "string"]:
-        settings[type] = "_{}"
-    return settings
-
-
 def ArgModifier(val, type):
     if type == "bool":
         return common.Lower(val)
     if type == "string":
         return val.replace('"', '\\"')
     return val
-
-
-def FeatureName(feature, case):
-    lines = feature.split('\n')
-    camelCase = common.Tokenise(lines[0], case)
-    return camelCase
 
 
 class CSharp:

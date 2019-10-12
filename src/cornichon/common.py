@@ -36,6 +36,11 @@ def Tokenise(line, case=""):
     return line.replace(" ", "")
 
 
+def FeatureName(feature, case):
+    lines = feature.split('\n')
+    return Tokenise(lines[0], case)
+
+
 def Upper(word):
     return word[0].upper() + word[1:]
 

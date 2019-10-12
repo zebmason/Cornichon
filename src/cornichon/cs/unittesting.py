@@ -33,7 +33,7 @@ namespace [[rootnamespace]][[namespace]]
 }
 """[1:]
 
-    namespace = csutils.FeatureName(feature, settings["cases"]["namespace"])
+    namespace = common.FeatureName(feature, settings["cases"]["namespace"])
     buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
     buffer = buffer.replace("[[namespace]]", namespace)
 

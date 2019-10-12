@@ -77,14 +77,14 @@ def HelpSettings():
 def Generate(parsed, settings):
     scenarios = parsed[0]
     feature = parsed[1]
-    featureName = vbutils.FeatureName(feature, settings["cases"]["class"])
+    featureName = common.FeatureName(feature, settings["cases"]["class"])
     featureDesc = FeatureDesc(feature, '    ')
 
     concat = """
 Namespace [[rootnamespace]][[namespace]].Scenarios
 """[1:]
 
-    namespace = vbutils.FeatureName(feature, settings["cases"]["namespace"])
+    namespace = common.FeatureName(feature, settings["cases"]["namespace"])
     concat = concat.replace("[[rootnamespace]]", settings["rootnamespace"])
     concat = concat.replace("[[namespace]]", namespace)
 

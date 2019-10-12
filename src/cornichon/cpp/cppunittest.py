@@ -53,12 +53,12 @@ namespace [[rootnamespace]][[namespace]]
 
     buffer = buffer.replace("[[scenarios file]]", settings["scenarios file"])
 
-    namespace = cpputils.FeatureName(feature, settings["cases"]["namespace"])
+    namespace = common.FeatureName(feature, settings["cases"]["namespace"])
     buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
     buffer = buffer.replace("[[namespace]]", namespace)
 
     # Print the class
-    featureName = cpputils.FeatureName(feature, settings["cases"]["class"])
+    featureName = common.FeatureName(feature, settings["cases"]["class"])
     buffer = buffer.replace("[[featureName]]", featureName)
     className = common.Tokenise("Feature", settings["cases"]["class"])
     buffer = buffer.replace("[[className]]", className)

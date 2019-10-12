@@ -19,7 +19,7 @@ def HelpSettings():
 def Generate(parsed, settings):
     scenarios = parsed[0]
     feature = parsed[1]
-    featureName = cpputils.FeatureName(feature, settings["cases"]["namespace"])
+    featureName = common.FeatureName(feature, settings["cases"]["namespace"])
     namespace = common.Tokenise(featureName, settings["cases"]["namespace"])
 
     buffer = """

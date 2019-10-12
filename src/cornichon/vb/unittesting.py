@@ -32,7 +32,7 @@ Namespace [[rootnamespace]][[namespace]]
 End Namespace
 """[1:]
 
-    namespace = vbutils.FeatureName(feature, settings["cases"]["namespace"])
+    namespace = common.FeatureName(feature, settings["cases"]["namespace"])
     buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
     buffer = buffer.replace("[[namespace]]", namespace)
 

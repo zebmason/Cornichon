@@ -23,12 +23,6 @@ def ArgModifier(val, type):
     return val
 
 
-def FeatureName(feature, case):
-    lines = feature.split('\n')
-    camelCase = common.Tokenise(lines[0], case)
-    return camelCase
-
-
 class Python:
     def __init__(self, settings):
         self.settings = settings

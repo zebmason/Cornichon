@@ -35,7 +35,7 @@ if __name__ == '__main__':
     unittest.main()
 """[1:]
 
-    className = pyutils.FeatureName(feature, settings["cases"]["class"])
+    className = common.FeatureName(feature, settings["cases"]["class"])
     buffer = buffer.replace("[[className]]", className)
     buffer = buffer.replace("[[comment]]", '"""Gherkin DSL feature"""')
     buffer = buffer.replace("[[scenarios file]]", settings["scenarios file"])
