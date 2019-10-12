@@ -4,7 +4,7 @@ import os.path
 import sys
 
 curdir = os.path.dirname(os.path.realpath(__file__))
-subdir = os.path.join(curdir, '../cornichon')
+subdir = os.path.join(curdir, '../src/cornichon')
 sys.path.insert(0, subdir)
 import cornichon
 import gherkin
@@ -38,10 +38,10 @@ class TestHelpSettings(unittest.TestCase):
 
     def testAll(self):
         self.undoc = False
-        for sub in os.listdir('../cornichon'):
+        for sub in os.listdir('../src/cornichon'):
             if sub == "__pycache__":
                 continue
-            path = os.path.join('../cornichon', sub)
+            path = os.path.join('../src/cornichon', sub)
             if not os.path.isdir(path):
                 continue
             skip = ["__pycache__", sub + "utils.py", sub + "scenarios.py"]

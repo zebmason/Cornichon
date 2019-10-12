@@ -18,9 +18,9 @@ def SubDirecs(direc, pre):
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-packages = ["Tests", "cornichon"]
+packages = ["src/cornichon"]
 root = os.path.dirname(__file__)
-packages.extend(SubDirecs(os.path.join(root, "cornichon"), "cornichon/"))
+packages.extend(SubDirecs(os.path.join(root, "src/cornichon"), "src/cornichon/"))
 
 setuptools.setup(
     name="cornichon",
@@ -35,7 +35,6 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url="https://github.com/zebmason/Cornichon",
     packages=packages,
-    include_package_data=True,
     classifiers=[
         "Framework :: Pytest",
         "Topic :: Software Development :: Code Generators",
