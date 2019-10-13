@@ -40,21 +40,21 @@ def Steps(scenarios, settings):
         for s in scenario.Steps():
             lines = s[1].split('\n')
             step = gherkin.Step(s[0], s[1])
-            camelCase = step.Tokenise(settings["cases"]["step"])
-            if 0 != steps.count(camelCase):
+            stepName = step.Tokenise(settings["cases"]["step"])
+            if 0 != steps.count(stepName):
                 continue
-            steps.append(camelCase)
+            steps.append(stepName)
 
             arguments = step.ArgumentList(scenario.examples.types, settings["types"])
             buffer = """
     /// Gherkin DSL step
-    void [[camelCase]]([[arguments]])
+    void [[stepName]]([[arguments]])
     {
 [[Description]]
     }
 
 """[1:]
-            buffer = buffer.replace("[[camelCase]]", camelCase)
+            buffer = buffer.replace("[[stepName]]", stepName)
             buffer = buffer.replace("[[arguments]]", arguments)
             lines = "%s%s %s" % ('      ', s[0], s[1])
             description = Description(step.Sub(lines, '" << %s << "'), '    ')

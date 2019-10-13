@@ -25,22 +25,22 @@ def Steps(scenario, settings):
     for s in scenario.Steps():
         lines = s[1].split('\n')
         step = gherkin.Step(s[0], s[1])
-        camelCase = step.Tokenise(settings["cases"]["step"])
-        if 0 != steps.count(camelCase):
+        stepName = step.Tokenise(settings["cases"]["step"])
+        if 0 != steps.count(stepName):
             continue
-        steps.append(camelCase)
+        steps.append(stepName)
 
         arguments = step.ArgumentList(scenario.examples.types, settings["types"])
         if len(arguments) > 0:
             arguments = ", " + arguments
         buffer = """
-        def [[camelCase]](self[[arguments]]):
+        def [[stepName]](self[[arguments]]):
             [[comment]]
 [[Description]]
 
 """[1:]
         buffer = buffer.replace("[[comment]]", '"""Gherkin DSL step"""')
-        buffer = buffer.replace("[[camelCase]]", camelCase)
+        buffer = buffer.replace("[[stepName]]", stepName)
         buffer = buffer.replace("[[arguments]]", arguments)
         lines = "%s%s %s" % ('      ', s[0], s[1])
         description = Description(step.Sub(lines, '" + str(%s) + "'), '    ')
