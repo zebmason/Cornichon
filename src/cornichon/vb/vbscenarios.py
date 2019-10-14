@@ -3,7 +3,7 @@ import vbutils
 import gherkin
 
 
-def Description(lines, indent):
+def Description(lines):
     des = ''
     for line in lines.split('\n'):
         if line.strip() == '':
@@ -12,23 +12,22 @@ def Description(lines, indent):
         line = line.replace(' + ""', '')
         line = line.replace(' "" + ', ' ')
         buffer = """
-[[indent]]  System.Console.WriteLine([[line]])"""
-        buffer = buffer.replace("[[indent]]", indent)
+      System.Console.WriteLine([[line]])"""
         buffer = buffer.replace("[[line]]", line)
         des += buffer
     return des[1:]
 
 
-def FeatureDesc(feature, indent):
+def FeatureDesc(feature):
     lines = feature.split('\n')
     lines = "%s%s %s" % ('  ', 'Feature:', feature)
-    return Description(lines, indent)
+    return Description(lines)
 
 
-def Documentation(scenario, feature, settings, indent):
+def Documentation(scenario, feature, settings):
     lines = scenario.lines.split('\n')
     lines = "%s%s %s" % ('    ', 'Scenario:', scenario.lines)
-    description = Description(lines, indent)
+    description = Description(lines)
     return feature + "\n" + description
 
 
@@ -58,7 +57,7 @@ def Steps(scenarios, settings):
             buffer = buffer.replace("[[stepName]]", stepName)
             buffer = buffer.replace("[[arguments]]", arguments)
             lines = "%s%s %s" % ('      ', s[0], s[1])
-            description = Description(step.Sub(lines, '" + %s.ToString() + "'), '    ')
+            description = Description(step.Sub(lines, '" + %s.ToString() + "'))
             buffer = buffer.replace("[[Description]]", description)
             concat += buffer
     return concat.rstrip()
@@ -78,7 +77,7 @@ def Generate(parsed, settings):
     scenarios = parsed[0]
     feature = parsed[1]
     featureName = common.FeatureName(feature, settings["cases"]["class"])
-    featureDesc = FeatureDesc(feature, '    ')
+    featureDesc = FeatureDesc(feature)
 
     concat = """
 Namespace [[rootnamespace]][[namespace]].Scenarios
@@ -107,7 +106,7 @@ Namespace [[rootnamespace]][[namespace]].Scenarios
 """[1:]
 
         buffer = buffer.replace("[[featureName]]", common.Tokenise(scenario.lines, settings["cases"]["class"]))
-        documentation = Documentation(scenario, featureDesc, settings, "    ")
+        documentation = Documentation(scenario, featureDesc, settings)
         buffer = buffer.replace("[[documentation]]", documentation)
         buffer = buffer.replace("[[steps]]", Steps(scenarios, settings))
         concat += buffer

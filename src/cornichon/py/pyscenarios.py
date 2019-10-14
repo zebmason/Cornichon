@@ -3,7 +3,7 @@ import pyutils
 import gherkin
 
 
-def Description(lines, indent):
+def Description(lines):
     des = ''
     for line in lines.split('\n'):
         if line.strip() == '':
@@ -43,7 +43,7 @@ def Steps(scenario, settings):
         buffer = buffer.replace("[[stepName]]", stepName)
         buffer = buffer.replace("[[arguments]]", arguments)
         lines = "%s%s %s" % ('      ', s[0], s[1])
-        description = Description(step.Sub(lines, '" + str(%s) + "'), '    ')
+        description = Description(step.Sub(lines, '" + str(%s) + "'))
         buffer = buffer.replace("[[Description]]", description)
         concat += buffer
     return concat.rstrip()
@@ -63,7 +63,7 @@ def Generate(parsed, settings):
     scenarios = parsed[0]
     feature = parsed[1]
     lines = "%s%s %s" % ('  ', 'Feature:', feature)
-    featureDesc = Description(lines, '  ')
+    featureDesc = Description(lines)
     concat = """
 import unittest
 
@@ -88,7 +88,7 @@ class Scenarios:
         scenarioName = common.Tokenise(scenario.lines, settings["cases"]["class"])
         buffer = buffer.replace("[[Scenario]]", scenarioName)
         lines = "%s%s %s" % ('    ', 'Scenario:', scenario.lines)
-        desc = Description(lines, '    ')
+        desc = Description(lines)
         documentation = featureDesc + "\n" + desc
         buffer = buffer.replace("[[documentation]]", documentation)
         concat += buffer
