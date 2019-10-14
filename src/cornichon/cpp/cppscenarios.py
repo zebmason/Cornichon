@@ -3,65 +3,6 @@ import cpputils
 import gherkin
 
 
-def Description(lines):
-    des = ''
-    for line in lines.split('\n'):
-        if line.strip() == '':
-            continue
-        line = '"%s"' % line
-        line = line.replace(' << ""', '')
-        line = line.replace(' "" << ', ' ')
-        buffer = """
-      std::clog << [[line]] << std::endl;"""
-        buffer = buffer.replace("[[line]]", line)
-        des += buffer
-    return des[1:]
-
-
-def FeatureDesc(feature):
-    lines = feature.split('\n')
-    lines = "%s%s %s" % ('  ', 'Feature:', feature)
-    return Description(lines)
-
-
-def Documentation(scenario, feature, settings):
-    lines = scenario.lines.split('\n')
-    lines = "%s%s %s" % ('    ', 'Scenario:', scenario.lines)
-    description = Description(lines)
-    return feature + "\n" + description
-
-
-def Steps(scenarios, settings):
-    concat = ""
-    steps = []
-    # parse the sections
-    for scenario in scenarios:
-        for s in scenario.Steps():
-            lines = s[1].split('\n')
-            step = gherkin.Step(s[0], s[1])
-            stepName = step.Tokenise(settings["cases"]["step"])
-            if 0 != steps.count(stepName):
-                continue
-            steps.append(stepName)
-
-            arguments = step.ArgumentList(scenario.examples.types, settings["types"])
-            buffer = """
-    /// Gherkin DSL step
-    void [[stepName]]([[arguments]])
-    {
-[[Description]]
-    }
-
-"""[1:]
-            buffer = buffer.replace("[[stepName]]", stepName)
-            buffer = buffer.replace("[[arguments]]", arguments)
-            lines = "%s%s %s" % ('      ', s[0], s[1])
-            description = Description(step.Sub(lines, '" << %s << "'))
-            buffer = buffer.replace("[[Description]]", description)
-            concat += buffer
-    return concat.rstrip()
-
-
 def Settings():
     settings = cpputils.Settings()
     return settings
@@ -72,11 +13,29 @@ def HelpSettings():
     return settings
 
 
+class PrintScenario(common.PrintScenario):
+    def __init__(self):
+        super().__init__()
+        self.line = "\n      std::clog << %s << std::endl;"
+        self.contractions = {' << ""': '', ' "" << ': ' '}
+        self.sub = '" << %s << "'
+        self.step = """
+    /// Gherkin DSL step
+    void [[stepName]]([[arguments]])
+    {
+[[description]]
+    }
+
+"""[1:]
+
+
 def Generate(parsed, settings):
     scenarios = parsed[0]
     feature = parsed[1]
     featureName = common.FeatureName(feature, settings["cases"]["namespace"])
-    featureDesc = FeatureDesc(feature)
+
+    printer = PrintScenario()
+    featureDesc = printer.FeatureDesc(feature)
 
     concat = """
 #pragma once
@@ -115,9 +74,9 @@ namespace [[rootnamespace]][[namespace]]::Scenarios
 """[1:]
 
         buffer = buffer.replace("[[featureName]]", common.Tokenise(scenario.lines, settings["cases"]["class"]))
-        documentation = Documentation(scenario, featureDesc, settings)
+        documentation = printer.Documentation(scenario, featureDesc, settings)
         buffer = buffer.replace("[[documentation]]", documentation)
-        buffer = buffer.replace("[[steps]]", Steps(scenarios, settings))
+        buffer = buffer.replace("[[steps]]", printer.Steps(scenario, settings))
         concat += buffer
 
     concat = concat[:-2] + """

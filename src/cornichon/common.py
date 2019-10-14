@@ -132,3 +132,55 @@ def TestBody(scenarios, settings, framework):
                     continue
                 concat += framework.Example(sc, arguments)
     return concat.rstrip()
+
+
+class PrintScenario:
+    def __init__(self):
+        self.stringify = '"%s"'
+        self.contractions = {' + ""': '', ' "" + ': ' '}
+        self.line = "\n      %s;"
+        self.sub = '" + %s + "'
+        self.step = ""
+
+    def Description(self, lines):
+        des = ''
+        for line in lines.split('\n'):
+            if line.strip() == '':
+                continue
+            line = self.stringify % line
+            for contraction in self.contractions:
+                line = line.replace(contraction, self.contractions[contraction])
+            des += self.line % line
+        return des[1:]
+
+    def FeatureDesc(self, feature):
+        lines = feature.split('\n')
+        lines = "%s%s %s" % ('  ', 'Feature:', feature)
+        return self.Description(lines)
+
+    def Documentation(self, scenario, feature, settings):
+        lines = scenario.lines.split('\n')
+        lines = "%s%s %s" % ('    ', 'Scenario:', scenario.lines)
+        description = self.Description(lines)
+        return feature + "\n" + description
+
+    def Steps(self, scenario, settings):
+        concat = ""
+        steps = []
+        # parse the sections
+        for s in scenario.Steps():
+            lines = s[1].split('\n')
+            step = gherkin.Step(s[0], s[1])
+            stepName = step.Tokenise(settings["cases"]["step"])
+            if 0 != steps.count(stepName):
+                continue
+            steps.append(stepName)
+            arguments = step.ArgumentList(scenario.examples.types, settings["types"])
+            buffer = self.step
+            buffer = buffer.replace("[[stepName]]", stepName)
+            buffer = buffer.replace("[[arguments]]", arguments)
+            lines = "      %s %s" % (s[0], s[1])
+            description = self.Description(step.Sub(lines, self.sub))
+            buffer = buffer.replace("[[description]]", description)
+            concat += buffer
+        return concat.rstrip()
