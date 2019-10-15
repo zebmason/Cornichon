@@ -20,7 +20,7 @@ def Process(stub):
     settings["scenarios file"] = 'scenarios_' + stub
 
     # Overwrite the tests
-    fp = open('tests_' + stub + '.py', "w")
+    fp = open('test_' + stub + '.py', "w")
     fp.write(cornichon.Generate(gherkin, settings, "py/pyunit_tests"))
     fp.close()
 
