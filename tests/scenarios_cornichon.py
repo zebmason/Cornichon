@@ -108,6 +108,27 @@ class Scenarios:
             self.header = ""
             self.settings = cornichon.Settings(self.output)
 
+    class Pytests(Scenarios):
+        """Test class scenario"""
+        def WhenTheGeneratorIsPytests(self):
+            """Gherkin DSL step"""
+            self.output = "py/pytests"
+            self.folder = "py/pytests"
+            self.ext = ".py"
+            self.header = ""
+            self.settings = cornichon.Settings(self.output)
+            self.settings["scenarios file"] = self.name + "_scenarios"
+
+    class Pytestscenarios(Scenarios):
+        """Test class scenario"""
+        def WhenTheGeneratorIsPyscenarios(self):
+            """Gherkin DSL step"""
+            self.output = "py/pyscenarios"
+            self.folder = "py/pytests"
+            self.ext = "_scenarios.py"
+            self.header = ""
+            self.settings = cornichon.Settings(self.output)
+
     class Unittesting(Scenarios):
         """Test class scenario"""
         def WhenTheGeneratorIsUnittesting(self):

@@ -101,7 +101,7 @@ def TestBody(scenarios, settings, framework):
         lines = scenario.lines.split('\n')
         if scenario.examples.Exists():
             fullArgs = scenario.examples.ArgumentsList(settings["types"])
-            concat += framework.ScenarioDecl(lines[0], fullArgs)
+            concat += framework.ScenarioDecl(lines[0], fullArgs, scenario.examples, settings)
         else:
             scenarioName = Tokenise(lines[0], settings["cases"]["test"])
             concat += framework.TestDecl(lines[0])

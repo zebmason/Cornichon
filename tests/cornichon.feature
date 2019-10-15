@@ -43,6 +43,22 @@ Scenario Outline: pyscenarios
     | example |
     | example2 |
 
+Scenario Outline: pytests
+  When the generator is pytests
+  Then the generated test is the same as the saved
+  Examples:
+    | name |
+    | example |
+    | example2 |
+
+Scenario Outline: pytestscenarios
+  When the generator is pyscenarios
+  Then the generated test is the same as the saved
+  Examples:
+    | name |
+    | example |
+    | example2 |
+
 Scenario Outline: unittesting
   When the generator is unittesting
   Then the generated test is the same as the saved

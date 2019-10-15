@@ -54,7 +54,7 @@ class TestHelpSettings(unittest.TestCase):
 
     def testNoNewOutputType(self):
         list = gherkin.ListModules()
-        self.assertEqual(11, len(list), "Remember to update README.md as well as this test")
+        self.assertEqual(12, len(list), "Remember to update README.md as well as this test")
 
 
 if __name__ == '__main__':

@@ -44,7 +44,7 @@ class CSharp:
     public void {0}()
 """[1:] % decorator
 
-    def ScenarioDecl(self, line, fullArgs):
+    def ScenarioDecl(self, line, fullArgs, examples, settings):
         scenarioName = common.Tokenise(line, self.settings["cases"]["scenario"])
         decl = """
     /// <summary>

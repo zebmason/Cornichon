@@ -34,15 +34,12 @@ def Generate(parsed, settings):
     printer = PrintScenario()
     featureDesc = printer.Description(lines)
     concat = """
-import unittest
-
-
 class Scenarios:
 """[1:]
 
     for scenario in scenarios:
         buffer = """
-    class [[Scenario]](unittest.TestCase):
+    class [[Scenario]]:
         [[comment1]]
         def __init__(self):
             [[comment2]]

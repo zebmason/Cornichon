@@ -40,6 +40,20 @@ class Cornichon(unittest.TestCase):
         scenario.WhenTheGeneratorIsPyscenarios()
         scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
+    def Pytests(self, name):
+        """Gherkin DSL scenario"""
+        scenario = Scenarios.Pytests()
+        scenario.GivenAFeatureFileCalled(name)
+        scenario.WhenTheGeneratorIsPytests()
+        scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
+
+    def Pytestscenarios(self, name):
+        """Gherkin DSL scenario"""
+        scenario = Scenarios.Pytestscenarios()
+        scenario.GivenAFeatureFileCalled(name)
+        scenario.WhenTheGeneratorIsPyscenarios()
+        scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
+
     def Unittesting(self, name):
         """Gherkin DSL scenario"""
         scenario = Scenarios.Unittesting()
@@ -121,6 +135,22 @@ class Cornichon(unittest.TestCase):
     def test_pyscenarios_example2(self):
         """Gherkin DSL test"""
         self.Pyscenarios("example2")
+
+    def test_pytests_example(self):
+        """Gherkin DSL test"""
+        self.Pytests("example")
+
+    def test_pytests_example2(self):
+        """Gherkin DSL test"""
+        self.Pytests("example2")
+
+    def test_pytestscenarios_example(self):
+        """Gherkin DSL test"""
+        self.Pytestscenarios("example")
+
+    def test_pytestscenarios_example2(self):
+        """Gherkin DSL test"""
+        self.Pytestscenarios("example2")
 
     def test_unittesting_example(self):
         """Gherkin DSL test"""

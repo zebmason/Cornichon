@@ -32,7 +32,7 @@ class Python:
         %s
 """[1:] % '"""Gherkin DSL test"""'
 
-    def ScenarioDecl(self, line, fullArgs):
+    def ScenarioDecl(self, line, fullArgs, examples, settings):
         scenarioName = common.Tokenise(line, self.settings["cases"]["scenario"])
         decl = """
     def {0}({1}):

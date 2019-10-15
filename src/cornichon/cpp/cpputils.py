@@ -40,7 +40,7 @@ class Cpp:
         self.indent = indent
         self.argModifier = ArgModifier
 
-    def ScenarioDecl(self, line, fullArgs):
+    def ScenarioDecl(self, line, fullArgs, examples, settings):
         scenarioName = common.Tokenise(line, self.settings["cases"]["scenario"])
         return self.decl.format(scenarioName, fullArgs)
 
