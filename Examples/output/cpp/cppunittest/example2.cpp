@@ -6,7 +6,6 @@
 
 // Standard library headers
 #include <iostream>
-#include <memory>
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
 
