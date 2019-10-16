@@ -4,11 +4,6 @@
 // Third party headers
 #include "CppUnitTest.h"
 
-// Standard library headers
-#include <iostream>
-
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
 namespace Cornichon::Accumulator2
 {
   TEST_CLASS(Feature)
@@ -28,16 +23,6 @@ namespace Cornichon::Accumulator2
       scenario.WhenYouAddA8();
       scenario.WhenYouAddA4();
       scenario.ThenTheResultIs18();
-    }
-
-    TEST_CLASS_INITIALIZE(ClassInitialize)
-    {
-      std::clog << "Entering Accumulator2" << std::endl;
-    }
-
-    TEST_CLASS_CLEANUP(ClassCleanup)
-    {
-      std::clog << "Exiting Accumulator2" << std::endl;
     }
   };
 }

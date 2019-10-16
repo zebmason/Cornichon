@@ -26,27 +26,11 @@ def Generate(parsed, settings):
 // Third party headers
 #include "CppUnitTest.h"
 
-// Standard library headers
-#include <iostream>
-#include <memory>
-
-using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-
 namespace [[rootnamespace]][[namespace]]
 {
   TEST_CLASS([[className]])
   {
 [[TestBody]]
-
-    TEST_CLASS_INITIALIZE(ClassInitialize)
-    {
-      std::clog << "Entering [[featureName]]" << std::endl;
-    }
-
-    TEST_CLASS_CLEANUP(ClassCleanup)
-    {
-      std::clog << "Exiting [[featureName]]" << std::endl;
-    }
   };
 }
 """[1:]
