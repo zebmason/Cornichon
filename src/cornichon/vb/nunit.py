@@ -41,7 +41,7 @@ End Namespace
     buffer = buffer.replace("[[className]]", className)
 
     vb = vbutils.VBasic(settings, "Test")
-    testBody = common.TestBody(scenarios, settings, vb)
+    testBody = vb.TestBody(scenarios, settings)
     buffer = buffer.replace("[[TestBody]]", testBody)
 
     return buffer

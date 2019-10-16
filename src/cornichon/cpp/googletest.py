@@ -40,9 +40,9 @@ namespace [[rootnamespace]][[namespace]]
     buffer = buffer.replace("[[namespace]]", namespace)
 
     decl = "  static void {0}({1})\n"
-    altdecl = "  TEST(%s, {0})\n" % namespace
-    cpp = cpputils.Cpp(settings, decl, altdecl, "  ")
-    testBody = common.TestBody(scenarios, settings, cpp)
+    testdecl = "  TEST(%s, {0})\n" % namespace
+    cpp = cpputils.Cpp(settings, decl, testdecl, "  ")
+    testBody = cpp.TestBody(scenarios, settings)
     buffer = buffer.replace("[[TestBody]]", testBody)
 
     return buffer

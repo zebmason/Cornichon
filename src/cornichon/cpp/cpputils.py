@@ -32,24 +32,22 @@ def ArgModifier(val, type):
     return val
 
 
-class Cpp:
-    def __init__(self, settings, decl, altdecl, indent):
+class Cpp(common.PrintTestBody):
+    def __init__(self, settings, decl, testdecl, indent):
         self.settings = settings
         self.decl = decl
-        self.altdecl = altdecl
+        self.testdecl = testdecl
         self.indent = indent
         self.argModifier = ArgModifier
+        self.step = self.indent + '  scenario.[[method]]([[arguments]]);\n'
 
-    def ScenarioDecl(self, line, fullArgs, examples, settings):
+    def ScenarioDecl(self, line, fullArgs, settings):
         scenarioName = common.Tokenise(line, self.settings["cases"]["scenario"])
         return self.decl.format(scenarioName, fullArgs)
 
     def TestDecl(self, line):
-        scenarioName = common.Tokenise(line, self.settings["cases"]["scenario"])
-        return self.altdecl.format(scenarioName)
-
-    def StepTemplate(self):
-        return self.indent + '  scenario.[[method]]([[arguments]]);\n'
+        scenarioName = common.Tokenise(line, self.settings["cases"]["test"])
+        return self.testdecl.format(scenarioName)
 
     def Body(self, scenario, steps):
         buffer = """
@@ -75,7 +73,7 @@ class Cpp:
         scenario = common.Tokenise(line, self.settings["cases"]["scenario"])
         testName = " ".join([scenario, arguments])
         testName = common.Tokenise(testName, self.settings["cases"]["test"])
-        testName = self.altdecl.format(testName)
+        testName = self.testdecl.format(testName)
         buffer = buffer.replace("[[testName]]", testName)
         buffer = buffer.replace("[[indent]]", self.indent)
         buffer = buffer.replace("[[scenario]]", scenario)

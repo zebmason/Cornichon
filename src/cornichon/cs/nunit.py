@@ -42,7 +42,7 @@ namespace [[rootnamespace]][[namespace]]
     buffer = buffer.replace("[[className]]", className)
 
     cs = csutils.CSharp(settings, "Test")
-    testBody = common.TestBody(scenarios, settings, cs)
+    testBody = cs.TestBody(scenarios, settings)
     buffer = buffer.replace("[[TestBody]]", testBody)
 
     return buffer

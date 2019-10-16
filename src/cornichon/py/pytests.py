@@ -20,11 +20,12 @@ class Python(pyutils.Python):
     def __init__(self, settings):
         super().__init__(settings)
         self.settings = settings
-        self.altdecl = """
+        self.testdecl = """
 
-def test_{0}():
+def test_{0}({1}):
     %s
 """[1:] % '"""Gherkin DSL test"""'
+        self.step = '    scenario.[[method]]([[arguments]])\n'
 
     def PreScenarioDecl(self, fullArgs, examples, settings):
         concat = """
@@ -49,21 +50,20 @@ def test_{0}():
 )
 """[1:]
 
-    def ScenarioDecl(self, line, fullArgs, examples, settings):
-        concat = self.PreScenarioDecl(fullArgs, examples, settings)
-        scenarioName = common.Tokenise(line, self.settings["cases"]["scenario"])
-        decl = concat + """
-def test_{0}({1}):
-    {2}
-"""[1:]
-        return decl.format(scenarioName, fullArgs, '"""Gherkin DSL test"""')
+    def TestDecl(self, line, fullArgs):
+        scenarioName = common.Tokenise(line, self.settings["cases"]["test"])
+        return self.testdecl.format(scenarioName, fullArgs)
 
-    def TestDecl(self, line):
-        scenarioName = common.Tokenise(line, self.settings["cases"]["scenario"])
-        return self.altdecl.format(scenarioName)
+    def Scenario(self, scenario, settings):
+        lines = scenario.lines.split('\n')
+        if scenario.examples.Exists():
+            fullArgs = scenario.examples.ArgumentsList(settings["types"])
+            concat = self.PreScenarioDecl(fullArgs, scenario.examples, settings)
+            return concat + self.TestDecl(lines[0], fullArgs)[1:]
+        return self.TestDecl(lines[0], "")
 
-    def StepTemplate(self):
-        return '    scenario.[[method]]([[arguments]])\n'
+    def Examples(self, scenarios, settings):
+        return ""
 
     def Body(self, scenario, steps):
         buffer = """
@@ -76,9 +76,6 @@ def test_{0}({1}):
         buffer = buffer.replace("[[className]]", className)
         buffer = buffer.replace("[[steps]]", steps.rstrip())
         return buffer
-
-    def Example(self, line, arguments):
-        return ""
 
 
 def Generate(parsed, settings):
@@ -95,7 +92,7 @@ from [[scenarios file]] import *
     buffer = buffer.replace("[[scenarios file]]", settings["scenarios file"])
 
     py = Python(settings)
-    testBody = common.TestBody(scenarios, settings, py)
+    testBody = py.TestBody(scenarios, settings)
     buffer = buffer.replace("[[TestBody]]", testBody)
 
     return buffer

@@ -2,7 +2,7 @@ import pytest
 from example2_scenarios import *
 
 
-def test_AddOneOther():
+def test_add_one_other():
     """Gherkin DSL test"""
     scenario = Scenarios.AddOneOther()
     scenario.GivenAnInitial6()
@@ -10,7 +10,7 @@ def test_AddOneOther():
     scenario.ThenTheResultIs11()
 
 
-def test_AddTwoOthers():
+def test_add_two_others():
     """Gherkin DSL test"""
     scenario = Scenarios.AddTwoOthers()
     scenario.GivenAnInitial6()

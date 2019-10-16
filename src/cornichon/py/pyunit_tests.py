@@ -41,7 +41,7 @@ if __name__ == '__main__':
     buffer = buffer.replace("[[scenarios file]]", settings["scenarios file"])
 
     py = pyutils.Python(settings)
-    testBody = common.TestBody(scenarios, settings, py)
+    testBody = py.TestBody(scenarios, settings)
     buffer = buffer.replace("[[TestBody]]", testBody)
 
     return buffer

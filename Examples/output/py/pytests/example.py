@@ -13,7 +13,7 @@ from example_scenarios import *
         ),
     ],
 )
-def test_AddOneOther(value, second, sum):
+def test_add_one_other(value, second, sum):
     """Gherkin DSL test"""
     scenario = Scenarios.AddOneOther()
     scenario.GivenAnInitial(value)
@@ -32,7 +32,7 @@ def test_AddOneOther(value, second, sum):
         ),
     ],
 )
-def test_AddTwoOthers(value, second, third, sum):
+def test_add_two_others(value, second, third, sum):
     """Gherkin DSL test"""
     scenario = Scenarios.AddTwoOthers()
     scenario.GivenAnInitial(value)

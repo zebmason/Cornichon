@@ -23,16 +23,17 @@ def ArgModifier(val, type):
     return val
 
 
-class Python:
+class Python(common.PrintTestBody):
     def __init__(self, settings):
         self.settings = settings
         self.argModifier = ArgModifier
-        self.altdecl = """
+        self.testdecl = """
     def test_{0}(self):
         %s
 """[1:] % '"""Gherkin DSL test"""'
+        self.step = '        scenario.[[method]]([[arguments]])\n'
 
-    def ScenarioDecl(self, line, fullArgs, examples, settings):
+    def ScenarioDecl(self, line, fullArgs, settings):
         scenarioName = common.Tokenise(line, self.settings["cases"]["scenario"])
         decl = """
     def {0}({1}):
@@ -45,11 +46,8 @@ class Python:
         return decl.format(scenarioName, fullArgs, '"""Gherkin DSL scenario"""')
 
     def TestDecl(self, line):
-        scenarioName = common.Tokenise(line, self.settings["cases"]["scenario"])
-        return self.altdecl.format(scenarioName)
-
-    def StepTemplate(self):
-        return '        scenario.[[method]]([[arguments]])\n'
+        scenarioName = common.Tokenise(line, self.settings["cases"]["test"])
+        return self.testdecl.format(scenarioName)
 
     def Body(self, scenario, steps):
         buffer = """
@@ -70,7 +68,7 @@ class Python:
         scenario = common.Tokenise(line, self.settings["cases"]["scenario"])
         testName = " ".join([scenario, arguments])
         testName = common.Tokenise(testName, self.settings["cases"]["test"])
-        testName = self.altdecl.format(testName)
+        testName = self.testdecl.format(testName)
         buffer = buffer.replace("[[testName]]", testName)
         buffer = buffer.replace("[[scenario]]", scenario)
         buffer = buffer.replace("[[arguments]]", arguments)
