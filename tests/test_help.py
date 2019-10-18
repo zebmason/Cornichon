@@ -52,6 +52,9 @@ class TestHelpSettings(unittest.TestCase):
         if self.undoc:
             self.fail("There are undocumented settings")
 
+
+class TestOutputTypes(unittest.TestCase):
+
     def testNoNewOutputType(self):
         list = gherkin.ListModules()
         self.assertEqual(12, len(list), "Remember to update README.md as well as this test")
