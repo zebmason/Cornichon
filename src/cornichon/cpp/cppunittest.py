@@ -26,20 +26,21 @@ def Generate(parsed, settings):
 // Third party headers
 #include "CppUnitTest.h"
 
-namespace [[rootnamespace]][[namespace]]
+namespace [[fullnamespace]]
 {
   TEST_CLASS([[className]])
   {
 [[TestBody]]
   };
-}
+[[endnamespace]]
 """[1:]
 
     buffer = buffer.replace("[[scenarios file]]", settings["scenarios file"])
 
     namespace = common.FeatureName(feature, settings["cases"]["namespace"])
-    buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
-    buffer = buffer.replace("[[namespace]]", namespace)
+    namespace = cpputils.NameSpace(settings, namespace)
+    buffer = buffer.replace("[[fullnamespace]]", namespace.Begin())
+    buffer = buffer.replace("[[endnamespace]]", namespace.End())
 
     # Print the class
     featureName = common.FeatureName(feature, settings["cases"]["class"])

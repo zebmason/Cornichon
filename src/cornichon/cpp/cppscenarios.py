@@ -48,13 +48,13 @@ def Generate(parsed, settings):
 #include <iostream>
 #include <string>
 
-namespace [[rootnamespace]][[namespace]]::Scenarios
+namespace [[fullnamespace]]
 {
 """[1:]
 
     namespace = common.Tokenise(featureName, settings["cases"]["namespace"])
-    concat = concat.replace("[[rootnamespace]]", settings["rootnamespace"])
-    concat = concat.replace("[[namespace]]", namespace)
+    namespace = cpputils.NameSpace(settings, namespace + "::Scenarios")
+    concat = concat.replace("[[fullnamespace]]", namespace.Begin())
 
     for scenario in scenarios:
         buffer = """
@@ -80,6 +80,6 @@ namespace [[rootnamespace]][[namespace]]::Scenarios
         concat += buffer
 
     concat = concat[:-2] + """
-}
-"""
+[[endnamespace]]
+""".replace("[[endnamespace]]", namespace.End())
     return concat

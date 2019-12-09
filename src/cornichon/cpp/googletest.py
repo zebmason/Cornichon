@@ -29,15 +29,17 @@ def Generate(parsed, settings):
 // Third party headers
 #include "gtest/gtest.h"
 
-namespace [[rootnamespace]][[namespace]]
+namespace [[fullnamespace]]
 {
 [[TestBody]]
-}
+[[endnamespace]]
 """[1:]
 
     buffer = buffer.replace("[[scenarios file]]", settings["scenarios file"])
-    buffer = buffer.replace("[[rootnamespace]]", settings["rootnamespace"])
-    buffer = buffer.replace("[[namespace]]", namespace)
+
+    ns = cpputils.NameSpace(settings, namespace)
+    buffer = buffer.replace("[[fullnamespace]]", ns.Begin())
+    buffer = buffer.replace("[[endnamespace]]", ns.End())
 
     decl = "  static void {0}({1})\n"
     testdecl = "  TEST(%s, {0})\n" % namespace

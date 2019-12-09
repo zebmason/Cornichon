@@ -4,6 +4,7 @@ import gherkin
 
 def Settings():
     settings = common.Settings()
+    settings["nested namespaces"] = "true"
     settings["rootnamespace"] = "Cornichon::"
     settings["cases"]["class"] = "Camel"
     settings["cases"]["namespace"] = "Camel"
@@ -19,6 +20,7 @@ def Settings():
 
 def HelpSettings():
     settings = common.HelpSettings()
+    settings["nested namespaces"] = "Whether to use C++ 17 nested namespaces"
     settings["rootnamespace"] = "The concatenated C++ 17 namespace ending in ::"
     settings["cases"]["namespace"] = settings["cases"]["class"]
     return settings
@@ -30,6 +32,26 @@ def ArgModifier(val, type):
     if type == "string":
         return val.replace('"', '\\"')
     return val
+
+
+class NameSpace:
+    def __init__(self, settings, namespace):
+        self.settings = settings
+        self.namespace = settings["rootnamespace"] + namespace
+
+    def Begin(self):
+        if self.settings["nested namespaces"] == "true":
+            return self.namespace
+        return self.namespace.replace("::", " namespace { ")
+
+    def End(self):
+        if self.settings["nested namespaces"] == "true":
+            return "}"
+        num = self.namespace.count("::")
+        val = "}"
+        for i in range(num):
+            val += " }"
+        return val
 
 
 class Cpp(common.PrintTestBody):
