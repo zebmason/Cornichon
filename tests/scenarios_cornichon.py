@@ -76,6 +76,27 @@ class Scenarios:
             self.header = "// Copyright (c) 2019 ...\n\n"
             self.settings = cornichon.Settings(self.output)
 
+    class Unnested(Scenarios):
+        """Test class scenario"""
+        def WhenTheGeneratorIsCppscenarios(self):
+            """Gherkin DSL step"""
+            self.output = "cpp/cppscenarios"
+            self.folder = "cpp/cppscenarios"
+            self.ext = ".h"
+            self.header = "// Copyright (c) 2019 ...\n\n"
+            self.settings = cornichon.Settings(self.output)
+            self.settings["nested namespaces"] = "false"
+
+        def ThenTheGeneratedTestIsTheSameAs(self, namespace):
+            """Gherkin DSL step"""
+            inFileName = os.path.join('../Examples/tests', self.name + '.feature')
+            f = open(inFileName, "r")
+            gherkin = f.readlines()
+            f.close()
+            contents = self.header + cornichon.Generate(gherkin, self.settings, self.output)
+            filePath = '../Examples/output/%s/%s%s' % (self.folder, namespace, self.ext)
+            self.DiffScenario(contents, filePath)
+
     class Googletest(Scenarios):
         """Test class scenario"""
         def WhenTheGeneratorIsGoogletest(self):

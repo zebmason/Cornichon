@@ -19,6 +19,13 @@ Scenario Outline: cppscenarios
     | example |
     | example2 |
 
+Scenario Outline: unnested
+  When the generator is cppscenarios
+  Then the generated test is the same as <namespace>
+  Examples:
+    | name | namespace |
+    | example2 | namespace2 |
+
 Scenario Outline: googletest
   When the generator is googletest
   Then the generated test is the same as the saved

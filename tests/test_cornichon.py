@@ -19,6 +19,13 @@ class Cornichon(unittest.TestCase):
         scenario.WhenTheGeneratorIsCppscenarios()
         scenario.ThenTheGeneratedTestIsTheSameAsTheSaved()
 
+    def Unnested(self, name, namespace):
+        """Gherkin DSL scenario"""
+        scenario = Scenarios.Unnested()
+        scenario.GivenAFeatureFileCalled(name)
+        scenario.WhenTheGeneratorIsCppscenarios()
+        scenario.ThenTheGeneratedTestIsTheSameAs(namespace)
+
     def Googletest(self, name):
         """Gherkin DSL scenario"""
         scenario = Scenarios.Googletest()
@@ -111,6 +118,10 @@ class Cornichon(unittest.TestCase):
     def test_cppscenarios_example2(self):
         """Gherkin DSL test"""
         self.Cppscenarios("example2")
+
+    def test_unnested_example2_namespace2(self):
+        """Gherkin DSL test"""
+        self.Unnested("example2", "namespace2")
 
     def test_googletest_example(self):
         """Gherkin DSL test"""
