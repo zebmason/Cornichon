@@ -2,7 +2,7 @@ import os
 import os.path
 import sys
 
-subdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'src/cornichon')
+subdir = os.path.join(os.path.dirname(os.path.realpath(__file__)), 'cornichon')
 sys.path.insert(0, subdir)
 import cornichon
 

@@ -18,9 +18,9 @@ def SubDirecs(direc, pre):
 with open("README.md", "r") as fh:
     long_description = fh.read()
 
-packages = ["src/cornichon"]
+packages = ["cornichon"]
 root = os.path.dirname(__file__)
-packages.extend(SubDirecs(os.path.join(root, "src/cornichon"), "src/cornichon/"))
+packages.extend(SubDirecs(os.path.join(root, "cornichon"), "cornichon/"))
 
 setuptools.setup(
     name="cornichon",
