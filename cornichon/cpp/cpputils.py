@@ -42,7 +42,7 @@ class NameSpace:
     def Begin(self):
         if self.settings["nested namespaces"] == "true":
             return self.namespace
-        return self.namespace.replace("::", " namespace { ")
+        return self.namespace.replace("::", " { namespace ")
 
     def End(self):
         if self.settings["nested namespaces"] == "true":

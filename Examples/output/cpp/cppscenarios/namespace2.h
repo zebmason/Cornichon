@@ -10,7 +10,7 @@
 #include <iostream>
 #include <string>
 
-namespace Cornichon namespace { Accumulator2 namespace { Scenarios
+namespace Cornichon { namespace Accumulator2 { namespace Scenarios
 {
   /// Test class scenario
   class AddOneOther
