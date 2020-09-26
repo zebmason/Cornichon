@@ -31,6 +31,18 @@ def Generate(parsed, settings):
 
 namespace [[fullnamespace]]
 {
+  class TestFixture : public ::testing::Test
+  {
+  protected:
+    void SetUp() override
+    {
+    }
+
+    void TearDown() override
+    {
+    }
+  };
+
 [[TestBody]]
 [[endnamespace]]
 """[1:]
@@ -42,7 +54,7 @@ namespace [[fullnamespace]]
     buffer = buffer.replace("[[endnamespace]]", ns.End())
 
     decl = "  static void {0}({1})\n"
-    testdecl = "  TEST(%s, {0})\n" % namespace
+    testdecl = "  TEST_F(TestFixture, {0})\n"
     cpp = cpputils.Cpp(settings, decl, testdecl, "  ")
     testBody = cpp.TestBody(scenarios, settings)
     buffer = buffer.replace("[[TestBody]]", testBody)
