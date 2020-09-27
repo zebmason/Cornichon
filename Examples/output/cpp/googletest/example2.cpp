@@ -8,7 +8,19 @@
 
 namespace Cornichon::Accumulator2
 {
-  TEST(Accumulator2, AddOneOther)
+  class TestFixture : public ::testing::Test
+  {
+  protected:
+    void SetUp() override
+    {
+    }
+
+    void TearDown() override
+    {
+    }
+  };
+
+  TEST_F(TestFixture, AddOneOther)
   {
     Scenarios::AddOneOther scenario;
     scenario.GivenAnInitial6();
@@ -16,7 +28,7 @@ namespace Cornichon::Accumulator2
     scenario.ThenTheResultIs11();
   }
 
-  TEST(Accumulator2, AddTwoOthers)
+  TEST_F(TestFixture, AddTwoOthers)
   {
     Scenarios::AddTwoOthers scenario;
     scenario.GivenAnInitial6();

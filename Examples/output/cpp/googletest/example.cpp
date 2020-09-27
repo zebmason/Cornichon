@@ -8,6 +8,18 @@
 
 namespace Cornichon::Accumulator
 {
+  class TestFixture : public ::testing::Test
+  {
+  protected:
+    void SetUp() override
+    {
+    }
+
+    void TearDown() override
+    {
+    }
+  };
+
   static void AddOneOther(unsigned int value, unsigned int second, unsigned int sum)
   {
     Scenarios::AddOneOther scenario;
@@ -25,22 +37,22 @@ namespace Cornichon::Accumulator
     scenario.ThenTheResultIs(sum);
   }
 
-  TEST(Accumulator, AddOneOther123)
+  TEST_F(TestFixture, AddOneOther123)
   {
     AddOneOther(1, 2, 3);
   }
 
-  TEST(Accumulator, AddOneOther224)
+  TEST_F(TestFixture, AddOneOther224)
   {
     AddOneOther(2, 2, 4);
   }
 
-  TEST(Accumulator, AddTwoOthers1236)
+  TEST_F(TestFixture, AddTwoOthers1236)
   {
     AddTwoOthers(1, 2, 3, 6);
   }
 
-  TEST(Accumulator, AddTwoOthers2349)
+  TEST_F(TestFixture, AddTwoOthers2349)
   {
     AddTwoOthers(2, 3, 4, 9);
   }
